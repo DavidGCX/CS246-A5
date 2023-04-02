@@ -4,36 +4,41 @@
 #include <string>
 
 class GiantStrength: public Decorator {
+    std::string name;
     public:
-    GiantStrength(std::string name, Minion *m);
+    GiantStrength(Minion *m);
     void Inspect();
     void applyEffect();
 }
 
 class Enrage: public Decorator {
+    std::string name;
     public:
-    Enrage(std::string name, Minion *m);
+    Enrage(Minion *m);
     void Inspect();
     void applyEffect();
 }
 
 class Silence: public Decorator {
+    std::string name;
     public:
-    Silence(std::string name, Minion *m);
+    Silence(Minion *m);
     void Inspect();
     void applyEffect();
 }
 
 class Haste: public Decorator {
+    std::string name;
     public:
-    Haste(std::string name, Minion *m);
+    Haste(Minion *m);
     void Inspect();
     void applyEffect();
 }
 
 class MagicFatigue: public Decorator {
+    std::string name;
     public:
-    MagicFatigue(std::string name, Minion *m);
+    MagicFatigue(Minion *m);
     void Inspect();
     void applyEffect();
 }

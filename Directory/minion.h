@@ -8,10 +8,14 @@ class Minion: public Card {
     int attack;
     int defense;
     int numactions;
+    int remainingactions;
+    int magic_cost;
     std::vector<Enchantment> enchants;
 public:
-    Minion(std::string name = "Air Element", int cost = 1, int attack = 1, int defense = 1);
+    bool canUseAbility;
+    Minion(std::string name = "Air Element", int cost = 1, int attack = 1, int defense = 1, int magic_cost = 0);
     bool canBePlayed();
+    bool canBeUsed();
     void takeDamage(Minion m);
     void attackPlayer();
     void attackMinion(Minion& m);
@@ -21,9 +25,13 @@ public:
     void setAttack(int a);
     void setDefense(int d);
     void setActNum(int n);
+    void setMagCost(int c);
+    void setRemAct(int r = 2);
     int getAttack();
     int getDefense();
     int getActNum();
+    int getMagCost();
+    int getRemAct();
     ~Minion();
 };
 
