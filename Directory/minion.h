@@ -1,63 +1,66 @@
 #ifndef MIN_H
 #define MIN_H
 #include "card.h"
+#include "hasability.h"
 #include <vector>
 
 class Minion: public Card {
     int attack;
     int defense;
-    bool hasAction;
-    vector<Enchantment> enchants;
+    int numactions;
+    std::vector<Enchantment> enchants;
 public:
     Minion(std::string name = "Air Element", int cost = 1, int attack = 1, int defense = 1);
     bool canBePlayed();
-    void takeDamage();
+    void takeDamage(Minion m);
     void attackPlayer();
     void attackMinion(Minion& m);
-    void applyEffect();
+    virtual void applyEffect();
     void Inspect();
 
-    void setAttack();
-    void setDefense();
-    void getAttack();
-    void getDefense();
+    void setAttack(int a);
+    void setDefense(int d);
+    void setActNum(int n);
+    int getAttack();
+    int getDefense();
+    int getActNum();
     ~Minion();
-}
+};
 
-class BoneGolem: public Minion {
+class BoneGolem: public Minion, public HasAbility {
     public:
-    BoneGolem(int attack, int defense);
+    BoneGolem();
     void useAbility();
-}
+};
 
-class PotionSeller: public Minion {
+class PotionSeller: public Minion, public HasAbilityTargetMinion {
     public:
-    PotionSeller(int attack, int defense);
+    PotionSeller();
     void useAbility(Minion& m);
-}
+};
 
-class NovicePyromancer: public Minion {
+class NovicePyromancer: public Minion, public HasAbilityTargetMinion {
     public:
-    NovicePyromancer(int attack, int defense);
+    NovicePyromancer();
     bool useAbility(Minion& m);
-}
+};
 
-class FireElement: public Minion {
+class FireElement: public Minion, public HasAbilityTargetMinion {
     public:
-    FireElement(int attack, int defense);
+    FireElement();
     void useAbility(Minion& m);
-}
+};
 
-class ApprenticeSummoner: public Minion {
+class ApprenticeSummoner: public Minion, public HasAbility {
     public:
-    ApprenticeSummoner(int attack, int defense);
+    ApprenticeSummoner();
     bool useAbility();
-}
+};
 
-class MasterSummoner: public Minion {
+class MasterSummoner: public Minion, public HasAbility {
     public:
-    MasterSummonder(int attack, int defense);
+    MasterSummoner();
     bool useAbility();
-}
+};
 
 #endif

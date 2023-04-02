@@ -1,7 +1,7 @@
 #include "minion.h"
 using namespace std;
 
-Minion::Minion(string name, int cost, int attack, int defense): Card{name, cost}, attack{attack}, defense{defense} {}
+Minion::Minion(string name, int cost, int attack, int defense): Card{name, cost}, attack{attack}, defense{defense}, numactions{1} {}
 
 Minion::~Minion() {}
 
@@ -19,10 +19,14 @@ void Minion::attackMinion(Minion& m) {
 
 void Minion::attackPlayer(); // deal damage to player health
 
-void Minion::applyEffect(Enchantment e) {
-    enchants.push_back(e);
+void Minion::Inspect() { 
+    // get attack, defense, name, cost, look through all enchantments
+    int numofenchants = enchants.size();
+    // for (int i = 0; i < numofenchants; ++i) {
+        // Inspect(enhcants[i]);
+        // if (i + 1 % 5 == 0), go to next line
+    // }
 }
-void Minion::Inspect(); // get attack, defense, name, cost, look through all enchantments
 
 void Minion::setAttack(int a) {
     attack = a;
@@ -30,11 +34,17 @@ void Minion::setAttack(int a) {
 void Minion::setDefense(int d) {
     defense = d;
 }
+void Minion::setActNum(int n) {
+    numactions = n;
+}
 int Minion::getAttack() {
     return attack;
 }
 int Minion::getDefense() {
     return defense;
+}
+int Minion::getActNum() {
+    return numactions;
 }
 
 BoneGolem::BoneGolem(): Minion{"Bone Golem", 2, 1, 3} {}
@@ -43,7 +53,7 @@ void BoneGolem::useAbility() { // activates when minion leaves play
     this.setDefense(this.getDefense() + 1);
 }
 
-PotionSeller::PotionSeller(int attack, int defense): Minion{"Potion Seller", 2, 1, 3} {}
+PotionSeller::PotionSeller(): Minion{"Potion Seller", 2, 1, 3} {}
 bool PotionSeller::useAbility(Minion& m) {
     m.setDefense(m.getDefense() + 1);
 }
@@ -55,7 +65,7 @@ bool NovicePyromancer::useAbility(Minion& m) {
     // if defense at 0, remove m from board
 }
 
-FireElement(int attack, int defense): Minion{"Fire Element", 2, 2, 2} {}
+FireElement::FireElement(): Minion{"Fire Element", 2, 2, 2} {}
 void FireElement::useAbility(Minion& m) {
     // when minion enters play
     m.setDefense(m.getDefense() - 1);
@@ -63,7 +73,7 @@ void FireElement::useAbility(Minion& m) {
 }
 
 ApprenticeSummoner::ApprenticeSummoner(): Minion{"Apprentice Summoner", 1, 1, 1} {}
-bool ApprenticeSummonder::useAbility(); {
+bool ApprenticeSummoner::useAbility(); {
     // if board isn't full
     // add to board Minion() (it'll default to air element)
 }
