@@ -23,6 +23,7 @@ void Minion::takeDamage(Minion m) {
 
 void Minion::attackMinion(Minion& m) {
     m.takeDamage(this);
+    this.takeDamage(m);
 }
 
 void Minion::attackPlayer(); // deal damage to player health
