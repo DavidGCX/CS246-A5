@@ -5,6 +5,6 @@ void GraphicalDisplay::init() {
 
 }
 
-void refresh(InternalData id) {
+void refresh(InternalData* id) {
 
 }

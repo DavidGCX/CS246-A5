@@ -10,7 +10,7 @@ class Subject {
   Subject();
   void attach( Observer *o );
   void detach( Observer *o );
-  void notifyObservers();
+  void notifyObservers(StateInfo info);
   virtual ~Subject() = 0;
 };
 

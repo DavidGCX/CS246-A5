@@ -1,6 +1,6 @@
 #ifndef ENCH_H
 #define ENCH_H
-#include "enchantmentsdecorator.h"
+#include "enchantmentdecorator.h"
 #include <string>
 
 class GiantStrength: public Decorator {
@@ -9,7 +9,7 @@ class GiantStrength: public Decorator {
     GiantStrength(Minion *m);
     void Inspect();
     void applyEffect();
-}
+};
 
 class Enrage: public Decorator {
     std::string name;
@@ -17,7 +17,7 @@ class Enrage: public Decorator {
     Enrage(Minion *m);
     void Inspect();
     void applyEffect();
-}
+};
 
 class Silence: public Decorator {
     std::string name;
@@ -25,7 +25,7 @@ class Silence: public Decorator {
     Silence(Minion *m);
     void Inspect();
     void applyEffect();
-}
+};
 
 class Haste: public Decorator {
     std::string name;
@@ -33,7 +33,7 @@ class Haste: public Decorator {
     Haste(Minion *m);
     void Inspect();
     void applyEffect();
-}
+};
 
 class MagicFatigue: public Decorator {
     std::string name;
@@ -41,6 +41,6 @@ class MagicFatigue: public Decorator {
     MagicFatigue(Minion *m);
     void Inspect();
     void applyEffect();
-}
+};
 
 #endif

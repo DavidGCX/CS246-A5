@@ -5,6 +5,6 @@ void TextDisplay::init() {
 
 }
 
-void refresh(InternalData id) {
+void refresh(InternalData* id) {
 
 }
