@@ -2,13 +2,14 @@
 #define _CARD_H_
 #include "subject.h"
 #include "observer.h"
+#include <string>
 
 class Card : public Subject, public Observer {
-        string name;
+        std::string name;
         int cost;
     public:
         virtual bool canBePlayed() = 0;
-        string getName() {return name;}
+        std::string getName() {return name;}
         int getCost() {return cost;}
 };
 

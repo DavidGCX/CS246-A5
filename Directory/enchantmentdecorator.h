@@ -10,6 +10,6 @@ class Decorator: public Minion {
     ~Decorator();
     virtual void applyEffect();
     virtual void Inspect();
-}
+};
 
 #endif
