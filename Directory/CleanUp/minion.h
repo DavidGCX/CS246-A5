@@ -1,7 +1,7 @@
 #ifndef MIN_H
 #define MIN_H
 #include "card.h"
-#include "hasability.h"
+
 #include <vector>
 
 class Minion: public Card {

@@ -1,5 +1,6 @@
 #include "player.h"
 #include <utility>
+#include <iostream>
 using namespace std;
 
 Player::Player(std::string name, std::string deck): name{name} {
@@ -7,25 +8,25 @@ Player::Player(std::string name, std::string deck): name{name} {
 }
 
 void Player::init(string deck) {
-    //initialize the deck here
+    initializeDeck(deck);
     for (int i = 0; i < 5; i++){
         drawCard();
     }
+    life = 20;
     magic = 3;
 }
 
-void Player::drawCard()
-{
+void Player::drawCard() {
     if (hand.size() < 5 && deck.size() > 0) {
         hand.push_back(move(deck.back()));
         deck.pop_back();
     } else if (hand.size() >=5 && deck.size() > 0){
-        deck.pop_back();
+        cerr << "Cannot Draw if you already have 5 cards in hand"<< endl;
     }
 }
 
 void Player::damage(int amount) {
-    health = health - amount >=0? health - amount : 0;
+    life = life - amount >=0? life - amount : 0;
 }
 
 bool Player::costMagic(int amount)
@@ -40,7 +41,7 @@ bool Player::costMagic(int amount)
 
 int Player::getHealth()
 {
-    return health;
+    return life;
 }
 
 void Player::restoreMagic(int amount) {
@@ -48,5 +49,14 @@ void Player::restoreMagic(int amount) {
 }
 
 void Player::restoreHealth(int amount) {
-    health += amount;
+    life += amount;
+}
+
+// implement deck initialization here
+void Player::initializeDeck(std::string deck)
+{
+}
+
+void Player::play(int i) {
+
 }
