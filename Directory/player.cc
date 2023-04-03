@@ -46,3 +46,7 @@ int Player::getHealth()
 void Player::restoreMagic(int amount) {
     magic += amount;
 }
+
+void Player::restoreHealth(int amount) {
+    health += amount;
+}

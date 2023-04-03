@@ -21,6 +21,7 @@ public:
     bool costMagic(int amount);
     int getHealth();
     void restoreMagic(int amount);
+    void restoreHealth(int amount);
 };
 
 #endif
