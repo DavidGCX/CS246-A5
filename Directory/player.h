@@ -1,9 +1,11 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
-#include "subject.h"
-#include "card.h"
-#include "minion.h"
+#include "observer.h"
+#include <string>
+#include <memory>
 #include <vector>
+class Minion;
+class Card;
 class Player : public Observer {
     std::vector<std::unique_ptr<Card>> deck;
     std::vector<std::unique_ptr<Card>> hand;
