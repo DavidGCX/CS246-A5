@@ -1,7 +1,7 @@
 #include "minion.h"
 using namespace std;
 
-Minion::Minion(string name, int cost, int attack, int defense, int magic_cost): Card{name, cost}, attack{attack}, defense{defense}, numactions{1}, magic_cost{magic_cost} {}
+Minion::Minion(GameController *g, string name, int cost, int attack, int defense, int magic_cost): Card{g, name, cost}, attack{attack}, defense{defense}, numactions{1}, magic_cost{magic_cost} {}
 
 Minion::~Minion() {}
 
@@ -16,14 +16,14 @@ bool Minion::canBeUsed() {
     }
 }
 
-void Minion::takeDamage(Minion m) {
+void Minion::takeDamage(Minion &m) {
     defense = defense - m.getAttack();
     // if defense gets to 0 or below, remove from board
 }
 
 void Minion::attackMinion(Minion& m) {
-    m.takeDamage(this);
-    this.takeDamage(m);
+    m.takeDamage(*this);
+    this->takeDamage(m);
 }
 
 void Minion::attackPlayer(); // deal damage to player health
@@ -72,38 +72,38 @@ int Minion::getRemAct() {
     return remainingactions;
 }
 
-BoneGolem::BoneGolem(): Minion{"Bone Golem", 2, 1, 3} {}
-void BoneGolem::useAbility() { // activates when minion leaves play
-    this.setAttack(this.getAttack() + 1);
-    this.setDefense(this.getDefense() + 1);
+BoneGolem::BoneGolem(GameController *g): Minion{g, "Bone Golem", 2, 1, 3} {}
+bool BoneGolem::useAbility() { // activates when minion leaves play
+    this->setAttack(this->getAttack() + 1);
+    this->setDefense(this->getDefense() + 1);
 }
 
-PotionSeller::PotionSeller(): Minion{"Potion Seller", 2, 1, 3} {}
+PotionSeller::PotionSeller(GameController *g): Minion{g, "Potion Seller", 2, 1, 3} {}
 bool PotionSeller::useAbility(Minion& m) {
     m.setDefense(m.getDefense() + 1);
 }
 
-NovicePyromancer::NovicePyromancer(): Minion{"Novice Pyromancer", 1, 1, 1} {}
+NovicePyromancer::NovicePyromancer(GameController *g): Minion{g, "Novice Pyromancer", 1, 1, 1} {}
 bool NovicePyromancer::useAbility(Minion& m) {
     // if magic not enough, return false, else:
     m.setDefense(m.getDefense() - 1);
     // if defense at 0, remove m from board
 }
 
-FireElement::FireElement(): Minion{"Fire Element", 2, 2, 2} , magic_cost{1} {}
-void FireElement::useAbility(Minion& m) {
+FireElement::FireElement(GameController *g): Minion{g, "Fire Element", 2, 2, 2} , magic_cost{1} {}
+bool FireElement::useAbility(Minion& m) {
     // when minion enters play
     m.setDefense(m.getDefense() - 1);
     // if defense at 0, remove m from board
 }
 
-ApprenticeSummoner::ApprenticeSummoner(): Minion{"Apprentice Summoner", 1, 1, 1}, magic_cost{1}  {}
-bool ApprenticeSummoner::useAbility(); {
+ApprenticeSummoner::ApprenticeSummoner(GameController *g): Minion{g, "Apprentice Summoner", 1, 1, 1}, magic_cost{1}  {}
+bool ApprenticeSummoner::useAbility() {
     // if board isn't full
     // add to board Minion() (it'll default to air element)
 }
 
-MasterSummoner::MasterSummoner(): Minion{"Master Summoner", 3, 2, 3}, magic_cost{2} {}
+MasterSummoner::MasterSummoner(GameController *g): Minion{g, "Master Summoner", 3, 2, 3}, magic_cost{2} {}
 bool MasterSummoner::useAbility() {
     // if board isn't full
     // add to board Minion() (it'll default to air element) through a for loop up until 3 or the amount of space left

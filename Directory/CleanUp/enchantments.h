@@ -1,9 +1,10 @@
 #ifndef ENCH_H
 #define ENCH_H
 #include "enchantmentdecorator.h"
+#include "gameController.h"
 #include <string>
 
-class GiantStrength: public Decorator {
+class GiantStrength: public EnchantmentDecorator {
     std::string name;
     public:
     GiantStrength(Minion *m);
@@ -11,7 +12,7 @@ class GiantStrength: public Decorator {
     void applyEffect();
 };
 
-class Enrage: public Decorator {
+class Enrage: public EnchantmentDecorator {
     std::string name;
     public:
     Enrage(Minion *m);
@@ -19,7 +20,7 @@ class Enrage: public Decorator {
     void applyEffect();
 };
 
-class Silence: public Decorator {
+class Silence: public EnchantmentDecorator {
     std::string name;
     public:
     Silence(Minion *m);
@@ -27,7 +28,7 @@ class Silence: public Decorator {
     void applyEffect();
 };
 
-class Haste: public Decorator {
+class Haste: public EnchantmentDecorator {
     std::string name;
     public:
     Haste(Minion *m);
@@ -35,7 +36,7 @@ class Haste: public Decorator {
     void applyEffect();
 };
 
-class MagicFatigue: public Decorator {
+class MagicFatigue: public EnchantmentDecorator {
     std::string name;
     public:
     MagicFatigue(Minion *m);

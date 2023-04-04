@@ -1,7 +1,7 @@
 #include "ritual.h"
 using namespace std;
 
-Ritual::Ritual(string name, int cost, int charges, int cost_per_charge): Card{name, cost}, charges{charges}, cost_per_charge{cost_per_charge} {}
+Ritual::Ritual(GameController *g, string name, int cost, int charges, int cost_per_charge): Card{name, cost}, charges{charges}, cost_per_charge{cost_per_charge} {}
 
 bool Ritual::canBePlayed(); // check if enough cost
 
@@ -13,7 +13,7 @@ bool Ritual::canBeUsed() {
     }
 }
 
-DarkRitual::DarkRitual(): Ritual{"Dark Ritual", 0, 5, 1} {}
+DarkRitual::DarkRitual(GameController *g): Ritual{g, "Dark Ritual", 0, 5, 1} {}
 bool DarkRitual::useAbility() {
     if (canBeUsed()) {
         // player gains 1 magic
@@ -23,7 +23,7 @@ bool DarkRitual::useAbility() {
     }
 }
 
-AuraOfPower::AuraOfPower(): Ritual{"Aura of Power", 1, 4, 1} {}
+AuraOfPower::AuraOfPower(GameController *g): Ritual{g, "Aura of Power", 1, 4, 1} {}
 bool AuraOfPower::useAbility(Minion& m) {
     if (canBeUsed()) {
         m.setAttack(m.getAttack() + 1);
@@ -34,7 +34,7 @@ bool AuraOfPower::useAbility(Minion& m) {
     }
 }
 
-Standstill::Standstill(): Ritual{"Standstill", 3, 4, 2} {}
+Standstill::Standstill(GameController *g): Ritual{g, "Standstill", 3, 4, 2} {}
 bool Standstill::useAbility(Minion& m) {
     if (canBeUsed()) {
         // destroy m
