@@ -1,3 +1,4 @@
+// Code taken from horseracing example
 #include "subject.h"
 enum class StateInfo;
 Subject::Subject() {}

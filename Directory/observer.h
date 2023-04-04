@@ -1,3 +1,4 @@
+// Code taken from horseracing example
 #ifndef _OBSERVER_H_
 #define _OBSERVER_H_
 
