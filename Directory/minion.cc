@@ -1,20 +1,12 @@
 #include "minion.h"
+#include "card.h"
+#include "gameController.h"
+#include "player.h"
 using namespace std;
 
-Minion::Minion(GameController *g, string name, int cost, int attack, int defense, int magic_cost): Card{g, name, cost}, attack{attack}, defense{defense}, numactions{1}, magic_cost{magic_cost} {}
-
-Minion::~Minion() {}
-
-
-bool Minion::canBePlayed(); //check board space
-
-bool Minion::canBeUsed() {
-    if (remainingactions == 0) {
-        return false;
-    } else {
-        return true;
-    }
-}
+Minion::Minion(GameController *g, Player* owner, string name, int cost, 
+int attack, int defense) : Card{name, cost, g, owner}, attack{attack}, 
+defense{defense}, numactions{1} {}
 
 void Minion::takeDamage(Minion &m) {
     defense = defense - m.getAttack();
@@ -26,15 +18,12 @@ void Minion::attackMinion(Minion& m) {
     this->takeDamage(m);
 }
 
-void Minion::attackPlayer(); // deal damage to player health
+void Minion::attackPlayer() {
+    gameController->attackNonActivePlayer(getAttack());
+}
 
-void Minion::Inspect() { 
-    // get attack, defense, name, cost, look through all enchantments
-    int numofenchants = enchants.size();
-    // for (int i = 0; i < numofenchants; ++i) {
-        // Inspect(enhcants[i]);
-        // if (i + 1 % 5 == 0), go to next line
-    // }
+void Minion::notify(StateInfo state) {
+    return;
 }
 
 void Minion::setAttack(int a) {
@@ -46,9 +35,7 @@ void Minion::setDefense(int d) {
 void Minion::setActNum(int n) {
     numactions = n;
 }
-void Minion::setMagCost(int c) {
-    magic_cost = c;
-}
+
 void Minion::setRemAct(int r) {
     if (r == 2) {
         remainingactions = numactions;
@@ -65,8 +52,33 @@ int Minion::getDefense() {
 int Minion::getActNum() {
     return numactions;
 }
+
+/*
 int Minion::getMagCost() {
     return magic_cost;
+}
+void Minion::Inspect() { 
+    // get attack, defense, name, cost, look through all enchantments
+   // int numofenchants = enchants.size();
+    // for (int i = 0; i < numofenchants; ++i) {
+        // Inspect(enhcants[i]);
+        // if (i + 1 % 5 == 0), go to next line
+    // }
+}
+
+bool Minion::canBePlayed(); //check board space
+
+bool Minion::canBeUsed() {
+    if (remainingactions == 0) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
+void Minion::setMagCost(int c) {
+    magic_cost = c;
 }
 int Minion::getRemAct() {
     return remainingactions;
@@ -108,6 +120,6 @@ bool MasterSummoner::useAbility() {
     // if board isn't full
     // add to board Minion() (it'll default to air element) through a for loop up until 3 or the amount of space left
 }
-
+*/
 
 

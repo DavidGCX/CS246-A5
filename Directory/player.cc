@@ -1,17 +1,15 @@
 #include "player.h"
 #include "minion.h"
-#include "enchantments.h"
+/*#include "enchantments.h"
 #include "spell.h"
-#include "ritual.h"
+#include "ritual.h"*/
 #include <utility>
 #include <iostream>
+#include <fstream>
+#include "ritual.h"
 using namespace std;
 
-Player::Player(std::string name, std::string deck): name{name} {
-    init(deck);
-}
-
-void Player::init(string deck) {
+Player::Player(string name,GameController* gc, string deck): name{name}, gameController{gc} {
     initializeDeck(deck);
     for (int i = 0; i < 5; i++){
         drawCard();
@@ -19,6 +17,7 @@ void Player::init(string deck) {
     life = 20;
     magic = 3;
 }
+
 
 void Player::drawCard() {
     if (hand.size() < 5 && deck.size() > 0) {
@@ -29,7 +28,7 @@ void Player::drawCard() {
     }
 }
 
-void Player::damage(int amount) {
+void Player::takeDamage(int amount) {
     life = life - amount >=0? life - amount : 0;
 }
 
@@ -57,38 +56,38 @@ void Player::restoreHealth(int amount) {
 }
 
 // implement deck initialization here
-void Player::initializeDeck(std::string deck, GameController *g) {
+void Player::initializeDeck(std::string deck) {
     ifstream f{deck};
     string s;
     while (getline(f,s)) {
-        if (f == "Air Elemental") {
-            deck.push_back(Minion(g));
-        } else if (f == "Earth Elemental") {
-            deck.push_back(Minion(g, "Earth Elemental", 3, 4, 4));
-        } else if (f == "Fire Elemental") {
-            deck.push_back(FireElemental(g));
+        if (s == "Air Elemental") {
+            this->deck.push_back(make_unique<Minion>(gameController, this));
+        } else if (s == "Earth Elemental") {
+            this->deck.push_back(make_unique<Minion>(gameController, this,"Earth Elemental", 3, 4, 4));
+        } /*else if (f == "Fire Elemental") {
+            deck.push_back(FireElemental(gameController));
         } else if (f == "Bone Golem") {
-            deck.push_back(BoneGolem(g));
+            deck.push_back(BoneGolem(gameController));
         } else if (f == "Potion Seller") {
-            deck.push_back(PotionSeller(g));
+            deck.push_back(PotionSeller(gameController));
         } else if (f == "Novice Pyromancer") {
-            deck.push_back(NovicePyromancer(g));
+            deck.push_back(NovicePyromancer(gameController));
         } else if (f == "Apprentice Summoner") {
-            deck.push_back(ApprenticeSummoner(g));
+            deck.push_back(ApprenticeSummoner(gameController));
         } else if (f == "Master Summoner") {
-            deck.push_back(MasterSummoner(g));
+            deck.push_back(MasterSummoner(gameController));
         } else if (f == "Banish") {
-            deck.push_back(Banish(g));
+            deck.push_back(Banish(gameController));
         } else if (f == "Unsummon") {
-            deck.push_back(Unsummon(g));
+            deck.push_back(Unsummon(gameController));
         } else if (f == "Recharge") {
-            deck.push_back(Recharge(g));
+            deck.push_back(Recharge(gameController));
         } else if (f == "Disenchant") {
-            deck.push_back(Disenchant(g));
+            deck.push_back(Disenchant(gameController));
         } else if (f == "Raise Dead") {
-            deck.push_back(RaiseDead(g));
+            deck.push_back(RaiseDead(gameController));
         } else if (f == "Blizzard") {
-            deck.push_back(Blizzard(g));
+            deck.push_back(Blizzard(gameController));
         } else if (f == "Giant Strength") {
             deck.push_back(GiantStrength());
         } else if (f == "Enrage") {
@@ -100,15 +99,22 @@ void Player::initializeDeck(std::string deck, GameController *g) {
         } else if (f == "Silence") {
             deck.push_back(Silence());
         } else if (f == "Dark Ritual") {
-            deck.push_back(DarkRitual(g));
+            deck.push_back(DarkRitual(gameController));
         } else if (f == "Aura of Power") {
-            deck.push_back(AuraOfPower(g));
+            deck.push_back(AuraOfPower(gameController));
         } else if (f == "Standstill") {
-            deck.push_back(Standstill(g));
-        }
+            deck.push_back(Standstill(gameController));
+        }*/
     }
 }
 
 void Player::play(int i) {
+    
+}
 
+void Player::notifyAllCard(StateInfo info) {
+    for(auto& card : board) {
+        card->notify(info);
+    }
+    ritualField->notify(info);
 }
