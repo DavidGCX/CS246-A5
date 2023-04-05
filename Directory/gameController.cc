@@ -16,7 +16,6 @@ void GameController::onTurnStart() {
 void GameController::onTurnEnd() {
     notifyObservers(StateInfo::onTurnEnd, activePlayer);
     notifyObservers(StateInfo::onTurnEnd, nonActivePlayer);
-    swap(activePlayer, nonActivePlayer);
 }
 
 void GameController::onMinionEnter() {
@@ -58,5 +57,14 @@ void GameController::refreshDisplay() {
 
 void GameController::attackNonActivePlayer(int attack)
 {
-    (*nonActivePlayer) ->takeDamage(attack);
+    (*nonActivePlayer)->takeDamage(attack);
+}
+
+void GameController::play(int i) {
+    (*activePlayer)->play(i);
+}
+
+void GameController::endTurn() {
+    onTurnEnd();
+    swap(activePlayer, nonActivePlayer);
 }
