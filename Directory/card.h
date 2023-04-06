@@ -5,7 +5,7 @@
 #include <string>
 
 class gameController;
-
+class Player;
 
 // so for minions, they can only be in first three states, but for spells, 
 // rituls and enchantments, if they are out of scope, then they are simply
@@ -17,17 +17,25 @@ enum class State {
     removeFromTheGame
 };
 class Card : public Observer {
-        gameController* gc;
         std::string name;
         int cost;
         State state;
+        Player* owner;
+    protected:
+        GameController* gameController;
     public:
+<<<<<<< HEAD
         Card(gameController* gameController, std::string name, int cost):name{name}, cost{cost}, gc{gameController} {
+=======
+        Card(std::string name, int cost, GameController* gameController, Player* owner) : 
+        name{name}, cost{cost}, gameController{gameController}, owner{owner} {
+>>>>>>> 2735be7b549ca5e94c971a027be13ea067704f6e
             state = State::onDeck; // by default, all cards are in deck;
         }
-        virtual bool canBePlayed() = 0;
+        //virtual bool canBePlayed() = 0;
         std::string getName() {return name;}
         int getCost() {return cost;}
+        Player* getOwner() { return owner; }
 };
 
 #endif

@@ -8,8 +8,12 @@
 class Minion;
 class Card;
 class Ritual;
-class Player : public Observer {
+class GameController;
+enum class  StateInfo;
+class Player {
+    GameController* gameController;
     std::vector<std::unique_ptr<Card>> deck;
+    std::vector<std::unique_ptr<Card>> board;
     std::vector<std::unique_ptr<Card>> hand;
     std::vector<std::unique_ptr<Minion>> graveyard;
     std::unique_ptr<Ritual> ritualField;
@@ -17,13 +21,10 @@ class Player : public Observer {
     int magic;
     int life;
     std::string name;
-    void init(std::string deck);
 public:
-    
-    Player(std::string name, std::string deck = "default.deck");
-    Player(std::string name);
+    Player(std::string name, GameController* gc, std::string deck = "default.deck");
     void drawCard();
-    void damage(int amount);
+    void takeDamage(int amount);
     bool costMagic(int amount);
     int getHealth();
     void restoreMagic(int amount);
@@ -31,6 +32,7 @@ public:
     // initialize the deck
     void initializeDeck(std::string deck, GameController *g);
     void play(int i);
+    void notifyAllCard(StateInfo info);
 };
 
 #endif

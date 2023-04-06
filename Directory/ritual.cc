@@ -1,9 +1,12 @@
 #include "ritual.h"
 using namespace std;
 
-Ritual::Ritual(GameController *g, string name, int cost, int charges, int cost_per_charge): Card{name, cost}, charges{charges}, cost_per_charge{cost_per_charge} {}
+Ritual::Ritual(GameController *g, string name, int cost, int charges, 
+int cost_per_charge, Player* owner): Card{name, cost,g, owner}, charges{charges}, cost_per_charge{cost_per_charge} {}
 
-bool Ritual::canBePlayed(); // check if enough cost
+bool Ritual::canBePlayed() {
+    return true;
+} // check if enough cost
 
 bool Ritual::canBeUsed() {
     if (cost_per_charge > charges) {
@@ -12,7 +15,7 @@ bool Ritual::canBeUsed() {
         return true;
     }
 }
-
+/*
 DarkRitual::DarkRitual(GameController *g): Ritual{g, "Dark Ritual", 0, 5, 1} {}
 bool DarkRitual::useAbility() {
     if (canBeUsed()) {
@@ -43,5 +46,5 @@ bool Standstill::useAbility(Minion& m) {
         return false;
     }
 }
-
+*/
 

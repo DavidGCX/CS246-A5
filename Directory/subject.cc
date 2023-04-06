@@ -1,4 +1,10 @@
+// Code taken from horseracing example
 #include "subject.h"
+#include <memory>
+#include <vector>
+#include "player.h"
+using namespace std;
+
 enum class StateInfo;
 Subject::Subject() {}
 Subject::~Subject() {}
@@ -18,4 +24,8 @@ void Subject::detach( Observer *o ) {
 
 void Subject::notifyObservers(StateInfo info) {
   for (auto ob : observers) ob->notify(info);
+}
+
+void notifyObservers(StateInfo info, unique_ptr<Player>* player) {
+    (*player)->notifyAllCard(info);
 }

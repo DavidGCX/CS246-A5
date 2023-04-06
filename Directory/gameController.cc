@@ -3,29 +3,32 @@
 #include "player.h"
 #include "graphicalDisplay.h"
 #include "textDisplay.h"
+#include <memory>
 using namespace std;
 
 void GameController::onTurnStart() {
     (*activePlayer)->restoreMagic(1);
     (*activePlayer)->drawCard();
-    notifyObservers(StateInfo::onTurnStart);
+    notifyObservers(StateInfo::onTurnEnd, activePlayer);
+    notifyObservers(StateInfo::onTurnEnd, nonActivePlayer);
 }
 
 void GameController::onTurnEnd() {
-    notifyObservers(StateInfo::onTurnEnd);
-    swap(activePlayer, nonActivePlayer);
+    notifyObservers(StateInfo::onTurnEnd, activePlayer);
+    notifyObservers(StateInfo::onTurnEnd, nonActivePlayer);
 }
 
 void GameController::onMinionEnter() {
-    notifyObservers(StateInfo::onMinionEnter);
+    notifyObservers(StateInfo::onTurnEnd, activePlayer);
+    notifyObservers(StateInfo::onTurnEnd, nonActivePlayer);
 }
 
 void GameController::onMinionExit() {
-    notifyObservers(StateInfo::onMinionExit);
+    notifyObservers(StateInfo::onTurnEnd, activePlayer);
+    notifyObservers(StateInfo::onTurnEnd, nonActivePlayer);
 }
 
-GameController::GameController(GraphicalDisplay *graphics, TextDisplay *text, 
-Player *playerOne, Player *playerTwo) : playerOne{playerOne}, playerTwo{playerTwo} {
+GameController::GameController(GraphicalDisplay *graphics, TextDisplay *text) {
     if (graphics == nullptr) {
         unique_ptr<TextDisplay> td{text};
         adaptors.push_back(move(td));
@@ -39,8 +42,29 @@ Player *playerOne, Player *playerTwo) : playerOne{playerOne}, playerTwo{playerTw
     nonActivePlayer = &this->playerTwo;
 }
 
+void GameController::attachPlayers(Player* playerOne, Player* playerTwo) {
+    unique_ptr<Player> tempOne{playerOne};
+    unique_ptr<Player> tempTwo{playerTwo};
+    this->playerOne.swap(tempOne);
+    this->playerTwo.swap(tempTwo);
+}
+
 void GameController::refreshDisplay() {
     for(auto& adaptor : adaptors) {
         adaptor->refresh(playerOne, playerTwo);
     }
+}
+
+void GameController::attackNonActivePlayer(int attack)
+{
+    (*nonActivePlayer)->takeDamage(attack);
+}
+
+void GameController::play(int i) {
+    (*activePlayer)->play(i);
+}
+
+void GameController::endTurn() {
+    onTurnEnd();
+    swap(activePlayer, nonActivePlayer);
 }
