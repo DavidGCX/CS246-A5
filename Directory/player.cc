@@ -56,7 +56,7 @@ void Player::restoreHealth(int amount) {
 }
 
 // implement deck initialization here
-void Player::initializeDeck(std::string deck) {
+void Player::initializeDeck(string deck) {
     ifstream f{deck};
     string s;
     while (getline(f,s)) {

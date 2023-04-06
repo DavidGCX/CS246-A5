@@ -22,10 +22,7 @@ class GameController : public Subject {
 
     public:
         GameController(GraphicalDisplay* graphics, TextDisplay* text);
-        // this should be called together with new Player
-        // and construct GameController first
-        // so attachPlayers(new Player(...), new Player(...))
-        void attachPlayers(Player* playerOne, Player* playerTwo);
+        void attachPlayer(std::string name, int index, std::string deck = "default.deck");
         void onTurnStart();
         void onTurnEnd();
         void onMinionEnter();

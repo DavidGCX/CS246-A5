@@ -9,7 +9,7 @@ class Minion;
 class Card;
 class Ritual;
 class GameController;
-enum class  StateInfo;
+enum class StateInfo;
 class Player {
     GameController* gameController;
     std::vector<std::unique_ptr<Card>> deck;
@@ -30,7 +30,7 @@ public:
     void restoreMagic(int amount);
     void restoreHealth(int amount);
     // initialize the deck
-    void initializeDeck(std::string deck, GameController *g);
+    void initializeDeck(std::string deck);
     void play(int i);
     void notifyAllCard(StateInfo info);
 };

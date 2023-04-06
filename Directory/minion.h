@@ -1,13 +1,6 @@
 #ifndef MIN_H
 #define MIN_H
 #include "card.h"
-<<<<<<< HEAD:Directory/CleanUp/minion.h
-#include "enchantments.h"
-#include "gameController.h"
-#include "hasability.h"
-
-=======
->>>>>>> 2735be7b549ca5e94c971a027be13ea067704f6e:Directory/minion.h
 #include <vector>
 
 class GameController;
@@ -16,16 +9,6 @@ class Minion: public Card {
     int defense;
     int numactions;
     int remainingactions;
-<<<<<<< HEAD:Directory/CleanUp/minion.h
-    int magic_cost;
-    std::vector<EnchantmentDecorator> enchants;
-public:
-    bool canUseAbility;
-    Minion(GameController *g, std::string name = "Air Element", int cost = 1, int attack = 1, int defense = 1, int magic_cost = 0);
-    bool canBePlayed();
-    bool canBeUsed();
-    void takeDamage(Minion &m);
-=======
     //int magic_cost;
     //std::vector<Enchantment> enchants;
 public:
@@ -38,7 +21,6 @@ public:
     //bool canBeUsed();
 
     void takeDamage(Minion& m);
->>>>>>> 2735be7b549ca5e94c971a027be13ea067704f6e:Directory/minion.h
     void attackPlayer();
 
     void attackMinion(Minion& m);

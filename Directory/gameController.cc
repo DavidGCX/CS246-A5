@@ -9,8 +9,8 @@ using namespace std;
 void GameController::onTurnStart() {
     (*activePlayer)->restoreMagic(1);
     (*activePlayer)->drawCard();
-    notifyObservers(StateInfo::onTurnEnd, activePlayer);
-    notifyObservers(StateInfo::onTurnEnd, nonActivePlayer);
+    notifyObservers(StateInfo::onTurnStart, activePlayer);
+    notifyObservers(StateInfo::onTurnStart, nonActivePlayer);
 }
 
 void GameController::onTurnEnd() {
@@ -19,13 +19,13 @@ void GameController::onTurnEnd() {
 }
 
 void GameController::onMinionEnter() {
-    notifyObservers(StateInfo::onTurnEnd, activePlayer);
-    notifyObservers(StateInfo::onTurnEnd, nonActivePlayer);
+    notifyObservers(StateInfo::onMinionEnter, activePlayer);
+    notifyObservers(StateInfo::onMinionEnter, nonActivePlayer);
 }
 
 void GameController::onMinionExit() {
-    notifyObservers(StateInfo::onTurnEnd, activePlayer);
-    notifyObservers(StateInfo::onTurnEnd, nonActivePlayer);
+    notifyObservers(StateInfo::onMinionExit, activePlayer);
+    notifyObservers(StateInfo::onMinionExit, nonActivePlayer);
 }
 
 GameController::GameController(GraphicalDisplay *graphics, TextDisplay *text) {
@@ -42,11 +42,15 @@ GameController::GameController(GraphicalDisplay *graphics, TextDisplay *text) {
     nonActivePlayer = &this->playerTwo;
 }
 
-void GameController::attachPlayers(Player* playerOne, Player* playerTwo) {
-    unique_ptr<Player> tempOne{playerOne};
-    unique_ptr<Player> tempTwo{playerTwo};
-    this->playerOne.swap(tempOne);
-    this->playerTwo.swap(tempTwo);
+void GameController::attachPlayer(string name, int index, string deck) {
+    switch(index) {
+        case 1 :
+            playerOne = make_unique<Player>(name, this, deck);
+            break;
+        case 2 :
+            playerTwo = make_unique<Player>(name, this, deck);
+            break;
+    }
 }
 
 void GameController::refreshDisplay() {
