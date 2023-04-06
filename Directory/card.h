@@ -24,12 +24,8 @@ class Card : public Observer {
     protected:
         GameController* gameController;
     public:
-<<<<<<< HEAD
-        Card(gameController* gameController, std::string name, int cost):name{name}, cost{cost}, gc{gameController} {
-=======
         Card(std::string name, int cost, GameController* gameController, Player* owner) : 
         name{name}, cost{cost}, gameController{gameController}, owner{owner} {
->>>>>>> 2735be7b549ca5e94c971a027be13ea067704f6e
             state = State::onDeck; // by default, all cards are in deck;
         }
         //virtual bool canBePlayed() = 0;
