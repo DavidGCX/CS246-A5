@@ -6,7 +6,7 @@
 class Player;
 
 class TextDisplay : public Adaptor {
-        void printToScreen();
+        void printTitle();
     public:
         TextDisplay(){};
         void init() override;
