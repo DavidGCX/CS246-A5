@@ -1,6 +1,7 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 #include "observer.h"
+#include "gameController.h"
 #include <string>
 #include <memory>
 #include <vector>
@@ -28,7 +29,7 @@ public:
     void restoreMagic(int amount);
     void restoreHealth(int amount);
     // initialize the deck
-    void initializeDeck(std::string deck);
+    void initializeDeck(std::string deck, GameController *g);
     void play(int i);
 };
 

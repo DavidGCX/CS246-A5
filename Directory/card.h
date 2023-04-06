@@ -22,7 +22,7 @@ class Card : public Observer {
         int cost;
         State state;
     public:
-        Card(std::string name, int cost, gameController* gameController):name{name}, cost{cost}, gc{gameController} {
+        Card(gameController* gameController, std::string name, int cost):name{name}, cost{cost}, gc{gameController} {
             state = State::onDeck; // by default, all cards are in deck;
         }
         virtual bool canBePlayed() = 0;

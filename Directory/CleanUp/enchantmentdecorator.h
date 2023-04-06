@@ -2,12 +2,12 @@
 #define DEC_H
 #include "minion.h"
 
-class Decorator: public Minion {
+class EnchantmentDecorator: public Minion {
     protected:
     Minion* next;
     public:
-    Decorator(Minion *m);
-    ~Decorator();
+    EnchantmentDecorator(Minion *m);
+    ~EnchantmentDecorator();
     virtual void applyEffect();
     virtual void Inspect();
 };

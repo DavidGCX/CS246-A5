@@ -1,6 +1,9 @@
 #ifndef MIN_H
 #define MIN_H
 #include "card.h"
+#include "enchantments.h"
+#include "gameController.h"
+#include "hasability.h"
 
 #include <vector>
 
@@ -10,13 +13,13 @@ class Minion: public Card {
     int numactions;
     int remainingactions;
     int magic_cost;
-    std::vector<Enchantment> enchants;
+    std::vector<EnchantmentDecorator> enchants;
 public:
     bool canUseAbility;
-    Minion(std::string name = "Air Element", int cost = 1, int attack = 1, int defense = 1, int magic_cost = 0);
+    Minion(GameController *g, std::string name = "Air Element", int cost = 1, int attack = 1, int defense = 1, int magic_cost = 0);
     bool canBePlayed();
     bool canBeUsed();
-    void takeDamage(Minion m);
+    void takeDamage(Minion &m);
     void attackPlayer();
     void attackMinion(Minion& m);
     virtual void applyEffect();
@@ -37,37 +40,37 @@ public:
 
 class BoneGolem: public Minion, public HasAbility {
     public:
-    BoneGolem();
-    void useAbility();
+    BoneGolem(GameController *g);
+    bool useAbility();
 };
 
 class PotionSeller: public Minion, public HasAbilityTargetMinion {
     public:
-    PotionSeller();
-    void useAbility(Minion& m);
+    PotionSeller(GameController *g);
+    bool useAbility(Minion& m);
 };
 
 class NovicePyromancer: public Minion, public HasAbilityTargetMinion {
     public:
-    NovicePyromancer();
+    NovicePyromancer(GameController *g);
     bool useAbility(Minion& m);
 };
 
 class FireElement: public Minion, public HasAbilityTargetMinion {
     public:
-    FireElement();
-    void useAbility(Minion& m);
+    FireElement(GameController *g);
+    bool useAbility(Minion& m);
 };
 
 class ApprenticeSummoner: public Minion, public HasAbility {
     public:
-    ApprenticeSummoner();
+    ApprenticeSummoner(GameController *g);
     bool useAbility();
 };
 
 class MasterSummoner: public Minion, public HasAbility {
     public:
-    MasterSummoner();
+    MasterSummoner(GameController *g);
     bool useAbility();
 };
 

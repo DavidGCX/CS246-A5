@@ -1,4 +1,4 @@
 #include "enchantmentdecorator.h"
 
-Decorator::Decorator(Minion *m): next{m} {}
-Decorator::~Decorator() {delete next;}
+EnchantmentDecorator::EnchantmentDecorator(Minion *m): next{m} {}
+EnchantmentDecorator::~EnchantmentDecorator() {delete next;}
