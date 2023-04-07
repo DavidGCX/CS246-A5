@@ -65,8 +65,6 @@ void Player::play(int i) {
     } else {
         if (dynamic_cast<Minion*>(hand[i-1].get())) {
             hand[i-1]->setState(State::onBoard);
-            
-            gameController->onMinionEnter(hand[i-1]);
             board.push_back(move(hand[i-1]));
             hand.erase(hand.begin() + i - 1);
             
