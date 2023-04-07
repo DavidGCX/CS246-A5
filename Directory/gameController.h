@@ -21,6 +21,7 @@ class GameController : public Subject {
     std::unique_ptr<Player>* nonActivePlayer;
 
     public:
+        GameController(TextDisplay* text);
         GameController(GraphicalDisplay* graphics, TextDisplay* text);
         void attachPlayer(std::string name, int index, std::string deck = "default.deck");
         void onTurnStart();

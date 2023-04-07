@@ -25,19 +25,21 @@ void GameController::onMinionEnter(unique_ptr<Minion>& target) {
 
 void GameController::onMinionExit(unique_ptr<Minion>& target) {
     notifyObservers(StateInfo::onMinionExit, activePlayer, target);
-    notifyObservers(StateInfo::onMinionExit, nonActivePlayer, target);
+    notifyObservers(StateInfo::onMinionExit, nonActivePlayer,  target);
 }
 
 GameController::GameController(GraphicalDisplay *graphics, TextDisplay *text) {
-    if (graphics == nullptr) {
-        unique_ptr<TextDisplay> td{text};
-        adaptors.push_back(move(td));
-    } else {
-        unique_ptr<TextDisplay> td{text};
-        unique_ptr<GraphicalDisplay> gd{graphics};
-        adaptors.push_back(move(td));
-        adaptors.push_back(move(gd));
-    }
+    unique_ptr<TextDisplay> td{text};
+    unique_ptr<GraphicalDisplay> gd{graphics};
+    adaptors.push_back(move(td));
+    adaptors.push_back(move(gd));
+    activePlayer = &this->playerOne;
+    nonActivePlayer = &this->playerTwo;
+}
+
+GameController::GameController(TextDisplay *text) {
+    unique_ptr<TextDisplay> td{text};
+    adaptors.push_back(move(td));
     activePlayer = &this->playerOne;
     nonActivePlayer = &this->playerTwo;
 }
