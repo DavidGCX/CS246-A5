@@ -55,6 +55,18 @@ void Player::restoreHealth(int amount) {
     life += amount;
 }
 
+
+void Player::play(int i) {
+    
+}
+
+void Player::notifyAllCard(StateInfo info) {
+    for(auto& card : board) {
+        card->notify(info);
+    }
+    ritualField->notify(info);
+}
+
 // implement deck initialization here
 void Player::initializeDeck(string deck) {
     ifstream f{deck};
@@ -106,15 +118,4 @@ void Player::initializeDeck(string deck) {
             deck.push_back(Standstill(gameController));
         }*/
     }
-}
-
-void Player::play(int i) {
-    
-}
-
-void Player::notifyAllCard(StateInfo info) {
-    for(auto& card : board) {
-        card->notify(info);
-    }
-    ritualField->notify(info);
 }
