@@ -33,6 +33,7 @@ public:
     void initializeDeck(std::string deck);
     void play(int i);
     void notifyAllCard(StateInfo info);
+    void notifyAllCard(StateInfo info, unique_ptr<Minion>& target);
 };
 
 #endif

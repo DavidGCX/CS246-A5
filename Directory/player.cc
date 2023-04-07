@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include "ritual.h"
+#include <memory>
 using namespace std;
 
 Player::Player(string name,GameController* gc, string deck): name{name}, gameController{gc} {
@@ -65,6 +66,13 @@ void Player::notifyAllCard(StateInfo info) {
         card->notify(info);
     }
     ritualField->notify(info);
+}
+
+void Player::notifyAllCard(StateInfo info, unique_ptr<Minion>& target) {
+    for(auto& card : board) {
+        card->notify(info, target);
+    }
+    ritualField->notify(info, target);
 }
 
 // implement deck initialization here

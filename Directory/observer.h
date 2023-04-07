@@ -5,6 +5,7 @@
 class Observer {
  public:
   virtual void notify(StateInfo stateInfo) = 0;
+  virtual void notify(StateInfo stateInfo, unique_ptr<Minion>& target) = 0;
   virtual ~Observer();
 };
 

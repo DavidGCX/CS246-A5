@@ -25,8 +25,8 @@ class GameController : public Subject {
         void attachPlayer(std::string name, int index, std::string deck = "default.deck");
         void onTurnStart();
         void onTurnEnd();
-        void onMinionEnter();
-        void onMinionExit();
+        void onMinionEnter(std::unique_ptr<Minion>& target);
+        void onMinionExit(std::unique_ptr<Minion>& target);
         void refreshDisplay();
         void attackNonActivePlayer(int attack);
         void endTurn();

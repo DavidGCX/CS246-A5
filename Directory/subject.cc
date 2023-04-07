@@ -29,3 +29,7 @@ void Subject::notifyObservers(StateInfo info) {
 void notifyObservers(StateInfo info, unique_ptr<Player>* player) {
     (*player)->notifyAllCard(info);
 }
+
+void notifyObservers(StateInfo info, unique_ptr<Player>* player,  unique_ptr<Minion>& target) {
+    (*player)->notifyAllCard(info, target);
+}

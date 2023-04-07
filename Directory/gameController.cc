@@ -18,14 +18,14 @@ void GameController::onTurnEnd() {
     notifyObservers(StateInfo::onTurnEnd, nonActivePlayer);
 }
 
-void GameController::onMinionEnter() {
-    notifyObservers(StateInfo::onMinionEnter, activePlayer);
-    notifyObservers(StateInfo::onMinionEnter, nonActivePlayer);
+void GameController::onMinionEnter(unique_ptr<Minion>& target) {
+    notifyObservers(StateInfo::onMinionEnter, activePlayer, target);
+    notifyObservers(StateInfo::onMinionEnter, nonActivePlayer, target);
 }
 
-void GameController::onMinionExit() {
-    notifyObservers(StateInfo::onMinionExit, activePlayer);
-    notifyObservers(StateInfo::onMinionExit, nonActivePlayer);
+void GameController::onMinionExit(unique_ptr<Minion>& target) {
+    notifyObservers(StateInfo::onMinionExit, activePlayer, target);
+    notifyObservers(StateInfo::onMinionExit, nonActivePlayer, target);
 }
 
 GameController::GameController(GraphicalDisplay *graphics, TextDisplay *text) {

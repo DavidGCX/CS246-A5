@@ -16,6 +16,7 @@ class Subject {
   void detach( Observer *o );
   void notifyObservers(StateInfo info);
   void notifyObservers(StateInfo info, unique_ptr<Player>* player);
+  void notifyObservers(StateInfo info, unique_ptr<Player>* player, unique_ptr<Minion>& target);
   virtual ~Subject() = 0;
 };
 

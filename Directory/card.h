@@ -32,6 +32,8 @@ class Card : public Observer {
         std::string getName() {return name;}
         int getCost() {return cost;}
         Player* getOwner() { return owner; }
+        void setState(State newState) { state = newState; }
+        State getState() {return state; }
 };
 
 #endif

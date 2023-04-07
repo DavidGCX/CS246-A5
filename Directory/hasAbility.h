@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 
+class Card;
 class CanUseAbility{
     int abilityCost;
 public:
@@ -13,11 +14,12 @@ public:
     virtual ~CanUseAbility() = 0;
 };
 
-template <typename T>
-class canUseAbilityWithTarget : public CanUseAbility {
-    virtual bool useAbility(T target) = 0;
+class HasAbilityWithTarget : public CanUseAbility {
+public:
+    virtual bool useAbility(std::unique_ptr<Card>& target) = 0;
 };
-class HasAbility : public CanUseAbility {
+class HasAbilityNoTarget : public CanUseAbility {
+public:
     virtual bool useAbility() = 0;
 };
 

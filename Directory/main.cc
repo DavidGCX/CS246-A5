@@ -5,6 +5,7 @@ using namespace std;
 
 int main(int argc, const char** argv) {
     bool testmode = false;
+    GameController gc{new GraphicalDisplay{}, new TextDisplay{}};
     for (int i = 1; i < argc; ++i)
     if (argv[i] == "-deck1") {
         // set player 1 deck to file from deck1
