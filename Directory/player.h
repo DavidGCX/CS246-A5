@@ -34,6 +34,7 @@ public:
     void play(int i);
     void notifyAllCard(StateInfo info);
     void notifyAllCard(StateInfo info, unique_ptr<Minion>& target);
+    void setName(std::string name);
 };
 
 #endif
