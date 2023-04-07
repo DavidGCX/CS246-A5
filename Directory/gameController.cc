@@ -78,5 +78,7 @@ void GameController::play(int i) {
 void GameController::attack(int i, int j) {
     
 }
-
+vector<unique_ptr<Minion>>& GameController::getNonActivePlayerBoard() {
+    return (*nonActivePlayer)->getBoard();
+}
 

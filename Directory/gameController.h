@@ -6,6 +6,7 @@ class Player;
 class Adaptor;
 class GraphicalDisplay;
 class TextDisplay;
+class Minion;
 enum class StateInfo {
     onTurnStart,
     onTurnEnd,
@@ -33,6 +34,7 @@ class GameController : public Subject {
         void endTurn();
         void play(int i);
         void attack(int i, int j);
+        std::vector<std::unique_ptr<Minion>>& getNonActivePlayerBoard();
 };
 
 #endif

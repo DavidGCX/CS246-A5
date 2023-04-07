@@ -45,7 +45,7 @@ bool Player::costMagic(int amount)
     }
 }
 
-int Player::getHealth()
+int Player::getHealth() const
 {
     return life;
 }
@@ -65,9 +65,9 @@ void Player::play(int i) {
     } else {
         if (dynamic_cast<Minion*>(hand[i-1].get())) {
             hand[i-1]->setState(State::onBoard);
-            board.push_back(move(hand[i-1]));
+            unique_ptr<Minion> tempMinion {dynamic_cast<Minion*>(hand[i-1].release())};
+            board.push_back(move(tempMinion));
             hand.erase(hand.begin() + i - 1);
-            
         } //else if (dynamic_cast<Spell*>(deck[i-1].get()))
     }
 }
@@ -84,6 +84,11 @@ void Player::notifyAllCard(StateInfo info, unique_ptr<Minion>& target) {
         card->notify(info, target);
     }
     ritualField->notify(info, target);
+}
+
+vector<unique_ptr<Minion>>& Player::getBoard()
+{
+    return board;
 }
 
 // implement deck initialization here
@@ -137,8 +142,4 @@ void Player::initializeDeck(string deck) {
             deck.push_back(Standstill(gameController));
         }*/
     }
-}
-
-void Player::setName(string name) {
-    this->name = name;
 }

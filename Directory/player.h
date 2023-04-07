@@ -11,7 +11,7 @@ enum class StateInfo;
 class Player {
     GameController* gameController;
     std::vector<std::unique_ptr<Card>> deck;
-    std::vector<std::unique_ptr<Card>> board;
+    std::vector<std::unique_ptr<Minion>> board;
     std::vector<std::unique_ptr<Card>> hand;
     std::vector<std::unique_ptr<Minion>> graveyard;
     std::unique_ptr<Ritual> ritualField;
@@ -24,7 +24,7 @@ public:
     void drawCard();
     void takeDamage(int amount);
     bool costMagic(int amount);
-    int getHealth();
+    int getHealth() const;
     void restoreMagic(int amount);
     void restoreHealth(int amount);
     // initialize the deck
@@ -32,6 +32,7 @@ public:
     void play(int i);
     void notifyAllCard(StateInfo info);
     void notifyAllCard(StateInfo info, std::unique_ptr<Minion>& target);
+    std::vector<std::unique_ptr<Minion>>& getBoard();
 };
 
 #endif
