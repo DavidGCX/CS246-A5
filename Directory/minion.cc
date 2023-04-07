@@ -25,6 +25,9 @@ void Minion::attackPlayer() {
 void Minion::notify(StateInfo state) {
     return;
 }
+void Minion::notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) {
+   return;
+}
 
 void Minion::setAttack(int a) {
     attack = a;

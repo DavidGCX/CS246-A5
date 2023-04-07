@@ -2,6 +2,7 @@
 #define MIN_H
 #include "card.h"
 #include <vector>
+#include <memory>
 
 class GameController;
 class Minion: public Card {
@@ -9,25 +10,17 @@ class Minion: public Card {
     int defense;
     int numactions;
     int remainingactions;
-    //int magic_cost;
     //std::vector<Enchantment> enchants;
 public:
-    //bool canUseAbility;
-
     Minion(GameController *g,Player* owner, std::string name = "Air Element", 
     int cost = 1, int attack = 1, int defense = 1);
-    
-    //bool canBePlayed();
-    //bool canBeUsed();
-
     void takeDamage(Minion& m);
     void attackPlayer();
-
     void attackMinion(Minion& m);
     //virtual void applyEffect();
     //void Inspect();
-
     void notify(StateInfo state) override;
+    void notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) override;
     void setAttack(int a);
     void setDefense(int d);
     void setActNum(int n);
@@ -36,10 +29,6 @@ public:
     int getDefense();
     int getActNum();
     int getRemAct();
-
-    //int getMagCost();
-    //void setMagCost(int c);
-    
 };
 
 /*

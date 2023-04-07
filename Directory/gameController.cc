@@ -66,11 +66,17 @@ void GameController::attackNonActivePlayer(int attack)
     (*nonActivePlayer)->takeDamage(attack);
 }
 
-void GameController::play(int i) {
-    (*activePlayer)->play(i);
-}
-
 void GameController::endTurn() {
     onTurnEnd();
     swap(activePlayer, nonActivePlayer);
 }
+
+void GameController::play(int i) {
+    (*activePlayer)->play(i);
+}
+
+void GameController::attack(int i, int j) {
+    
+}
+
+

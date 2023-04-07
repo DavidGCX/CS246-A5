@@ -4,6 +4,7 @@
 #include "ritual.h"
 #include <memory>
 #include <vector>
+#include <string>
 
 class Card;
 class CanUseAbility{
@@ -11,6 +12,7 @@ class CanUseAbility{
 public:
     int getAbilityCost() { return abilityCost; }
     int setAbilityCost(int cost) {abilityCost = cost;}
+    virtual std::string getAbilityDescription() = 0;
     virtual ~CanUseAbility() = 0;
 };
 
