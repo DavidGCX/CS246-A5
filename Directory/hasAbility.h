@@ -2,6 +2,7 @@
 #define HAB_H
 #include "minion.h"
 #include "ritual.h"
+#include <memory>
 #include <vector>
 
 class CanUseAbility{
