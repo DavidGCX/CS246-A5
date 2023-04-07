@@ -16,6 +16,11 @@ public:
     virtual ~CanUseAbility() = 0;
 };
 
+
+class HasAbilityWithTargetGroup : public CanUseAbility {
+public:
+    virtual bool useAbility(std::vector<std::unique_ptr<Card>>& target) = 0;
+};
 class HasAbilityWithTarget : public CanUseAbility {
 public:
     virtual bool useAbility(std::unique_ptr<Card>& target) = 0;

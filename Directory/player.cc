@@ -8,6 +8,8 @@
 #include <fstream>
 #include "ritual.h"
 #include <memory>
+#include "card.h"
+#include "gameController.h"
 using namespace std;
 
 Player::Player(string name,GameController* gc, string deck): name{name}, gameController{gc} {
@@ -58,7 +60,18 @@ void Player::restoreHealth(int amount) {
 
 
 void Player::play(int i) {
-    
+    if (hand.size() < i) {
+        cerr << "No Available Cards at Given Position!";
+    } else {
+        if (dynamic_cast<Minion*>(hand[i-1].get())) {
+            hand[i-1]->setState(State::onBoard);
+            
+            gameController->onMinionEnter(hand[i-1]);
+            board.push_back(move(hand[i-1]));
+            hand.erase(hand.begin() + i - 1);
+            
+        } //else if (dynamic_cast<Spell*>(deck[i-1].get()))
+    }
 }
 
 void Player::notifyAllCard(StateInfo info) {

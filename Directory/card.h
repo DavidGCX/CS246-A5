@@ -13,6 +13,7 @@ class Player;
 enum class State {
     onDeck,
     onHand,
+    onBoard,
     onGraveYard,
     removeFromTheGame
 };

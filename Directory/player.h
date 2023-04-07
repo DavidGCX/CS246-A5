@@ -1,7 +1,5 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
-#include "observer.h"
-#include "gameController.h"
 #include <string>
 #include <memory>
 #include <vector>
@@ -33,7 +31,7 @@ public:
     void initializeDeck(std::string deck);
     void play(int i);
     void notifyAllCard(StateInfo info);
-    void notifyAllCard(StateInfo info, unique_ptr<Minion>& target);
+    void notifyAllCard(StateInfo info, std::unique_ptr<Minion>& target);
 };
 
 #endif
