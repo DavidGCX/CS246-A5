@@ -31,12 +31,7 @@ public:
     void initializeDeck(std::string deck);
     void play(int i);
     void notifyAllCard(StateInfo info);
-<<<<<<< HEAD
     void notifyAllCard(StateInfo info, std::unique_ptr<Minion>& target);
-=======
-    void notifyAllCard(StateInfo info, unique_ptr<Minion>& target);
-    void setName(std::string name);
->>>>>>> edb411b37f1aae2ca45b4928333db2d0b6d2e5ce
 };
 
 #endif
