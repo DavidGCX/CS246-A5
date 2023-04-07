@@ -140,3 +140,7 @@ void Player::initializeDeck(string deck) {
         }*/
     }
 }
+
+void Player::setName(string name) {
+    this->name = name;
+}

@@ -6,13 +6,15 @@ using namespace std;
 int main(int argc, const char** argv) {
     bool testmode = false;
     GameController gc{new GraphicalDisplay{}, new TextDisplay{}};
-    for (int i = 1; i < argc; ++i)
+        for (int i = 1; i < argc; ++i)
     if (argv[i] == "-deck1") {
         // set player 1 deck to file from deck1
+        g.attachPlayer("Player 1", 0, argv[i+1])
         cout << "-deck1" << endl;
         ++i;
     } else if (argv[i] == "-deck2") {
         // set player 2 deck to file from deck2
+        g.attachPlayer("Player 2", 1, argv[i+1])
         cout << "-deck2" << endl;
         ++i;
     } else if (argv[i] == "-init") {
