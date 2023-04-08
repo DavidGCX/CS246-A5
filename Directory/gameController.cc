@@ -46,7 +46,7 @@ GameController::GameController(TextDisplay *text) {
 }
 */
 void GameController::attachAdapter(unique_ptr<Adaptor>&& oneAdaptor) {
-    adaptors.push_back(oneAdaptor);
+    adaptors.push_back(move(oneAdaptor));
 }
 
 void GameController::attachPlayer(string name, int index, string deck) {
@@ -74,6 +74,7 @@ void GameController::attackNonActivePlayer(int attack)
 void GameController::endTurn() {
     onTurnEnd();
     swap(activePlayer, nonActivePlayer);
+    onTurnStart();
 }
 
 void GameController::play(int i) {
