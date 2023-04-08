@@ -2,6 +2,7 @@
 #include "card.h"
 #include "gameController.h"
 #include "player.h"
+#include "enchantments.h"
 using namespace std;
 
 Minion::Minion(GameController *g, Player* owner, string name, int cost, 
@@ -23,7 +24,12 @@ void Minion::attackPlayer() {
 }
 
 void Minion::notify(StateInfo state) {
-    return;
+    if (state == StateInfo::onTurnStart){
+        if (numactions < 1 && numactions) {
+            numactions = 1;
+        }
+    }
+    
 }
 void Minion::notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) {
    return;

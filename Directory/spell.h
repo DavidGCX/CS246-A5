@@ -2,7 +2,7 @@
 #define SPL_H
 #include "card.h"
 #include "ritual.h"
-#include "hasability.h"
+#include "hasAbility.h"
 #include "gameController.h"
 #include "minion.h"
 #include <vector>
@@ -13,6 +13,8 @@ class Spell: public Card {
     Spell(GameController *g, std::string name, int cost);
     bool canBePlayed();
 };
+
+/*
 
 class Blizzard: public Spell, public HasAbility {
     public:
@@ -47,4 +49,5 @@ class Recharge: public Spell, public HasAbilityTargetMinion {
     bool canBePlayed();
     bool useAbility(Ritual& r);
 };
+*/
 #endif

@@ -1,7 +1,5 @@
 #ifndef HAB_H
 #define HAB_H
-#include "minion.h"
-#include "ritual.h"
 #include <memory>
 #include <vector>
 #include <string>

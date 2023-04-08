@@ -1,10 +1,14 @@
 #ifndef ENCH_H
 #define ENCH_H
-#include "enchantmentdecorator.h"
 #include "gameController.h"
 #include <string>
 
-class GiantStrength: public EnchantmentDecorator {
+
+
+
+
+/*
+class GiantStrength: {
     std::string name;
     public:
     GiantStrength(Minion *m);
@@ -43,5 +47,5 @@ class MagicFatigue: public EnchantmentDecorator {
     void Inspect();
     void applyEffect();
 };
-
+*/
 #endif

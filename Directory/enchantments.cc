@@ -1,7 +1,7 @@
 #include "enchantments.h"
 using namespace std;
 
-
+/*
 GiantStrength::GiantStrength(Minion *m): EnchantmentDecorator{m}, name{"Giant Strength"} , Card{g, "Giant Strength", 1} {}
 void GiantStrength::Inspect();
 void GiantStrength::applyEffect() {
@@ -34,3 +34,4 @@ void MagicFatigue::Inspect();
 void MagicFatigue::applyEffect() {
     m.setMagCost(m.getMagCost() + 2);
 }
+*

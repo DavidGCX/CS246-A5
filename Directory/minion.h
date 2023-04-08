@@ -3,14 +3,14 @@
 #include "card.h"
 #include <vector>
 #include <memory>
-
+class Enchantment;
 class GameController;
 class Minion: public Card {
     int attack;
     int defense;
     int numactions;
     int remainingactions;
-    //std::vector<Enchantment> enchants;
+    vector<unique_ptr<Enchantment>> enchants;
 public:
     Minion(GameController *g,Player* owner, std::string name = "Air Element", 
     int cost = 1, int attack = 1, int defense = 1);

@@ -8,7 +8,7 @@ bool Spell::canBePlayed() {
     // if enough to satisfy cost, return true
 }
 
-
+/*
 Blizzard::Blizzard(GameController *g): Spell{g, "Blizzard", 3} {}
 bool Blizzard::useAbility() {
     // for all minions on each player's board, m.setDefense(m.getDefense - 2);
@@ -38,3 +38,4 @@ bool Banish::useAbility(Ritual& r); // remove from board
 
 Recharge(GameController *g): Spell{g, "Recharge", 1} {}
 bool Recharge::useAbility(Ritual& r); // add 3 charges to ritual r is ritual exists
+*/
