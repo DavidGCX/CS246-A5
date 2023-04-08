@@ -39,19 +39,25 @@ void TextDisplay::printBottomBorder() {
 }
 
 // Given minion, returns appropriate block of strings that displays it
-vector<string> TextDisplay::generateMinion(unique_ptr<Minion>& minion) {
-    if (dynamic_cast<CanUseAbility*>(minion.get())) {
-        if (dynamic_cast<HasAbilityTriggered*>(minion.get())) {
-            return display_minion_triggered_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense(),dynamic_cast<HasAbilityTriggered*>(minion.get())->getAbilityDescription());
+vector<string> TextDisplay::generateMinion(unique_ptr<Minion>* minion) {
+    if (dynamic_cast<CanUseAbility*>(minion->get())) {
+        if (dynamic_cast<HasAbilityTriggered*>(minion->get())) {
+            return display_minion_triggered_ability((*minion)->getName(),(*minion)->getCost(), 
+            (*minion)->getAttack(), (*minion)->getDefense(),
+            dynamic_cast<HasAbilityTriggered*>((*minion).get())->getAbilityDescription());
         }
         else {
             // Activated ability
-            return display_minion_activated_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense(),dynamic_cast<CanUseAbility*>(minion.get())->getAbilityCost(),dynamic_cast<CanUseAbility*>(minion.get())->getAbilityDescription()));
+            return display_minion_activated_ability((*minion)->getName(), (*minion)->getCost(),
+            (*minion)->getAttack(),(*minion)->getDefense(),
+            dynamic_cast<CanUseAbility*>((*minion).get())->getAbilityCost(),
+            dynamic_cast<CanUseAbility*>((*minion).get())->getAbilityDescription());
         }
     }
     else {
         // if minion has no ability
-        return display_minion_no_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense());
+        return display_minion_no_ability((*minion)->getName(), (*minion)->getCost(),
+        (*minion)->getAttack(), (*minion)->getDefense());
     }
 }
 
@@ -82,7 +88,7 @@ void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& 
 
     // Player 1 minions
     for (auto& minion : playerOne->getBoard()) {
-        row2.push_back(generateMinion(minion));
+        row2.push_back(generateMinion(&minion));
     }
     for (int i=0; i<5-playerOne->getBoardMinionCount(); i++) {
         // fill the rest with blanks
@@ -91,7 +97,7 @@ void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& 
 
     // Player 2 minions
     for (auto& minion : playerTwo->getBoard()) {
-        row3.push_back(generateMinion(minion));
+        row3.push_back(generateMinion(&minion));
     }
     for (int i=0; i<5-playerTwo->getBoardMinionCount(); i++) {
         // fill the rest with blanks

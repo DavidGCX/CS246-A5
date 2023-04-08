@@ -5,13 +5,13 @@
 #include "state.h"
 class Minion;
 class Enchantment: public Card {
-    Minion* enchantedTarget;
 public:
     Enchantment(std::string name, int cost, GameController* gameController, Player* owner) : 
-    Card{name, cost, gameController, owner}, enchantedTarget{nullptr}{}
+    Card{name, cost, gameController, owner}{}
+    virtual ~Enchantment() {}
     void notify(StateInfo state) override { return; }
-    virtual void applyEffect() = 0;
-    virtual void reverseEffect() = 0;
+    virtual void applyEffect(Minion& target) = 0;
+    virtual void reverseEffect(Minion& target) = 0;
 };
 
 
