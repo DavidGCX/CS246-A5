@@ -28,5 +28,9 @@ public:
     virtual bool useAbility() = 0;
 };
 
+class HasAbilityTriggered : public CanUseAbility {
+public:
+    virtual bool useAbility() = 0;
+};
 
 #endif

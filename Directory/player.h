@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include "minion.h"
+#include "state.h"
 class Minion;
 class Card;
 class Ritual;

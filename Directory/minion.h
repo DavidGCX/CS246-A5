@@ -3,6 +3,7 @@
 #include "card.h"
 #include <vector>
 #include <memory>
+#include "state.h"
 class Enchantment;
 class GameController;
 class Minion: public Card {
@@ -10,7 +11,7 @@ class Minion: public Card {
     int defense;
     int numactions;
     int remainingactions;
-    vector<unique_ptr<Enchantment>> enchants;
+    vector<unique_ptr<Enchantment>> enchantments;
 public:
     Minion(GameController *g,Player* owner, std::string name = "Air Element", 
     int cost = 1, int attack = 1, int defense = 1);

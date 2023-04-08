@@ -10,6 +10,7 @@
 #include <memory>
 #include "card.h"
 #include "gameController.h"
+#include "state.h"
 using namespace std;
 
 

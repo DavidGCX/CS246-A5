@@ -7,12 +7,7 @@ class Adaptor;
 class GraphicalDisplay;
 class TextDisplay;
 class Minion;
-enum class StateInfo {
-    onTurnStart,
-    onTurnEnd,
-    onMinionEnter,
-    onMinionExit
-};
+#include "state.h"
 class GameController : public Subject {
 
     std::vector<unique_ptr<Adaptor>> adaptors;
