@@ -4,6 +4,7 @@
 #include "graphicalDisplay.h"
 #include "textDisplay.h"
 #include <memory>
+#include <iostream>
 using namespace std;
 
 void GameController::onTurnStart() {
@@ -75,11 +76,59 @@ void GameController::play(int i) {
     (*activePlayer)->play(i);
 }
 
-void GameController::attack(int i, int j) {
-    
+void GameController::play(int i, int player, char target)
+{
 }
 
+void GameController::use(int i)
+{
+}
 
+void GameController::use(int i, int player, char target)
+{
+}
+
+void GameController::inspect(int i) {
+    if (i > (*activePlayer)->getBoardMinionCout() || i < 1) {
+         cerr << "No Available Cards at Given Position!" << endl;
+    } else {
+        for(auto& adaptor : adaptors) {
+            adaptor->printEnchantments((*activePlayer)->getMinionOnBoard(i));
+        }
+    }
+}
+
+void GameController::hand() {
+    for(auto& adaptor : adaptors) {
+        adaptor->printHand((*activePlayer));
+    }
+}
+
+void GameController::board()
+{
+    for(auto& adaptor : adaptors) {
+        adaptor->refresh(playerOne, playerTwo);
+    }
+}
+
+void GameController::attack(int i, int j) {
+    if (i > (*activePlayer)->getBoardMinionCout() || i < 1) {
+         cerr << "No Available Cards at Given Position!" << endl;
+    } else if (j > (*nonActivePlayer)->getBoardMinionCout() || i < 1) {
+            cerr << "No Available Cards at Given targert Position!" << endl;
+    } else {
+        ((*activePlayer)->getMinionOnBoard(i))->attackMinion((*nonActivePlayer)->getMinionOnBoard(j));
+    }
+}
+
+void GameController::attack(int i)
+{
+    if (i > (*activePlayer)->getBoardMinionCout() || i < 1) {
+         cerr << "No Available Cards at Given Position!" << endl;
+    } else {
+        ((*activePlayer)->getMinionOnBoard(i))->attackPlayer();
+    }
+}
 
 void GameController::setTestMode() {
     testMode = true;

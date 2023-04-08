@@ -14,9 +14,9 @@ class Minion: public Card {
 public:
     Minion(GameController *g,Player* owner, std::string name = "Air Element", 
     int cost = 1, int attack = 1, int defense = 1);
-    void takeDamage(Minion& m);
+    void takeDamage(int amount);
     void attackPlayer();
-    void attackMinion(Minion& m);
+    void attackMinion(unique_ptr<Minion>& target);
     //virtual void applyEffect();
     //void Inspect();
     void notify(StateInfo state) override;

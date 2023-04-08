@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include "minion.h"
 class Minion;
 class Card;
 class Ritual;
@@ -33,10 +34,13 @@ public:
     void play(int i);
     void discarCard(int i);
     void notifyAllCard(StateInfo info);
+    
     void notifyAllCard(StateInfo info, std::unique_ptr<Minion>& target);
     std::vector<std::unique_ptr<Minion>>& getBoard() { return board; }
     std::vector<std::unique_ptr<Card>>& getHand() { return hand; }
     std::unique_ptr<Ritual>& getRitualField() { return ritualField; }
+    std::unique_ptr<Minion>& getMinionOnBoard(int i);
+    int getBoardMinionCout() {return board.size();}
 };
 
 #endif

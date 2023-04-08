@@ -33,6 +33,8 @@ void Player::drawCard() {
         deck.pop_back();
     } else if (hand.size() >=5 && deck.size() > 0){
         cerr << "Cannot Draw if you already have 5 cards in hand"<< endl;
+    } else if (deck.size() == 0) {
+        cerr << "Deck is Empty" << endl;
     }
 }
 
@@ -65,13 +67,14 @@ void Player::restoreHealth(int amount) {
 
 
 void Player::play(int i) {
-    if (hand.size() < i || i < 0) {
+    if (hand.size() < i || i < 1) {
         cerr << "No Available Cards at Given Position!" << endl;
     } else {
         if (dynamic_cast<Minion*>(hand[i-1].get())) {
             hand[i-1]->setState(State::onBoard);
             unique_ptr<Minion> tempMinion {dynamic_cast<Minion*>(hand[i-1].release())};
             board.push_back(move(tempMinion));
+            gameController->onMinionEnter(board.back());
             hand.erase(hand.begin() + i - 1);
         } //else if (dynamic_cast<Spell*>(deck[i-1].get()))
     }
@@ -98,6 +101,11 @@ void Player::notifyAllCard(StateInfo info, unique_ptr<Minion>& target) {
         card->notify(info, target);
     }
     ritualField->notify(info, target);
+}
+
+unique_ptr<Minion>& Player::getMinionOnBoard(int i)
+{
+    return board[i-1];   
 }
 
 void Player::shuffDeck()

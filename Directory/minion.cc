@@ -8,14 +8,14 @@ Minion::Minion(GameController *g, Player* owner, string name, int cost,
 int attack, int defense) : Card{name, cost, g, owner}, attack{attack}, 
 defense{defense}, numactions{1} {}
 
-void Minion::takeDamage(Minion &m) {
-    defense = defense - m.getAttack();
+void Minion::takeDamage(int amount) {
+    defense = defense - amount;
     // if defense gets to 0 or below, remove from board
 }
 
-void Minion::attackMinion(Minion& m) {
-    m.takeDamage(*this);
-    this->takeDamage(m);
+void Minion::attackMinion(unique_ptr<Minion>& target) {
+    this->takeDamage(target->getAttack());
+    target->takeDamage(attack);
 }
 
 void Minion::attackPlayer() {
