@@ -2,6 +2,7 @@
 #include <memory>
 #include "player.h"
 #include "minion.h"
+#include "hasAbility.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -43,37 +44,85 @@ void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& 
     vector<vector<string>> row3;
     vector<vector<string>> row4;
 
-    row1.push_back(CARD_TEMPLATE_BORDER);
-    row1.push_back(CARD_TEMPLATE_EMPTY);
-    row1.push_back(display_player_card(1, "First Player", playerOne->getHealth() , 0));
-    row1.push_back(CARD_TEMPLATE_EMPTY);
-    row1.push_back(display_minion_no_ability("Bone Golem", 2, 2, 1));
-
-    for (auto& minion : playerOne->getBoard()) {
-        // if minion has not ability
-        row2.push_back(display_minion_no_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense()));
-        // if minion has activated ability
-        //row2.push_back(display_minion_activated_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense(),ability cost,ability disc));
-        // if minion has triggered ability
+    if (playerOne->getRitualField()) {
+        //row1.push_back(display_ritual(playerOne->getRitualField()->name))
+        row1.push_back(CARD_TEMPLATE_BORDER); // CHANGE LATER
+    }
+    else {
+        row1.push_back(CARD_TEMPLATE_BORDER);
     }
 
-    row2.push_back(display_minion_activated_ability("Novice Pyromancer",1,4,8,3,"Deal 1 damage to target minion"));
-    row2.push_back(display_minion_triggered_ability("Potion Seller",2,1,4,"At the end of your turn, all your minions gain +0/+1."));
-    row2.push_back(display_minion_no_ability("Earth Elemental",3,4,5));
-    row2.push_back(CARD_TEMPLATE_BORDER);
-    row2.push_back(CARD_TEMPLATE_BORDER);
+    row1.push_back(CARD_TEMPLATE_EMPTY); // always empty
+    row1.push_back(display_player_card(1, playerOne->getName(), playerOne->getHealth() , playerOne->getMagic()));
+    row1.push_back(CARD_TEMPLATE_EMPTY); // always empty
 
-    row3.push_back(display_minion_no_ability("Air Elemental",0,1,1));
-    row3.push_back(display_minion_triggered_ability("Fire Elemental",2,3,2,"Whenever an opponent's minion enters play, deal 1 damage to it."));
-    row3.push_back(display_minion_activated_ability("Apprentice Summoner",1,2,2,1,"Summon a 1/1 air elemental"));
-    row3.push_back(CARD_TEMPLATE_BORDER);
-    row3.push_back(CARD_TEMPLATE_BORDER);
+    if (playerOne->getGraveFieldTop()){
+        row1.push_back(CARD_TEMPLATE_BORDER); // CHANGE LATER
+    }
+    else {
+        row1.push_back(CARD_TEMPLATE_BORDER);
+    }
 
-    row4.push_back(display_ritual("Aura of Power",1,1,"Whenever a minion enters play under your control, it gains +1/+1",2));
-    row4.push_back(CARD_TEMPLATE_EMPTY);
-    row4.push_back(display_player_card(2, "Second Player", playerTwo->getHealth(), 0));
-    row4.push_back(CARD_TEMPLATE_EMPTY);
-    row4.push_back(CARD_TEMPLATE_BORDER);
+    // Player 1 minions
+    for (auto& minion : playerOne->getBoard()) {
+        if (dynamic_cast<CanUseAbility>(minion)) {
+            if (dynamic_cast<HasAbilityTriggered>(minion)) {
+                row2.push_back(display_minion_triggered_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense,dynamic_cast<HasAbilityTriggered>(minion)->getAbilityDescription()));
+            }
+            else {
+                // Activated ability
+                row2.push_back(display_minion_activated_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense(),dynamic_cast<CanUseAbility>(minion)->getAbilityCost(),dynamic_cast<CanUseAbility>(minion)->getAbilityDescription()));
+            }
+        }
+        else{
+            // if minion has no ability
+            row2.push_back(display_minion_no_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense()));
+        }
+    }
+    for (int i=0; i<5-playerOne->getBoardMinionCount(); i++) {
+        // fill the rest with
+        row2.push_back(CARD_TEMPLATE_BORDER);
+    }
+
+    // Player 2 minions
+    for (auto& minion : playerTwo->getBoard()) {
+        if (dynamic_cast<CanUseAbility>(minion)) {
+            if (dynamic_cast<HasAbilityTriggered>(minion)) {
+                row3.push_back(display_minion_triggered_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense,dynamic_cast<HasAbilityTriggered>(minion)->getAbilityDescription()));
+            }
+            else {
+                // Activated ability
+                row3.push_back(display_minion_activated_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense(),dynamic_cast<CanUseAbility>(minion)->getAbilityCost(),dynamic_cast<CanUseAbility>(minion)->getAbilityDescription()));
+            }
+        }
+        else{
+            // if minion has no ability
+            row3.push_back(display_minion_no_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense()));
+        }
+    }
+    for (int i=0; i<5-playerTwo->getBoardMinionCount(); i++) {
+        // fill the rest with
+        row3.push_back(CARD_TEMPLATE_BORDER);
+    }
+
+    if (playerTwo->getRitualField()) {
+        //row4.push_back(display_ritual(playerOne->getRitualField()->name))
+        row4.push_back(CARD_TEMPLATE_BORDER); // CHANGE LATER
+    }
+    else {
+        row4.push_back(CARD_TEMPLATE_BORDER);
+    }
+
+    row4.push_back(CARD_TEMPLATE_EMPTY); // always empty
+    row4.push_back(display_player_card(2, playerTwo->getName(), playerTwo->getHealth(), playerTwo->getMagic()));
+    row4.push_back(CARD_TEMPLATE_EMPTY); // always empty
+
+    if (playerTwo->getGraveFieldTop()){
+        row4.push_back(CARD_TEMPLATE_BORDER); // CHANGE LATER
+    }
+    else {
+        row4.push_back(CARD_TEMPLATE_BORDER);
+    }
 
     printTopBorder();
     printRow(row1);
@@ -91,11 +140,15 @@ void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& 
 }
 
 void TextDisplay::printHand(unique_ptr<Player>& player) {
-
+    int i = 1;
+    for (auto& card : player->getHand()) {
+        cout << i << ": " << card->getName() << endl;
+        i++;
+    }
 }
 
 void TextDisplay::printEnchantments(unique_ptr<Minion>& minion) {
-
+    cout << minion->getName() << endl;
 }
 
 void TextDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>& playerTwo) {
