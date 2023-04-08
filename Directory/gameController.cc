@@ -28,7 +28,7 @@ void GameController::onMinionExit(unique_ptr<Minion>& target) {
     notifyObservers(StateInfo::onMinionExit, activePlayer, target);
     notifyObservers(StateInfo::onMinionExit, nonActivePlayer,  target);
 }
-
+/*
 GameController::GameController(GraphicalDisplay *graphics, TextDisplay *text) {
     unique_ptr<TextDisplay> td{text};
     unique_ptr<GraphicalDisplay> gd{graphics};
@@ -44,7 +44,7 @@ GameController::GameController(TextDisplay *text) {
     activePlayer = &this->playerOne;
     nonActivePlayer = &this->playerTwo;
 }
-
+*/
 void GameController::attachAdapter(unique_ptr<Adaptor>&& oneAdaptor) {
     adaptors.push_back(oneAdaptor);
 }
