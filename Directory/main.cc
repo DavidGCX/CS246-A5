@@ -3,6 +3,9 @@
 #include "player.h"
 #include "gameController.h"
 #include "minion.h"
+#include "graphicalDisplay.h"
+#include "textDisplay.h"
+
 using namespace std;
 
 int main(int argc, const char** argv) {
@@ -25,7 +28,7 @@ int main(int argc, const char** argv) {
             ++i;
         } else if (argv[i] == "-deck2") {
             // set player 2 deck to file from deck2
-            deck2 = argy[i+1];
+            deck2 = argv[i+1];
             cout << "-deck2" << endl;
             ++i;
         } else if (argv[i] == "-init") {
@@ -52,12 +55,12 @@ int main(int argc, const char** argv) {
         } else if (argv[i] == "-graphics") {
             // enable the graphics display
             bool graphicson = true;
-            gc = GameController(new GraphicsDisplay{}, new TextDisplay{});
+            gc = make_unique<GameController>(new GraphicalDisplay{}, new TextDisplay{});
             cout << "-graphics" << endl;
         }
     }
     if (graphicson == false) {
-        gc = GameController(new TextDisplay{});
+        gc = make_unique<GameController>(new TextDisplay{});
     }
     string line;
     while(true) {
