@@ -33,7 +33,14 @@ class GameController : public Subject {
         void attackNonActivePlayer(int attack);
         void endTurn();
         void play(int i);
+        void play(int i, int target, int player);
+        void use(int i);
+        void use(int i, int target, int player);
+        void attack(int i);
         void attack(int i, int j);
+        void inspect(int i);
+        void hand();
+        void board();
         std::vector<std::unique_ptr<Minion>>& getNonActivePlayerBoard();
 };
 
