@@ -1,6 +1,5 @@
 #include <iostream>
 #include <sstream>
-#include <string>
 #include "player.h"
 #include "gameController.h"
 #include "minion.h"
@@ -18,10 +17,10 @@ int main(int argc, const char** argv) {
     unique_ptr<GameController> gc;
     string player1;
     string player2;
-    string initfile;
+    fstream initfile;
     int count = 1;
     bool init = false;
-    for (int i = 1; i < argc; ++i) {
+    for (int i = 1; i < argc; ++i) {}
         if (argv[i] == "-deck1") {
             // set player 1 deck to file from deck1
             deck1 = argv[i+1];
@@ -36,8 +35,7 @@ int main(int argc, const char** argv) {
             init = true;
             // take file, use as input
             fstream f{argv[i+1]};
-            istringstream s{f};
-            initfile = s;
+            initfile = f;
             // player 1 init
             // player 2 init
             // play everything in the file. Don't wait for other args. Not like you'd put testing after init but yeah
@@ -74,13 +72,13 @@ int main(int argc, const char** argv) {
             getline(cin, s);            
         }
         if (count == 1) {
-            gc.attachPlayer(line, 1, deck1);
+            gc->attachPlayer(line, 1, deck1);
             ++count;
             continue;
         } else if (count == 2) {
-            gc.attachPlayer(line, 2, deck2);
+            gc->attachPlayer(line, 2, deck2);
             ++count;
-            gc.onTurnStart();
+            gc->onTurnStart();
             continue;
         } else {
             istringstream s{line};
@@ -103,7 +101,7 @@ int main(int argc, const char** argv) {
                 cout << "          hand -- Describe all cards in your hand." << endl;
                 cout << "          board -- Describe all cards on the board." << endl;
             } else if (firstword == "end") {
-                gc.onTurnEnd();
+                gc->onTurnEnd();
             } else if (firstword == "quit") {
                 break;
             } else if (firstword == "attack") {
@@ -112,42 +110,42 @@ int main(int argc, const char** argv) {
                 s >> attacker;
                 if (!s.eof()) {
                     s >> target;
-                    gc.attack(attacker, target);
+                    gc->attack(attacker, target);
                 } else {
-                    gc.attack(attacker);
+                    gc->attack(attacker);
                 }
             } else if (firstword == "play") {
                 int card;
                 s >> card;
                 if (s.eof()) {
-                    gc.play(card);
+                    gc->play(card);
                 } else {
                     char target;
                     int player;
                     s >> player;
                     s >> target;
-                    gc.play(card, player, target);
+                    gc->play(card, target, player);
                 }
             } else if (firstword == "use") {
                 int card;
                 s >> card;
                 if (s.eof()) {
-                    gc.use(card);
+                    gc->use(card);
                 } else {
-                    char target;
+                    int target;
                     int player;
-                    s >> player;
                     s >> target;
-                    gc.use(card, player, target);
+                    s >> player;
+                    gc->use(card, target, player);
                 }
             } else if (firstword == "inspect") {
                 int minion;
                 s >> minion;
-                gc.inspect(minion);
+                gc->inspect(minion);
             } else if (firstword == "board") {
-                gc.board();
+                gc->board();
             } else if (firstword == "hand") {
-                gc.hand();
+                gc->hand();
             }
         }
     }
