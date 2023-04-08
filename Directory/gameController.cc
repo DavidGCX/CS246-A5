@@ -45,6 +45,10 @@ GameController::GameController(TextDisplay *text) {
     nonActivePlayer = &this->playerTwo;
 }
 
+void GameController::attachAdapter(unique_ptr<Adaptor>&& oneAdaptor) {
+    adaptors.push_back(oneAdaptor);
+}
+
 void GameController::attachPlayer(string name, int index, string deck) {
     switch(index) {
         case 1 :
@@ -89,7 +93,7 @@ void GameController::use(int i, int player, char target)
 }
 
 void GameController::inspect(int i) {
-    if (i > (*activePlayer)->getBoardMinionCout() || i < 1) {
+    if (i > (*activePlayer)->getBoardMinionCount() || i < 1) {
          cerr << "No Available Cards at Given Position!" << endl;
     } else {
         for(auto& adaptor : adaptors) {
@@ -112,9 +116,9 @@ void GameController::board()
 }
 
 void GameController::attack(int i, int j) {
-    if (i > (*activePlayer)->getBoardMinionCout() || i < 1) {
+    if (i > (*activePlayer)->getBoardMinionCount() || i < 1) {
          cerr << "No Available Cards at Given Position!" << endl;
-    } else if (j > (*nonActivePlayer)->getBoardMinionCout() || i < 1) {
+    } else if (j > (*nonActivePlayer)->getBoardMinionCount() || i < 1) {
             cerr << "No Available Cards at Given targert Position!" << endl;
     } else {
         ((*activePlayer)->getMinionOnBoard(i))->attackMinion((*nonActivePlayer)->getMinionOnBoard(j));
@@ -123,7 +127,7 @@ void GameController::attack(int i, int j) {
 
 void GameController::attack(int i)
 {
-    if (i > (*activePlayer)->getBoardMinionCout() || i < 1) {
+    if (i > (*activePlayer)->getBoardMinionCount() || i < 1) {
          cerr << "No Available Cards at Given Position!" << endl;
     } else {
         ((*activePlayer)->getMinionOnBoard(i))->attackPlayer();

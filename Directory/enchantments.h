@@ -5,9 +5,10 @@
 #include "state.h"
 class Minion;
 class Enchantment: public Card {
-    Minion* owner;
+    Minion* enchantedTarget;
 public:
-
+    Enchantment(std::string name, int cost, GameController* gameController, Player* owner) : 
+    Card{name, cost, gameController, owner}, enchantedTarget{nullptr}{}
     void notify(StateInfo state) override { return; }
     virtual void applyEffect() = 0;
     virtual void reverseEffect() = 0;

@@ -41,9 +41,16 @@ public:
     std::vector<std::unique_ptr<Card>>& getHand() { return hand; }
     std::unique_ptr<Ritual>& getRitualField() { return ritualField; }
     std::unique_ptr<Minion>& getMinionOnBoard(int i);
-    int getBoardMinionCout() {return board.size();}
+    int getBoardMinionCount() {return board.size();}
     std::string getName() { return name;}
     int getMagic() { return magic; }
+    std::unique_ptr<Minion>* getGraveFieldTop() { 
+        if (graveyard.empty()) {
+            return nullptr;
+        } else {
+            return &graveyard.back();
+        }
+    }
 };
 
 #endif
