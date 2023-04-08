@@ -12,9 +12,9 @@ class TextDisplay : public Adaptor {
         void printTopBorder();
         void printBottomBorder();
         void printBoard(std::unique_ptr<Player>& playerOne,std::unique_ptr<Player>& playerTwo);
-        void printHand(std::unique_ptr<Player>& player);
-        void printEnchantments(std::unique_ptr<Minion>& minion);
     public:
+        void printHand(std::unique_ptr<Player>& player) override;
+        void printEnchantments(std::unique_ptr<Minion>& minion) override;
         TextDisplay(){};
         void init() override;
         void refresh(std::unique_ptr<Player>& playerOne,std::unique_ptr<Player>& playerTwo) override;

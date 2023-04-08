@@ -60,7 +60,7 @@ void Player::restoreHealth(int amount) {
 
 
 void Player::play(int i) {
-    if (hand.size() < i) {
+    if (hand.size() < i || i < 0) {
         cerr << "No Available Cards at Given Position!";
     } else {
         if (dynamic_cast<Minion*>(hand[i-1].get())) {
@@ -86,10 +86,6 @@ void Player::notifyAllCard(StateInfo info, unique_ptr<Minion>& target) {
     ritualField->notify(info, target);
 }
 
-vector<unique_ptr<Minion>>& Player::getBoard()
-{
-    return board;
-}
 
 // implement deck initialization here
 void Player::initializeDeck(string deck) {

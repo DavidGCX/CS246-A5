@@ -53,7 +53,7 @@ void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& 
     row1.push_back(CARD_TEMPLATE_EMPTY);
     row1.push_back(display_minion_no_ability("Bone Golem", 2, 2, 1));
 
-    for (auto minion : playerOne->getBoard()) {
+    for (auto& minion : playerOne->getBoard()) {
         // if minion has not ability
         row2.push_back(display_minion_no_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense()));
         // if minion has activated ability
@@ -103,5 +103,5 @@ void TextDisplay::printEnchantments(unique_ptr<Minion>& minion) {
 }
 
 void TextDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>& playerTwo) {
-    printBoard();
+    printBoard(playerOne, playerTwo);
 }

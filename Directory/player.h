@@ -32,7 +32,9 @@ public:
     void play(int i);
     void notifyAllCard(StateInfo info);
     void notifyAllCard(StateInfo info, std::unique_ptr<Minion>& target);
-    std::vector<std::unique_ptr<Minion>>& getBoard();
+    std::vector<std::unique_ptr<Minion>>& getBoard() { return board; }
+    std::vector<std::unique_ptr<Card>>& getHand() { return hand; }
+    std::unique_ptr<Ritual>& getRitualField() { return ritualField; }
 };
 
 #endif

@@ -32,6 +32,7 @@ class GameController : public Subject {
         void refreshDisplay();
         void attackNonActivePlayer(int attack);
         void endTurn();
+        //not Finished
         void play(int i);
         void play(int i, int target, int player);
         void use(int i);
