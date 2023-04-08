@@ -17,10 +17,10 @@ class GameController : public Subject {
     std::unique_ptr<Player>* nonActivePlayer;
     bool testMode;
     public:
-        GameController(TextDisplay* text);
-        GameController(GraphicalDisplay* graphics, TextDisplay* text);
+        //GameController(TextDisplay* text);
+        //GameController(GraphicalDisplay* graphics, TextDisplay* text);
         void attachPlayer(std::string name, int index, std::string deck = "default.deck");
-        void attachAdapter(unique_ptr<Adaptor>&&  oneAdaptor);
+        void attachAdapter(unique_ptr<Adaptor>&& oneAdaptor);
         void onTurnStart();
         void onTurnEnd();
         void onMinionEnter(std::unique_ptr<Minion>& target);
