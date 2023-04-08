@@ -11,7 +11,9 @@ class TextDisplay : public Adaptor {
         void printRow(const vector<vector<string>>& v);
         void printTopBorder();
         void printBottomBorder();
-        void printBoard();
+        void printBoard(std::unique_ptr<Player>& playerOne,std::unique_ptr<Player>& playerTwo);
+        void printHand(std::unique_ptr<Player>& player);
+        void printEnchantments(std::unique_ptr<Minion>& minion);
     public:
         TextDisplay(){};
         void init() override;

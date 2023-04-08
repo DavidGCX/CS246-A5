@@ -1,6 +1,7 @@
 #include "textDisplay.h"
 #include <memory>
 #include "player.h"
+#include "minion.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -40,7 +41,7 @@ void TextDisplay::printBottomBorder() {
     cout << endl;
 }
 
-void TextDisplay::printBoard() {
+void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& playerTwo) {
     vector<vector<string>> row1;
     vector<vector<string>> row2;
     vector<vector<string>> row3;
@@ -48,9 +49,17 @@ void TextDisplay::printBoard() {
 
     row1.push_back(CARD_TEMPLATE_BORDER);
     row1.push_back(CARD_TEMPLATE_EMPTY);
-    row1.push_back(display_player_card(1, "First Player", 20, 0));
+    row1.push_back(display_player_card(1, "First Player", playerOne->getHealth() , 0));
     row1.push_back(CARD_TEMPLATE_EMPTY);
     row1.push_back(display_minion_no_ability("Bone Golem", 2, 2, 1));
+
+    for (auto minion : playerOne->getBoard()) {
+        // if minion has not ability
+        row2.push_back(display_minion_no_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense()));
+        // if minion has activated ability
+        //row2.push_back(display_minion_activated_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense(),ability cost,ability disc));
+        // if minion has triggered ability
+    }
 
     row2.push_back(display_minion_activated_ability("Novice Pyromancer",1,4,8,3,"Deal 1 damage to target minion"));
     row2.push_back(display_minion_triggered_ability("Potion Seller",2,1,4,"At the end of your turn, all your minions gain +0/+1."));
@@ -66,7 +75,7 @@ void TextDisplay::printBoard() {
 
     row4.push_back(display_ritual("Aura of Power",1,1,"Whenever a minion enters play under your control, it gains +1/+1",2));
     row4.push_back(CARD_TEMPLATE_EMPTY);
-    row4.push_back(display_player_card(2, "Second Player", 20, 0));
+    row4.push_back(display_player_card(2, "Second Player", playerTwo->getHealth(), 0));
     row4.push_back(CARD_TEMPLATE_EMPTY);
     row4.push_back(CARD_TEMPLATE_BORDER);
 
@@ -83,6 +92,14 @@ void TextDisplay::printBoard() {
     printRow(row4);
 
     printBottomBorder();
+}
+
+void TextDisplay::printHand(unique_ptr<Player>& player) {
+
+}
+
+void TextDisplay::printEnchantments(unique_ptr<Minion>& minion) {
+
 }
 
 void TextDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>& playerTwo) {
