@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <string>
 #include "player.h"
 #include "gameController.h"
 #include "minion.h"
@@ -121,11 +122,11 @@ int main(int argc, const char** argv) {
                 if (s.eof()) {
                     gc.play(card);
                 } else {
-                    int target;
+                    char target;
                     int player;
-                    s >> target;
                     s >> player;
-                    gc.play(card, target, player);
+                    s >> target;
+                    gc.play(card, player, target);
                 }
             } else if (firstword == "use") {
                 int card;
@@ -133,11 +134,11 @@ int main(int argc, const char** argv) {
                 if (s.eof()) {
                     gc.use(card);
                 } else {
-                    int target;
+                    char target;
                     int player;
-                    s >> target;
                     s >> player;
-                    gc.use(card, target, player);
+                    s >> target;
+                    gc.use(card, player, target);
                 }
             } else if (firstword == "inspect") {
                 int minion;

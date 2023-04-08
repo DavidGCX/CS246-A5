@@ -20,7 +20,7 @@ class GameController : public Subject {
     std::unique_ptr<Player> playerTwo;
     std::unique_ptr<Player>* activePlayer;
     std::unique_ptr<Player>* nonActivePlayer;
-
+    bool testMode;
     public:
         GameController(TextDisplay* text);
         GameController(GraphicalDisplay* graphics, TextDisplay* text);
@@ -34,14 +34,17 @@ class GameController : public Subject {
         void endTurn();
         //not Finished
         void play(int i);
-        void play(int i, int target, int player);
+        void play(int i,  int player, char target);
         void use(int i);
-        void use(int i, int target, int player);
+        void use(int i, int player, char target);
         void attack(int i);
         void attack(int i, int j);
         void inspect(int i);
         void hand();
         void board();
+        void setTestMode();
+        void drawCard();
+        void discardCard(int i);
         std::vector<std::unique_ptr<Minion>>& getNonActivePlayerBoard();
 };
 

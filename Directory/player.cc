@@ -12,15 +12,20 @@
 #include "gameController.h"
 using namespace std;
 
-Player::Player(string name,GameController* gc, string deck): name{name}, gameController{gc} {
+
+
+Player::Player(string name, GameController *gc, bool testMode, string deck) : name{name}, gameController{gc}
+{
     initializeDeck(deck);
+    if (testMode == false) {
+        shuffDeck();
+    }
     for (int i = 0; i < 5; i++){
         drawCard();
     }
     life = 20;
     magic = 3;
 }
-
 
 void Player::drawCard() {
     if (hand.size() < 5 && deck.size() > 0) {
@@ -61,7 +66,7 @@ void Player::restoreHealth(int amount) {
 
 void Player::play(int i) {
     if (hand.size() < i || i < 0) {
-        cerr << "No Available Cards at Given Position!";
+        cerr << "No Available Cards at Given Position!" << endl;
     } else {
         if (dynamic_cast<Minion*>(hand[i-1].get())) {
             hand[i-1]->setState(State::onBoard);
@@ -69,6 +74,15 @@ void Player::play(int i) {
             board.push_back(move(tempMinion));
             hand.erase(hand.begin() + i - 1);
         } //else if (dynamic_cast<Spell*>(deck[i-1].get()))
+    }
+}
+
+void Player::discarCard(int i) {
+    if (i < 0 || i > hand.size()) {
+        cerr << "No Available Cards at Given Position!"<< endl;
+    } else {
+        outOfGame.push_back(move(hand[i-1]));
+        hand.erase(hand.begin() + i - 1);
     }
 }
 
@@ -86,7 +100,10 @@ void Player::notifyAllCard(StateInfo info, unique_ptr<Minion>& target) {
     ritualField->notify(info, target);
 }
 
-
+void Player::shuffDeck()
+{
+    // shuff deck here
+}
 // implement deck initialization here
 void Player::initializeDeck(string deck) {
     ifstream f{deck};

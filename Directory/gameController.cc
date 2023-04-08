@@ -81,6 +81,18 @@ void GameController::attack(int i, int j) {
 
 
 
+void GameController::setTestMode() {
+    testMode = true;
+}
+
+void GameController::discardCard(int i) {
+    (*activePlayer)->discarCard(i);
+}
+
+void GameController::drawCard() {
+    (*activePlayer)->drawCard();
+}
+
 vector<unique_ptr<Minion>>& GameController::getNonActivePlayerBoard() {
     return (*nonActivePlayer)->getBoard();
 }

@@ -19,8 +19,9 @@ class Player {
     int magic;
     int life;
     std::string name;
+    void shuffDeck();
 public:
-    Player(std::string name, GameController* gc, std::string deck = "default.deck");
+    Player(std::string name, GameController* gc, bool testMode, std::string deck = "default.deck");
     void drawCard();
     void takeDamage(int amount);
     bool costMagic(int amount);
@@ -30,6 +31,7 @@ public:
     // initialize the deck
     void initializeDeck(std::string deck);
     void play(int i);
+    void discarCard(int i);
     void notifyAllCard(StateInfo info);
     void notifyAllCard(StateInfo info, std::unique_ptr<Minion>& target);
     std::vector<std::unique_ptr<Minion>>& getBoard() { return board; }
