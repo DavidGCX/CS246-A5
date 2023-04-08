@@ -38,6 +38,23 @@ void TextDisplay::printBottomBorder() {
     cout << endl;
 }
 
+// Given minion, returns appropriate block of strings that displays it
+vector<string> TextDisplay::generateMinion(unique_ptr<Minion>& minion) {
+    if (dynamic_cast<CanUseAbility*>(minion.get())) {
+        if (dynamic_cast<HasAbilityTriggered*>(minion.get())) {
+            return display_minion_triggered_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense(),dynamic_cast<HasAbilityTriggered*>(minion.get())->getAbilityDescription());
+        }
+        else {
+            // Activated ability
+            return display_minion_activated_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense(),dynamic_cast<CanUseAbility*>(minion.get())->getAbilityCost(),dynamic_cast<CanUseAbility*>(minion.get())->getAbilityDescription()));
+        }
+    }
+    else {
+        // if minion has no ability
+        return display_minion_no_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense());
+    }
+}
+
 void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& playerTwo) {
     vector<vector<string>> row1;
     vector<vector<string>> row2;
@@ -57,7 +74,7 @@ void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& 
     row1.push_back(CARD_TEMPLATE_EMPTY); // always empty
 
     if (playerOne->getGraveFieldTop()){
-        row1.push_back(CARD_TEMPLATE_BORDER); // CHANGE LATER
+        row1.push_back(generateMinion(playerOne->getGraveFieldTop()));
     }
     else {
         row1.push_back(CARD_TEMPLATE_BORDER);
@@ -65,43 +82,19 @@ void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& 
 
     // Player 1 minions
     for (auto& minion : playerOne->getBoard()) {
-        if (dynamic_cast<CanUseAbility>(minion)) {
-            if (dynamic_cast<HasAbilityTriggered>(minion)) {
-                row2.push_back(display_minion_triggered_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense,dynamic_cast<HasAbilityTriggered>(minion)->getAbilityDescription()));
-            }
-            else {
-                // Activated ability
-                row2.push_back(display_minion_activated_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense(),dynamic_cast<CanUseAbility>(minion)->getAbilityCost(),dynamic_cast<CanUseAbility>(minion)->getAbilityDescription()));
-            }
-        }
-        else{
-            // if minion has no ability
-            row2.push_back(display_minion_no_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense()));
-        }
+        row2.push_back(generateMinion(minion));
     }
     for (int i=0; i<5-playerOne->getBoardMinionCount(); i++) {
-        // fill the rest with
+        // fill the rest with blanks
         row2.push_back(CARD_TEMPLATE_BORDER);
     }
 
     // Player 2 minions
     for (auto& minion : playerTwo->getBoard()) {
-        if (dynamic_cast<CanUseAbility>(minion)) {
-            if (dynamic_cast<HasAbilityTriggered>(minion)) {
-                row3.push_back(display_minion_triggered_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense,dynamic_cast<HasAbilityTriggered>(minion)->getAbilityDescription()));
-            }
-            else {
-                // Activated ability
-                row3.push_back(display_minion_activated_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense(),dynamic_cast<CanUseAbility>(minion)->getAbilityCost(),dynamic_cast<CanUseAbility>(minion)->getAbilityDescription()));
-            }
-        }
-        else{
-            // if minion has no ability
-            row3.push_back(display_minion_no_ability(minion->getName(),minion->getCost(),minion->getAttack(),minion->getDefense()));
-        }
+        row3.push_back(generateMinion(minion));
     }
     for (int i=0; i<5-playerTwo->getBoardMinionCount(); i++) {
-        // fill the rest with
+        // fill the rest with blanks
         row3.push_back(CARD_TEMPLATE_BORDER);
     }
 
@@ -118,7 +111,7 @@ void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& 
     row4.push_back(CARD_TEMPLATE_EMPTY); // always empty
 
     if (playerTwo->getGraveFieldTop()){
-        row4.push_back(CARD_TEMPLATE_BORDER); // CHANGE LATER
+        row4.push_back(generateMinion(playerTwo->getGraveFieldTop()));
     }
     else {
         row4.push_back(CARD_TEMPLATE_BORDER);
