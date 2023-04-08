@@ -42,6 +42,8 @@ public:
     std::unique_ptr<Ritual>& getRitualField() { return ritualField; }
     std::unique_ptr<Minion>& getMinionOnBoard(int i);
     int getBoardMinionCout() {return board.size();}
+    std::string getName() { return name;}
+    int getMagic() { return magic; }
 };
 
 #endif

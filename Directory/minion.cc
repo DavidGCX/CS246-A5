@@ -29,9 +29,9 @@ void Minion::notify(StateInfo state) {
             numactions = 1;
         }
     }
-    for(auto& enchantment : enchantments) {
-        enchantment.notify(state);
-    }
+   // for(auto& enchantment : enchantments) {
+     //   enchantment.notify(state);
+   // }
 }
 void Minion::notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) {
    return;

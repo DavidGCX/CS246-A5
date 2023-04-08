@@ -7,10 +7,11 @@ class Minion;
 class Enchantment: public Card {
     Minion* owner;
 public:
+
     void notify(StateInfo state) override { return; }
-    virtual void applyEffect() {} = 0;
+    virtual void applyEffect() = 0;
     virtual void reverseEffect() = 0;
-}
+};
 
 
 /*
