@@ -7,10 +7,6 @@
 #include <iostream>
 using namespace std;
 
-// Initialize internal data
-void TextDisplay::init() {
-    cout << "Text Display Initializing" << endl;
-}
 
 void TextDisplay::printRow(const vector<vector<string>>& v) {
     for (int i=0; i<NUM_LINES; i++) {

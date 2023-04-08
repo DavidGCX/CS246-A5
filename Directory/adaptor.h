@@ -6,7 +6,6 @@ class Player;
 class Adaptor {
     public:
         Adaptor(){};
-        virtual void init() = 0;
         virtual void refresh(std::unique_ptr<Player>& playerOne, std::unique_ptr<Player>& playerTwo) = 0;
         virtual void printHand(std::unique_ptr<Player>& player) = 0;
         virtual void printEnchantments(std::unique_ptr<Minion>& minion) = 0;
