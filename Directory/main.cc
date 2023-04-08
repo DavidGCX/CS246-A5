@@ -21,7 +21,7 @@ int main(int argc, const char** argv) {
     string initfile;
     int count = 1;
     bool init = false;
-    for (int i = 1; i < argc; ++i) {}
+    for (int i = 1; i < argc; ++i) {
         if (argv[i] == "-deck1") {
             // set player 1 deck to file from deck1
             deck1 = argv[i+1];
