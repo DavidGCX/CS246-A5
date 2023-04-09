@@ -15,7 +15,8 @@
 using namespace std;
 
 
-Player::Player(string name, GameController *gc, bool testMode, string deck) : name{name}, gameController{gc}
+Player::Player(string name, GameController *gc, bool testMode , string deck) : 
+name{name}, gameController{gc}
 {
     initializeDeck(deck);
     if (testMode == false) {
@@ -68,7 +69,7 @@ void Player::restoreHealth(int amount) {
 
 
 void Player::play(int i) {
-    if (hand.size() < i || i < 1) {
+    if (!insideBoardBounday(i)) {
         cerr << "No Available Cards at Given Position!" << endl;
         return;
     } else {
@@ -81,8 +82,7 @@ void Player::play(int i) {
         if (dynamic_cast<Minion*>(hand[i-1].get())) {
             hand[i-1]->setState(State::onBoard);
             unique_ptr<Minion> tempMinion {dynamic_cast<Minion*>(hand[i-1].release())};
-            board.push_back(move(tempMinion));
-            gameController->onMinionEnter(board.back());
+            sendToBoard(move(tempMinion));
             hand.erase(hand.begin() + i - 1);
         } else if (dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get())) {
             if (dynamic_cast<Ritual*>(deck[i-1].get())) {
@@ -100,8 +100,9 @@ void Player::play(int i) {
     }
 }
 
+
 void Player::use(int i) {
-    if (hand.size() < i || i < 1) {
+    if (!insideBoardBounday(i)) {
         cerr << "No Available Cards at Given Position!" << endl;
         return;
     } else if (dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get()) && 
@@ -123,7 +124,7 @@ void Player::use(int i) {
 }
 
 void Player::discarCard(int i) {
-    if (i < 0 || i > hand.size()) {
+    if (!insideBoardBounday(i)) {
         cerr << "No Available Cards at Given Position!"<< endl;
     } else {
         outOfGame.push_back(move(hand[i-1]));
@@ -148,6 +149,18 @@ void Player::notifyAllCard(StateInfo info, unique_ptr<Minion>& target) {
 unique_ptr<Minion>& Player::getMinionOnBoard(int i)
 {
     return board[i-1];   
+}
+
+void Player::sendToBoard(unique_ptr<Minion>&& minion)
+{
+    board.push_back(move(minion));
+    gameController->onMinionEnter(board.back());
+}
+
+void Player::sendToGrave(unique_ptr<Minion>&& minion)
+{
+    graveyard.push_back(move(minion));
+    gameController->onMinionExit(graveyard.back());   
 }
 
 void Player::shuffDeck()
