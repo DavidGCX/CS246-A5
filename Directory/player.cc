@@ -33,6 +33,7 @@ name{name}, gameController{gc}
 
 void Player::drawCard() {
     if (hand.size() < 5 && deck.size() > 0) {
+        deck.back()->setState(State::onHand);
         hand.push_back(move(deck.back()));
         deck.pop_back();
     } else if (hand.size() >=5 && deck.size() > 0){
@@ -71,10 +72,9 @@ void Player::play(int i) {
             return;
         }
         if (dynamic_cast<Minion*>(hand[i-1].get())) {
-            hand[i-1]->setState(State::onBoard);
             handleMagic(hand[i-1]->getCost());
             unique_ptr<Minion> tempMinion {dynamic_cast<Minion*>(hand[i-1].release())};
-            sendToBoard(move(tempMinion));
+            sendToBoard(tempMinion);
             hand.erase(hand.begin() + i - 1);
         } else if (dynamic_cast<HasAbilityNoTarget*>(hand[i-1].get())) {
             if (dynamic_cast<Ritual*>(hand[i-1].get())) {
@@ -162,7 +162,7 @@ void Player::use(int i, unique_ptr<Minion>& target)
             cerr << "This Minion is Silenced, can not use ability" << endl;
             return;
         } else if (board[i-1]->getActNum() <= 0){ 
-            cerr << "This Minion Does Not Have Enough Action Point" << endl;
+            cerr << "This Minion Does Not Have Enough Action Point To Be Used" << endl;
         } else {
             if(temp->useAbility(target)) {
                 handleMagic(temp->getAbilityCost());
@@ -234,6 +234,7 @@ void Player::discarCard(int i) {
     if (!insideHandBounday(i)) {
         cerr << "No Available Cards at Given Position!"<< endl;
     } else {
+        hand[i-1]->setState(State::removeFromTheGame);
         outOfGame.push_back(move(hand[i-1]));
         hand.erase(hand.begin() + i - 1);
     }
@@ -258,16 +259,27 @@ unique_ptr<Minion>& Player::getMinionOnBoard(int i)
     return board[i-1];   
 }
 
-void Player::sendToBoard(unique_ptr<Minion>&& minion)
+void Player::sendToBoard(unique_ptr<Minion>& minion)
 {
     board.push_back(move(minion));
+    board.back()->setState(State::onBoard);
     gameController->onMinionEnter(board.back());
 }
 
-void Player::sendToGrave(unique_ptr<Minion>&& minion)
+void Player::sendToGrave(unique_ptr<Minion>& minion)
 {
+    gameController->onMinionExit(graveyard.back());
+    graveyard.back()->setState(State::onGraveYard);
+    graveyard.back()->removeAllEnchantment();
     graveyard.push_back(move(minion));
-    gameController->onMinionExit(graveyard.back());   
+}
+
+void Player::sendToHand(unique_ptr<Minion>& minion)
+{
+    gameController->onMinionExit(minion);
+     minion->setState(State::onHand);
+     minion->removeAllEnchantment();
+    hand.push_back(move(minion));
 }
 
 void Player::shuffDeck()
