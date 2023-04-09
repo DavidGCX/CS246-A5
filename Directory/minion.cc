@@ -3,11 +3,12 @@
 #include "gameController.h"
 #include "player.h"
 #include "enchantments.h"
+#include <iostream>
 using namespace std;
 
 Minion::Minion(GameController *g, Player* owner, string name, int cost, 
 int attack, int defense) : Card{name, cost, g, owner}, attack{attack}, 
-defense{defense}, numactions{1} {}
+defense{defense}, numActions{1} {}
 
 void Minion::takeDamage(int amount) {
     defense = defense - amount;
@@ -15,19 +16,27 @@ void Minion::takeDamage(int amount) {
 }
 
 void Minion::attackMinion(unique_ptr<Minion>& target) {
-    this->takeDamage(target->getAttack());
-    target->takeDamage(attack);
+    if (numActions > 0) {
+        numActions -= 1;
+        this->takeDamage(target->getAttack());
+        target->takeDamage(attack);
+    } else {
+        cerr << "This Minion Does Not Have Enough ActionPoint" << endl;
+    }
 }
 
 void Minion::attackPlayer() {
-    gameController->attackNonActivePlayer(getAttack());
+    if (numActions > 0) {
+        numActions -= 1;
+        gameController->attackNonActivePlayer(getAttack());
+    } else {
+        cerr << "This Minion Does Not Have Enough ActionPoint" << endl;
+    }
 }
 
 void Minion::notify(StateInfo state) {
     if (state == StateInfo::onTurnStart){
-        if (numactions < 1 && numactions) {
-            numactions = 1;
-        }
+        numActions = 1;
     }
     for(auto& enchantment : enchantments) {
        enchantment->notify(state);
@@ -51,16 +60,9 @@ void Minion::setDefense(int d) {
     defense = d;
 }
 void Minion::setActNum(int n) {
-    numactions = n;
+    numActions = n;
 }
 
-void Minion::setRemAct(int r) {
-    if (r == 2) {
-        remainingactions = numactions;
-    } else {
-        remainingactions = 1;
-    }
-}
 int Minion::getAttack() {
     return attack;
 }
@@ -68,7 +70,7 @@ int Minion::getDefense() {
     return defense;
 }
 int Minion::getActNum() {
-    return numactions;
+    return numActions;
 }
 
 void Minion::attachEnchantment(unique_ptr<Enchantment>&& from) {

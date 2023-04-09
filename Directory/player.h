@@ -31,7 +31,6 @@ public:
     Player(std::string name, GameController* gc, bool testMode, std::string deck = "default.deck");
     void drawCard();
     void takeDamage(int amount);
-    bool costMagic(int amount);
     int getHealth() const;
     void restoreMagic(int amount);
     void restoreHealth(int amount);

@@ -46,15 +46,6 @@ void Player::takeDamage(int amount) {
     life = life - amount >=0? life - amount : 0;
 }
 
-bool Player::costMagic(int amount)
-{
-    if (magic - amount >= 0) {
-        magic -= amount;
-        return true;
-    } else {
-        return false;
-    }
-}
 
 int Player::getHealth() const
 {
@@ -120,9 +111,8 @@ void Player::play(int i, unique_ptr<Minion>& target)
                     hand.erase(hand.begin() + i - 1);
                 }
             } else if (dynamic_cast<Enchantment*>(hand[i-1].get())) {
-                if(dynamic_cast<HasAbilityWithTarget*>(hand[i-1].get())->useAbility(target)) {
-                    handleMagic(hand[i-1]->getCost());
-                }
+                dynamic_cast<HasAbilityWithTarget*>(hand[i-1].get())->useAbility(target);
+                handleMagic(hand[i-1]->getCost());
                 unique_ptr<Enchantment> tempEnchant {dynamic_cast<Enchantment*>(hand[i-1].release())};
                 target->attachEnchantment(move(tempEnchant));
                 hand.erase(hand.begin() + i - 1);
@@ -170,9 +160,13 @@ void Player::use(int i, unique_ptr<Minion>& target)
             return;
         } else if (temp->getSilence()) {
             cerr << "This Minion is Silenced, can not use ability" << endl;
+            return;
+        } else if (board[i-1]->getActNum() <= 0){ 
+            cerr << "This Minion Does Not Have Enough Action Point" << endl;
         } else {
             if(temp->useAbility(target)) {
                 handleMagic(temp->getAbilityCost());
+                board[i-1]->costAct(1);
             }
         }     
     } else {
@@ -193,9 +187,12 @@ void Player::use(int i, unique_ptr<Ritual>& target)
             return;
         } else if (temp->getSilence()) {
             cerr << "This Minion is Silenced, can not use ability" << endl;
+        } else if (board[i-1]->getActNum() <= 0){ 
+            cerr << "This Minion Does Not Have Enough Action Point" << endl;
         } else {
             if(temp->useAbility(target)) {
                 handleMagic(temp->getAbilityCost());
+                board[i-1]->costAct(1);
             }
         }     
     } else {
@@ -216,9 +213,14 @@ void Player::use(int i) {
             return;
         } else if (temp->getSilence()) {
             cerr << "This Minion is Silenced, can not use ability" << endl;
+            return;
+        } else if (board[i-1]->getActNum() <= 0){ 
+            cerr << "This Minion Does Not Have Enough Action Point" << endl;
+            return;
         } else {
             if(temp->useAbility()) {
                 handleMagic(temp->getAbilityCost());
+                board[i-1]->costAct(1);
             }
         }     
     } else {
