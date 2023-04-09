@@ -30,6 +30,7 @@ int main(int argc, const char** argv) {
         } else if (argv[i] == "-init") {
             init = true;
             initfile = argv[i+1];
+            ++i;
         } else if (argv[i] == "-testing") {
             testmode = true;
             gc->setTestMode();
