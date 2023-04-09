@@ -69,7 +69,7 @@ void Player::restoreHealth(int amount) {
 
 
 void Player::play(int i) {
-    if (!insideBoardBounday(i)) {
+    if (!insideHandBounday(i)) {
         cerr << "No Available Cards at Given Position!" << endl;
         return;
     } else {
@@ -102,7 +102,7 @@ void Player::play(int i) {
 
 
 void Player::use(int i) {
-    if (!insideBoardBounday(i)) {
+    if (!insideHandBounday(i)) {
         cerr << "No Available Cards at Given Position!" << endl;
         return;
     } else if (dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get()) && 
@@ -124,7 +124,7 @@ void Player::use(int i) {
 }
 
 void Player::discarCard(int i) {
-    if (!insideBoardBounday(i)) {
+    if (!insideHandBounday(i)) {
         cerr << "No Available Cards at Given Position!"<< endl;
     } else {
         outOfGame.push_back(move(hand[i-1]));

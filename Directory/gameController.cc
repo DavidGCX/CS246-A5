@@ -81,9 +81,28 @@ void GameController::play(int i) {
     (*activePlayer)->play(i);
 }
 
-void GameController::play(int i, int player, int target)
-{
-    
+void GameController::play(int i, int player, int target) {
+    if (player == 1) {
+        if (target == 6) {
+            (*activePlayer)->play(i, playerOne->getRitualField());
+        } else {
+            if (playerOne->insideBoardBounday(target)) {
+                (*activePlayer)->play(i, playerOne->getMinionOnBoard(target));
+            } else {
+                cerr << "No Target At Given Position" << endl;
+            }
+        }
+    } else {
+        if (target == 6) {
+            (*activePlayer)->play(i, playerTwo->getRitualField());
+        } else {
+            if (playerOne->insideBoardBounday(target)) {
+                (*activePlayer)->play(i, playerTwo->getMinionOnBoard(target));
+            } else {
+                cerr << "No Target At Given Position" << endl;
+            }
+        }
+    }
 }
 
 void GameController::play(int i, int player, char target) {
@@ -91,19 +110,48 @@ void GameController::play(int i, int player, char target) {
     switch (target) {
         case '1':
             targetCard = 1;
-        break;
+            break;
         case '2':
             targetCard = 2;
-        break;
+            break;
         case '3':
             targetCard = 3;
-        break;
+            break;
         case '4':
             targetCard = 4;
-        break;
+            break;
         case '5':
             targetCard = 5;
-        break;
+            break;
+        case 'r':
+            targetCard = 6;
+            break;
+    }
+    play(i, player, targetCard);
+}
+
+void GameController::use(int i, int player, int target)
+{
+    if (player == 1) {
+        if (target == 6) {
+            (*activePlayer)->use(i, playerOne->getRitualField());
+        } else {
+            if (playerOne->insideBoardBounday(target)) {
+                (*activePlayer)->use(i, playerOne->getMinionOnBoard(target));
+            } else {
+                cerr << "No Target At Given Position" << endl;
+            }
+        }
+    } else {
+        if (target == 6) {
+            (*activePlayer)->use(i, playerTwo->getRitualField());
+        } else {
+            if (playerOne->insideBoardBounday(target)) {
+                (*activePlayer)->use(i, playerTwo->getMinionOnBoard(target));
+            } else {
+                cerr << "No Target At Given Position" << endl;
+            }
+        }
     }
 }
 
@@ -112,7 +160,28 @@ void GameController::use(int i) {
 }
 
 void GameController::use(int i, int player, char target) {
-    (*activePlayer)->use(i);
+    int targetCard;
+    switch (target) {
+        case '1':
+            targetCard = 1;
+            break;
+        case '2':
+            targetCard = 2;
+            break;
+        case '3':
+            targetCard = 3;
+            break;
+        case '4':
+            targetCard = 4;
+            break;
+        case '5':
+            targetCard = 5;
+            break;
+        case 'r':
+            targetCard = 6;
+            break;
+    }
+    use(i, player, targetCard);
 }
 
 void GameController::inspect(int i) {

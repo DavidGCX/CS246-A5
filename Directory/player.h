@@ -31,12 +31,15 @@ public:
     // initialize the deck
     void initializeDeck(std::string deck);
     void play(int i);
-    void play(int i, Card* target);
-    void use(int i, Card* target);
+    void play(int i, unique_ptr<Minion>& target);
+    void play(int i, unique_ptr<Ritual>& target);
+    void use(int i, unique_ptr<Minion>& target);
+    void use(int i, unique_ptr<Ritual>& target);
     void use(int i);
     void discarCard(int i);
     void notifyAllCard(StateInfo info);
     bool insideBoardBounday(int i) {return board.size() >= i && i > 0;}
+    bool insideHandBounday(int i) {return hand.size() >= i && i > 0;}
     void notifyAllCard(StateInfo info, std::unique_ptr<Minion>& target);
     std::vector<std::unique_ptr<Minion>>& getBoard() { return board; }
     std::vector<std::unique_ptr<Card>>& getHand() { return hand; }

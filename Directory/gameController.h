@@ -15,6 +15,7 @@ class GameController : public Subject {
     std::unique_ptr<Player>* nonActivePlayer;
     bool testMode;
     void play(int i, int player, int target);
+    void use(int i, int player, int target);
 public:
     //GameController(TextDisplay* text);
     //GameController(GraphicalDisplay* graphics, TextDisplay* text);
