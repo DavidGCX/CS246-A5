@@ -28,6 +28,7 @@ public:
     int getDefense();
     int getActNum();
     int getRemAct();
+    void attachEnchantment(unique_ptr<Enchantment>&& from);
     void removeAllEnchantment();
 };
 

@@ -96,7 +96,7 @@ void GameController::play(int i, int player, int target) {
         if (target == 6) {
             (*activePlayer)->play(i, playerTwo->getRitualField());
         } else {
-            if (playerOne->insideBoardBounday(target)) {
+            if (playerTwo->insideBoardBounday(target)) {
                 (*activePlayer)->play(i, playerTwo->getMinionOnBoard(target));
             } else {
                 cerr << "No Target At Given Position" << endl;
@@ -146,7 +146,7 @@ void GameController::use(int i, int player, int target)
         if (target == 6) {
             (*activePlayer)->use(i, playerTwo->getRitualField());
         } else {
-            if (playerOne->insideBoardBounday(target)) {
+            if (playerTwo->insideBoardBounday(target)) {
                 (*activePlayer)->use(i, playerTwo->getMinionOnBoard(target));
             } else {
                 cerr << "No Target At Given Position" << endl;

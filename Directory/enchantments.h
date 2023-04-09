@@ -20,7 +20,7 @@ class GiantStrength: public Enchantment, public HasAbilityWithTarget {
 public:
     GiantStrength(std::string name, int cost, GameController* gameController, Player* owner) :
     Enchantment{name, cost, gameController, owner} {}
-    bool useAbility(std::unique_ptr<Card>& target) override;
+    bool useAbility(std::unique_ptr<Minion>& target) override;
     void reverseEffect(Minion* target) override;
 };
 

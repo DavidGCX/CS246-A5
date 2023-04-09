@@ -70,3 +70,7 @@ int Minion::getDefense() {
 int Minion::getActNum() {
     return numactions;
 }
+
+void Minion::attachEnchantment(unique_ptr<Enchantment>&& from) {
+    enchantments.push_back(move(from));
+}
