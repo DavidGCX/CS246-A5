@@ -33,6 +33,7 @@ public:
     // initialize the deck
     void initializeDeck(std::string deck);
     void play(int i);
+    void use(int i);
     void discarCard(int i);
     void notifyAllCard(StateInfo info);
     
@@ -40,6 +41,7 @@ public:
     std::vector<std::unique_ptr<Minion>>& getBoard() { return board; }
     std::vector<std::unique_ptr<Card>>& getHand() { return hand; }
     std::unique_ptr<Ritual>& getRitualField() { return ritualField; }
+    // do the boundary check before calling this
     std::unique_ptr<Minion>& getMinionOnBoard(int i);
     int getBoardMinionCount() {return board.size();}
     std::string getName() { return name;}

@@ -18,8 +18,6 @@ public:
     void takeDamage(int amount);
     void attackPlayer();
     void attackMinion(unique_ptr<Minion>& target);
-    //virtual void applyEffect();
-    //void Inspect();
     void notify(StateInfo state) override;
     void notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) override;
     void setAttack(int a);
@@ -30,6 +28,7 @@ public:
     int getDefense();
     int getActNum();
     int getRemAct();
+    void removeAllEnchantment();
 };
 
 /*

@@ -11,8 +11,8 @@
 #include "card.h"
 #include "gameController.h"
 #include "state.h"
+#include "hasAbility.h"
 using namespace std;
-
 
 
 Player::Player(string name, GameController *gc, bool testMode, string deck) : name{name}, gameController{gc}
@@ -70,14 +70,52 @@ void Player::restoreHealth(int amount) {
 void Player::play(int i) {
     if (hand.size() < i || i < 1) {
         cerr << "No Available Cards at Given Position!" << endl;
+        return;
     } else {
+        if (hand[i-1]->getCost() > magic && !gameController->getTestMode()) {
+            cerr << "No Enough Magic for this Action" << endl;
+            return;
+        } else {
+            magic = magic - hand[i-1]->getCost() > 0? magic - hand[i-1]->getCost() : 0;
+        }
         if (dynamic_cast<Minion*>(hand[i-1].get())) {
             hand[i-1]->setState(State::onBoard);
             unique_ptr<Minion> tempMinion {dynamic_cast<Minion*>(hand[i-1].release())};
             board.push_back(move(tempMinion));
             gameController->onMinionEnter(board.back());
             hand.erase(hand.begin() + i - 1);
-        } //else if (dynamic_cast<Spell*>(deck[i-1].get()))
+        } else if (dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get())) {
+            if (dynamic_cast<Ritual*>(deck[i-1].get())) {
+                unique_ptr<Ritual> tempRitual {dynamic_cast<Ritual*>(hand[i-1].release())};
+                hand.erase(hand.begin() + i - 1);
+                ritualField.swap(tempRitual);
+            } else {
+                dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get())->useAbility();
+                hand.erase(hand.begin() + i - 1);
+            }
+        } else {
+            cerr << "This Can Not Be Played without Target" << endl;
+            return;
+        }
+    }
+}
+
+void Player::use(int i) {
+    if (hand.size() < i || i < 1) {
+        cerr << "No Available Cards at Given Position!" << endl;
+        return;
+    } else if (dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get())) {
+
+        if (dynamic_cast<Minion*>(deck[i-1].get())) {
+            if (hand[i-1]->getCost() > magic && !gameController->getTestMode()) {
+                cerr << "No Enough Magic for this Action" << endl;
+                return;
+            } 
+        }
+        
+    } else {
+        cerr << "This Can Not Be Played without Target" << endl;
+        return;
     }
 }
 

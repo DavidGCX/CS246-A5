@@ -41,6 +41,7 @@ class GameController : public Subject {
         void setTestMode();
         void drawCard();
         void discardCard(int i);
+        bool getTestMode() const { return testMode; }
         std::vector<std::unique_ptr<Minion>>& getNonActivePlayerBoard();
 };
 

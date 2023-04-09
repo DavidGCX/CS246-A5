@@ -81,16 +81,16 @@ void GameController::play(int i) {
     (*activePlayer)->play(i);
 }
 
-void GameController::play(int i, int player, char target)
-{
+void GameController::play(int i, int player, char target) {
+
 }
 
-void GameController::use(int i)
-{
+void GameController::use(int i) {
+    (*activePlayer)->use(i);
 }
 
-void GameController::use(int i, int player, char target)
-{
+void GameController::use(int i, int player, char target) {
+
 }
 
 void GameController::inspect(int i) {
