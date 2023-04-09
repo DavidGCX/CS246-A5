@@ -5,6 +5,7 @@
 #include <string>
 #include "minion.h"
 #include "ritual.h"
+#include "card.h"
 class CanUseAbility{
     int abilityCost;
     bool silence = false;
