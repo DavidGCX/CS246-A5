@@ -20,6 +20,13 @@ class Player {
     int life;
     std::string name;
     void shuffDeck();
+    void handleMagic(int cost) {
+        if (magic - cost > 0) {
+            magic  = magic - cost;
+        } else {
+            magic = 0;
+        } 
+    }
 public:
     Player(std::string name, GameController* gc, bool testMode, std::string deck = "default.deck");
     void drawCard();

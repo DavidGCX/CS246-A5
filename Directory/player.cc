@@ -78,21 +78,23 @@ void Player::play(int i) {
         if (hand[i-1]->getCost() > magic && !gameController->getTestMode()) {
             cerr << "No Enough Magic for this Action" << endl;
             return;
-        } else {
-            magic = magic - hand[i-1]->getCost() > 0? magic - hand[i-1]->getCost() : 0;
         }
         if (dynamic_cast<Minion*>(hand[i-1].get())) {
             hand[i-1]->setState(State::onBoard);
+            handleMagic(hand[i-1]->getCost());
             unique_ptr<Minion> tempMinion {dynamic_cast<Minion*>(hand[i-1].release())};
             sendToBoard(move(tempMinion));
             hand.erase(hand.begin() + i - 1);
-        } else if (dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get())) {
-            if (dynamic_cast<Ritual*>(deck[i-1].get())) {
+        } else if (dynamic_cast<HasAbilityNoTarget*>(hand[i-1].get())) {
+            if (dynamic_cast<Ritual*>(hand[i-1].get())) {
+                handleMagic(hand[i-1]->getCost());
                 ritualField.reset(dynamic_cast<Ritual*>(hand[i-1].release()));
                 hand.erase(hand.begin() + i - 1);
             } else {
-                dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get())->useAbility();
-                hand.erase(hand.begin() + i - 1);
+                if(dynamic_cast<HasAbilityNoTarget*>(hand[i-1].get())->useAbility()) {
+                    handleMagic(hand[i-1]->getCost());
+                    hand.erase(hand.begin() + i - 1);
+                }
             }
         } else {
             cerr << "This Can Not Be Played without Target" << endl;
@@ -110,20 +112,22 @@ void Player::play(int i, unique_ptr<Minion>& target)
         if (hand[i-1]->getCost() > magic && !gameController->getTestMode()) {
             cerr << "No Enough Magic for this Action" << endl;
             return;
-        } else {
-            magic = magic - hand[i-1]->getCost() > 0? magic - hand[i-1]->getCost() : 0;
-        }   
-        if (dynamic_cast<HasAbilityWithTarget*>(deck[i-1].get())) {
-            if (dynamic_cast<Spell*>(deck[i-1].get())) {
-                dynamic_cast<HasAbilityWithTarget*>(deck[i-1].get())->useAbility(target);
-                hand.erase(hand.begin() + i - 1);
-            } else if (dynamic_cast<Enchantment*>(deck[i-1].get())) {
-                dynamic_cast<HasAbilityWithTarget*>(deck[i-1].get())->useAbility(target);
+        } 
+        if (dynamic_cast<HasAbilityWithTarget*>(hand[i-1].get())) {
+            if (dynamic_cast<Spell*>(hand[i-1].get())) {
+                if(dynamic_cast<HasAbilityWithTarget*>(hand[i-1].get())->useAbility(target)) {
+                    handleMagic(hand[i-1]->getCost());
+                    hand.erase(hand.begin() + i - 1);
+                }
+            } else if (dynamic_cast<Enchantment*>(hand[i-1].get())) {
+                if(dynamic_cast<HasAbilityWithTarget*>(hand[i-1].get())->useAbility(target)) {
+                    handleMagic(hand[i-1]->getCost());
+                }
                 unique_ptr<Enchantment> tempEnchant {dynamic_cast<Enchantment*>(hand[i-1].release())};
                 target->attachEnchantment(move(tempEnchant));
                 hand.erase(hand.begin() + i - 1);
             } else {
-                cerr << "This Can Not Be Used with Target" << endl;
+                cerr << "This Can Not Be Played with Target" << endl;
             }
         } else {
             cerr << "This Can Not Be Played with Target" << endl;
@@ -140,13 +144,13 @@ void Player::play(int i, unique_ptr<Ritual>& target)
         if (hand[i-1]->getCost() > magic && !gameController->getTestMode()) {
             cerr << "No Enough Magic for this Action" << endl;
             return;
-        } else {
-            magic = magic - hand[i-1]->getCost() > 0? magic - hand[i-1]->getCost() : 0;
-        }  
-        if (dynamic_cast<HasAbilityWithTargetRitual*>(deck[i-1].get())) {
-            if (dynamic_cast<Spell*>(deck[i-1].get())) {
-                dynamic_cast<HasAbilityWithTargetRitual*>(deck[i-1].get())->useAbility(target);
-                hand.erase(hand.begin() + i - 1);
+        } 
+        if (dynamic_cast<HasAbilityWithTargetRitual*>(hand[i-1].get())) {
+            if (dynamic_cast<Spell*>(hand[i-1].get())) {
+                if(dynamic_cast<HasAbilityWithTargetRitual*>(hand[i-1].get())->useAbility(target)) {
+                    handleMagic(hand[i-1]->getCost());
+                    hand.erase(hand.begin() + i - 1);
+                }
             } 
         } else {
             cerr << "This Can Not Be Played with a Ritual Target" << endl;
@@ -159,17 +163,17 @@ void Player::use(int i, unique_ptr<Minion>& target)
     if (!insideBoardBounday(i)) {
         cerr << "No Available Cards at Given Position!" << endl;
         return;
-    } else if (dynamic_cast<HasAbilityWithTarget*>(deck[i-1].get()) && 
-        dynamic_cast<Minion*>(deck[i-1].get())) {
-        HasAbilityWithTarget* temp = dynamic_cast<HasAbilityWithTarget*>(deck[i-1].get());
+    } else if (dynamic_cast<HasAbilityWithTarget*>(board[i-1].get())) {
+        HasAbilityWithTarget* temp = dynamic_cast<HasAbilityWithTarget*>(board[i-1].get());
         if (temp->getAbilityCost() > magic && !gameController->getTestMode()) {
             cerr << "No Enough Magic for this Action" << endl;
             return;
         } else if (temp->getSilence()) {
             cerr << "This Minion is Silenced, can not use ability" << endl;
         } else {
-            magic = magic - temp->getAbilityCost() > 0? magic - temp->getAbilityCost() : 0;
-            temp->useAbility(target);
+            if(temp->useAbility(target)) {
+                handleMagic(temp->getAbilityCost());
+            }
         }     
     } else {
         cerr << "This Can Not Be Used without Target" << endl;
@@ -182,17 +186,17 @@ void Player::use(int i, unique_ptr<Ritual>& target)
     if (!insideBoardBounday(i)) {
         cerr << "No Available Cards at Given Position!" << endl;
         return;
-    } else if (dynamic_cast<HasAbilityWithTargetRitual*>(deck[i-1].get()) && 
-        dynamic_cast<Minion*>(deck[i-1].get())) {
-        HasAbilityWithTargetRitual* temp = dynamic_cast<HasAbilityWithTargetRitual*>(deck[i-1].get());
+    } else if (dynamic_cast<HasAbilityWithTargetRitual*>(board[i-1].get())) {
+        HasAbilityWithTargetRitual* temp = dynamic_cast<HasAbilityWithTargetRitual*>(board[i-1].get());
         if (temp->getAbilityCost() > magic && !gameController->getTestMode()) {
             cerr << "No Enough Magic for this Action" << endl;
             return;
         } else if (temp->getSilence()) {
             cerr << "This Minion is Silenced, can not use ability" << endl;
         } else {
-            magic = magic - temp->getAbilityCost() > 0? magic - temp->getAbilityCost() : 0;
-            temp->useAbility(target);
+            if(temp->useAbility(target)) {
+                handleMagic(temp->getAbilityCost());
+            }
         }     
     } else {
         cerr << "This Can Not Be Used without Target" << endl;
@@ -205,17 +209,17 @@ void Player::use(int i) {
     if (!insideBoardBounday(i)) {
         cerr << "No Available Cards at Given Position!" << endl;
         return;
-    } else if (dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get()) && 
-        dynamic_cast<Minion*>(deck[i-1].get())) {
-        HasAbilityNoTarget* temp = dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get());
+    } else if (dynamic_cast<HasAbilityNoTarget*>(board[i-1].get())) {
+        HasAbilityNoTarget* temp = dynamic_cast<HasAbilityNoTarget*>(board[i-1].get());
         if (temp->getAbilityCost() > magic && !gameController->getTestMode()) {
             cerr << "No Enough Magic for this Action" << endl;
             return;
         } else if (temp->getSilence()) {
             cerr << "This Minion is Silenced, can not use ability" << endl;
         } else {
-            magic = magic - temp->getAbilityCost() > 0? magic - temp->getAbilityCost() : 0;
-            temp->useAbility();
+            if(temp->useAbility()) {
+                handleMagic(temp->getAbilityCost());
+            }
         }     
     } else {
         cerr << "This Can Not Be Used without Target" << endl;
