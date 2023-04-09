@@ -3,6 +3,8 @@
 #include "player.h"
 #include "minion.h"
 #include "hasAbility.h"
+#include "spell.h"
+#include "enchantments.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -59,6 +61,26 @@ vector<string> TextDisplay::generateMinion(unique_ptr<Minion>* minion) {
         return display_minion_no_ability((*minion)->getName(), (*minion)->getCost(),
         (*minion)->getAttack(), (*minion)->getDefense());
     }
+}
+
+// Given card, returns appropriate block of strings that displays it
+vector<string> TextDisplay::generateCard(unique_ptr<Card>* card) {
+    if (dynamic_cast<Spell*>(card->get())) {
+        return display_spell((*card)->getName(),(*card)->getCost(),
+        dynamic_cast<CanUseAbility*>((*card).get())->getAbilityDescription());
+    }
+    if (dynamic_cast<Minion*>(card->get())) {
+        return generateMinion(dynamic_cast<Minion*>(card->get()));
+    }
+    if (dynamic_cast<Enchantment*>(card->get())) {
+        //if (dynamic_cast<Enchantment*>((*card).get()->get))
+        return display_enchantment((*card)->getName(),(*card)->getCost(),"......"); // CHANGE LATER
+    }
+    if (dynamic_cast<Ritual*>(card->get())) {
+        //return display_ritual((*card)->getName(),(*card)->getCost(),))
+        return "";
+    }
+    return "";
 }
 
 void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& playerTwo) {
@@ -139,11 +161,11 @@ void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& 
 }
 
 void TextDisplay::printHand(unique_ptr<Player>& player) {
-    int i = 1;
+    vector<vector<string>> row;
     for (auto& card : player->getHand()) {
-        cout << i << ": " << card->getName() << endl;
-        i++;
+        row.push_back(generateCard(&card));
     }
+    printRow(row);
 }
 
 void TextDisplay::printEnchantments(unique_ptr<Minion>& minion) {

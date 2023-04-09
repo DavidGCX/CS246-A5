@@ -9,6 +9,7 @@ class TextDisplay : public Adaptor {
         const int NUM_LINES = 11;
         const int NUM_CHARS = 165;
         std::vector<std::string> generateMinion(std::unique_ptr<Minion>* minion);
+        std::vector<std::string> generateCard(std::unique_ptr<Card>* card);
         void printRow(const vector<vector<string>>& v);
         void printTopBorder();
         void printBottomBorder();
