@@ -17,7 +17,7 @@ int main(int argc, const char** argv) {
     unique_ptr<GameController> gc;
     string player1;
     string player2;
-    fstream initfile;
+    string initfile;
     int count = 1;
     bool init = false;
     for (int i = 1; i < argc; ++i) {
@@ -29,21 +29,11 @@ int main(int argc, const char** argv) {
             ++i;
         } else if (argv[i] == "-init") {
             init = true;
-            fstream f{argv[i+1]};
-            initfile = f;
-            ++i;
+            initfile = argv[i+1];
         } else if (argv[i] == "-testing") {
             testmode = true;
-            // set a bool for testing before activation
-            // useAbility() should always return true
-            // maybe grab the magic cost from the item you're using, compare, then manually add enough to do it if too low
-
-            // in controller, use the bool to determine if the switch case / if statements should check for discard and draw commands
-
-            // bool is to determine if shuffling or not
             gc->setTestMode();
         } else if (argv[i] == "-graphics") {
-            // enable the graphics display
             bool graphicson = true;
             gc = make_unique<GameController>(new GraphicalDisplay{}, new TextDisplay{});
         }
@@ -52,10 +42,14 @@ int main(int argc, const char** argv) {
         gc = make_unique<GameController>(new TextDisplay{});
     }
     string line;
+    string s;
+    if (init == true) {
+        fstream f{initfile};
+    }
     while(true) {
         if(init == true) {
-            getline(initfile, line);
-            if (initfile.eof()) {
+            getline(f, line);
+            if (f.eof()) {
                 init = false;
             }
         } else {
@@ -75,7 +69,7 @@ int main(int argc, const char** argv) {
             string firstword;
             s >> firstword;
             if (testmode == true) {
-                if (firstword) == "draw") {
+                if (firstword == "draw") {
                     gc->drawCard();
                 } else if (firstword == "discard") {
                     int num;
