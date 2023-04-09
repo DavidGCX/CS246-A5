@@ -3,7 +3,8 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include "card.h"
+#include "minion.h"
+#include "ritual.h"
 class CanUseAbility{
     int abilityCost;
     bool silence = false;
@@ -25,7 +26,11 @@ public:
 */
 class HasAbilityWithTarget : public CanUseAbility {
 public:
-    virtual bool useAbility(std::unique_ptr<Card>& target) = 0;
+    virtual bool useAbility(std::unique_ptr<Minion>& target) = 0;
+};
+class HasAbilityWithTargetRitual : public CanUseAbility {
+public:
+    virtual bool useAbility(std::unique_ptr<Ritual>& target) = 0;
 };
 class HasAbilityNoTarget : public CanUseAbility {
 public:

@@ -52,10 +52,10 @@ void GameController::attachAdapter(unique_ptr<Adaptor>&& oneAdaptor) {
 void GameController::attachPlayer(string name, int index, string deck) {
     switch(index) {
         case 1 :
-            playerOne = make_unique<Player>(name, this, deck);
+            playerOne = make_unique<Player>(name, this, testMode, deck);
             break;
         case 2 :
-            playerTwo = make_unique<Player>(name, this, deck);
+            playerTwo = make_unique<Player>(name, this, testMode, deck);
             break;
     }
 }
@@ -81,8 +81,78 @@ void GameController::play(int i) {
     (*activePlayer)->play(i);
 }
 
+void GameController::play(int i, int player, int target) {
+    if (player == 1) {
+        if (target == 6) {
+            (*activePlayer)->play(i, playerOne->getRitualField());
+        } else {
+            if (playerOne->insideBoardBounday(target)) {
+                (*activePlayer)->play(i, playerOne->getMinionOnBoard(target));
+            } else {
+                cerr << "No Target At Given Position" << endl;
+            }
+        }
+    } else {
+        if (target == 6) {
+            (*activePlayer)->play(i, playerTwo->getRitualField());
+        } else {
+            if (playerOne->insideBoardBounday(target)) {
+                (*activePlayer)->play(i, playerTwo->getMinionOnBoard(target));
+            } else {
+                cerr << "No Target At Given Position" << endl;
+            }
+        }
+    }
+}
+
 void GameController::play(int i, int player, char target) {
-    (*activePlayer)->play(i);
+    int targetCard;
+    switch (target) {
+        case '1':
+            targetCard = 1;
+            break;
+        case '2':
+            targetCard = 2;
+            break;
+        case '3':
+            targetCard = 3;
+            break;
+        case '4':
+            targetCard = 4;
+            break;
+        case '5':
+            targetCard = 5;
+            break;
+        case 'r':
+            targetCard = 6;
+            break;
+    }
+    play(i, player, targetCard);
+}
+
+void GameController::use(int i, int player, int target)
+{
+    if (player == 1) {
+        if (target == 6) {
+            (*activePlayer)->use(i, playerOne->getRitualField());
+        } else {
+            if (playerOne->insideBoardBounday(target)) {
+                (*activePlayer)->use(i, playerOne->getMinionOnBoard(target));
+            } else {
+                cerr << "No Target At Given Position" << endl;
+            }
+        }
+    } else {
+        if (target == 6) {
+            (*activePlayer)->use(i, playerTwo->getRitualField());
+        } else {
+            if (playerOne->insideBoardBounday(target)) {
+                (*activePlayer)->use(i, playerTwo->getMinionOnBoard(target));
+            } else {
+                cerr << "No Target At Given Position" << endl;
+            }
+        }
+    }
 }
 
 void GameController::use(int i) {
@@ -90,11 +160,32 @@ void GameController::use(int i) {
 }
 
 void GameController::use(int i, int player, char target) {
-    (*activePlayer)->use(i);
+    int targetCard;
+    switch (target) {
+        case '1':
+            targetCard = 1;
+            break;
+        case '2':
+            targetCard = 2;
+            break;
+        case '3':
+            targetCard = 3;
+            break;
+        case '4':
+            targetCard = 4;
+            break;
+        case '5':
+            targetCard = 5;
+            break;
+        case 'r':
+            targetCard = 6;
+            break;
+    }
+    use(i, player, targetCard);
 }
 
 void GameController::inspect(int i) {
-    if (i > (*activePlayer)->getBoardMinionCount() || i < 1) {
+    if (!(*activePlayer)->insideBoardBounday(i)) {
          cerr << "No Available Cards at Given Position!" << endl;
     } else {
         for(auto& adaptor : adaptors) {
@@ -117,9 +208,9 @@ void GameController::board()
 }
 
 void GameController::attack(int i, int j) {
-    if (i > (*activePlayer)->getBoardMinionCount() || i < 1) {
+    if (!(*activePlayer)->insideBoardBounday(i)) {
          cerr << "No Available Cards at Given Position!" << endl;
-    } else if (j > (*nonActivePlayer)->getBoardMinionCount() || i < 1) {
+    } else if (!(*nonActivePlayer)->insideBoardBounday(j)) {
             cerr << "No Available Cards at Given targert Position!" << endl;
     } else {
         ((*activePlayer)->getMinionOnBoard(i))->attackMinion((*nonActivePlayer)->getMinionOnBoard(j));
@@ -128,7 +219,7 @@ void GameController::attack(int i, int j) {
 
 void GameController::attack(int i)
 {
-    if (i > (*activePlayer)->getBoardMinionCount() || i < 1) {
+    if (!(*activePlayer)->insideBoardBounday(i)) {
          cerr << "No Available Cards at Given Position!" << endl;
     } else {
         ((*activePlayer)->getMinionOnBoard(i))->attackPlayer();
@@ -150,4 +241,5 @@ void GameController::drawCard() {
 vector<unique_ptr<Minion>>& GameController::getNonActivePlayerBoard() {
     return (*nonActivePlayer)->getBoard();
 }
+
 
