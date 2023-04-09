@@ -16,6 +16,7 @@ class Card : public Observer {
         int cost;
         State state;
         Player* owner;
+        std::string description;
     protected:
         GameController* gameController;
     public:
@@ -29,6 +30,8 @@ class Card : public Observer {
         Player* getOwner() { return owner; }
         void setState(State newState) { state = newState; }
         State getState() {return state; }
+        void setDescription(std::string d) { description = d; }
+        std::string getDescription() {return description;}
 };
 
 #endif
