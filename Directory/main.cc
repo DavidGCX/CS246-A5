@@ -41,7 +41,7 @@ int main(int argc, const char** argv) {
             // in controller, use the bool to determine if the switch case / if statements should check for discard and draw commands
 
             // bool is to determine if shuffling or not
-            cout << "-testing" << endl;
+            gc->setTestMode();
         } else if (argv[i] == "-graphics") {
             // enable the graphics display
             bool graphicson = true;
