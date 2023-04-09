@@ -44,6 +44,7 @@ public:
     void drawCard();
     void discardCard(int i);
     bool getTestMode() const { return testMode; }
+    std::unique_ptr<Player>* getActivePlayer() {return activePlayer;}
     std::vector<std::unique_ptr<Minion>>& getNonActivePlayerBoard();
 };
 

@@ -9,12 +9,13 @@
 class GameController;
 class Player;
 class Minion: public Card {
+protected:
     int attack;
     int defense;
     int numActions;
     std::vector<std::unique_ptr<Enchantment>> enchantments;
 public:
-    Minion(GameController *g,Player* owner, std::string name = "Air Element", 
+    Minion(GameController *g,Player* owner, std::string name = "Air Elemental", 
     int cost = 1, int attack = 1, int defense = 1);
     void takeDamage(int amount);
     void attackPlayer();
@@ -24,6 +25,8 @@ public:
     void setAttack(int a);
     void setDefense(int d);
     void setActNum(int n);
+    void restoreDefense(int n) {defense += n;}
+    void restoreAttack(int n) {attack += n;}
     int getAttack();
     int getDefense();
     int getActNum();

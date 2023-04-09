@@ -8,7 +8,7 @@ using namespace std;
 
 Minion::Minion(GameController *g, Player* owner, string name, int cost, 
 int attack, int defense) : Card{name, cost, g, owner}, attack{attack}, 
-defense{defense}, numActions{1} {}
+defense{defense}, numActions{0} {}
 
 void Minion::takeDamage(int amount) {
     defense = defense - amount;
@@ -35,7 +35,8 @@ void Minion::attackPlayer() {
 }
 
 void Minion::notify(StateInfo state) {
-    if (state == StateInfo::onTurnStart){
+    if (state == StateInfo::onTurnStart && 
+    (*gameController->getActivePlayer()).get() == getOwner()){
         numActions = 1;
     }
     for(auto& enchantment : enchantments) {
