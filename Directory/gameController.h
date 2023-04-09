@@ -16,6 +16,8 @@ class GameController : public Subject {
     bool testMode;
     void play(int i, int player, int target);
     void use(int i, int player, int target);
+    //move dead minions to graveFiled, trigger corresponding effect
+    void cleanUpBoard();
 public:
     //GameController(TextDisplay* text);
     //GameController(GraphicalDisplay* graphics, TextDisplay* text);

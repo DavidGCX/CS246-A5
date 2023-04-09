@@ -79,6 +79,7 @@ void GameController::endTurn() {
 
 void GameController::play(int i) {
     (*activePlayer)->play(i);
+    cleanUpBoard();
 }
 
 void GameController::play(int i, int player, int target) {
@@ -103,6 +104,7 @@ void GameController::play(int i, int player, int target) {
             }
         }
     }
+    cleanUpBoard();
 }
 
 void GameController::play(int i, int player, char target) {
@@ -153,10 +155,12 @@ void GameController::use(int i, int player, int target)
             }
         }
     }
+    cleanUpBoard();
 }
 
 void GameController::use(int i) {
     (*activePlayer)->use(i);
+    cleanUpBoard();
 }
 
 void GameController::use(int i, int player, char target) {
@@ -182,6 +186,24 @@ void GameController::use(int i, int player, char target) {
             break;
     }
     use(i, player, targetCard);
+}
+
+void GameController::cleanUpBoard() {
+    for (auto minion = (*activePlayer)->getBoard().begin(); minion != (*activePlayer)->getBoard().end() + 1; ++minion){
+        if ((*minion)->getDefense() <= 0) {
+            (*activePlayer)->sendToGrave(*minion);
+            (*activePlayer)->getBoard().erase(minion);
+            minion -= 1;
+        }
+    }
+    for (auto minion = (*nonActivePlayer)->getBoard().begin(); minion != (*nonActivePlayer)->getBoard().end() + 1; ++minion){
+        if ((*minion)->getDefense() <= 0) {
+            (*nonActivePlayer)->sendToGrave(*minion);
+            (*nonActivePlayer)->getBoard().erase(minion);
+            minion -= 1;
+        }
+    }
+        
 }
 
 void GameController::inspect(int i) {
@@ -215,6 +237,7 @@ void GameController::attack(int i, int j) {
     } else {
         ((*activePlayer)->getMinionOnBoard(i))->attackMinion((*nonActivePlayer)->getMinionOnBoard(j));
     }
+    cleanUpBoard();
 }
 
 void GameController::attack(int i)
@@ -224,6 +247,7 @@ void GameController::attack(int i)
     } else {
         ((*activePlayer)->getMinionOnBoard(i))->attackPlayer();
     }
+    cleanUpBoard();
 }
 
 void GameController::setTestMode() {

@@ -2,7 +2,8 @@
 #define SPL_H
 #include "card.h"
 #include <string>
-
+class Player;
+class GameController;
 class Spell: public Card {
 public:
     Spell(std::string name, int cost, GameController* gameController, Player* owner) : 

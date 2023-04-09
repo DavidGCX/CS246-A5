@@ -5,12 +5,14 @@
 #include <memory>
 #include "state.h"
 #include "enchantments.h"
+#include <string>
 class GameController;
+class Player;
 class Minion: public Card {
     int attack;
     int defense;
     int numActions;
-    vector<unique_ptr<Enchantment>> enchantments;
+    std::vector<std::unique_ptr<Enchantment>> enchantments;
 public:
     Minion(GameController *g,Player* owner, std::string name = "Air Element", 
     int cost = 1, int attack = 1, int defense = 1);

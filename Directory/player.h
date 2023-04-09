@@ -62,8 +62,9 @@ public:
             return &graveyard.back();
         }
     }
-    void sendToBoard(unique_ptr<Minion>&& minion);
-    void sendToGrave(unique_ptr<Minion>&& minion);
+    void sendToBoard(unique_ptr<Minion>& minion);
+    void sendToGrave(unique_ptr<Minion>& minion);
+    void sendToHand(unique_ptr<Minion>& minion);
 };
 
 #endif
