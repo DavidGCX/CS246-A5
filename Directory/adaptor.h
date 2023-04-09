@@ -1,8 +1,8 @@
 #ifndef _ADAPTOR_H_
 #define _ADAPTOR_H_
-#include "gameController.h"
 #include<memory>
-class Player;
+#include "minion.h"
+# include "player.h"
 class Adaptor {
     public:
         Adaptor(){};

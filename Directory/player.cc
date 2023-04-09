@@ -104,17 +104,20 @@ void Player::use(int i) {
     if (hand.size() < i || i < 1) {
         cerr << "No Available Cards at Given Position!" << endl;
         return;
-    } else if (dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get())) {
-
-        if (dynamic_cast<Minion*>(deck[i-1].get())) {
-            if (hand[i-1]->getCost() > magic && !gameController->getTestMode()) {
-                cerr << "No Enough Magic for this Action" << endl;
-                return;
-            } 
-        }
-        
+    } else if (dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get()) && 
+        dynamic_cast<Minion*>(deck[i-1].get())) {
+        HasAbilityNoTarget* temp = dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get());
+        if (temp->getAbilityCost() > magic && !gameController->getTestMode()) {
+            cerr << "No Enough Magic for this Action" << endl;
+            return;
+        } else if (temp->getSilence()) {
+            cerr << "This Minion is Silenced, can not use ability" << endl;
+        } else {
+            magic = magic - hand[i-1]->getCost() > 0? magic - hand[i-1]->getCost() : 0;
+            temp->useAbility();
+        }     
     } else {
-        cerr << "This Can Not Be Played without Target" << endl;
+        cerr << "This Can Not Be Used without Target" << endl;
         return;
     }
 }

@@ -4,7 +4,7 @@
 #include "observer.h"
 #include <string>
 #include "state.h"
-class gameController;
+class GameController;
 class Player;
 
 // so for minions, they can only be in first three states, but for spells, 

@@ -2,11 +2,9 @@
 #define _GAMECONTROLLER_H_
 #include "subject.h"
 #include <memory>
-class Player;
-class Adaptor;
-class GraphicalDisplay;
-class TextDisplay;
-class Minion;
+#include "adaptor.h"
+#include "minion.h"
+#include "player.h"
 #include "state.h"
 class GameController : public Subject {
 

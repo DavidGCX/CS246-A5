@@ -82,7 +82,7 @@ void GameController::play(int i) {
 }
 
 void GameController::play(int i, int player, char target) {
-
+    (*activePlayer)->play(i);
 }
 
 void GameController::use(int i) {
@@ -90,7 +90,7 @@ void GameController::use(int i) {
 }
 
 void GameController::use(int i, int player, char target) {
-
+    (*activePlayer)->use(i);
 }
 
 void GameController::inspect(int i) {

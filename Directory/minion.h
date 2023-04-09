@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 #include "state.h"
-class Enchantment;
+#include "enchantments.h"
 class GameController;
 class Minion: public Card {
     int attack;

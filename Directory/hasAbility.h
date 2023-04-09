@@ -3,8 +3,7 @@
 #include <memory>
 #include <vector>
 #include <string>
-
-class Card;
+#include "card.h"
 class CanUseAbility{
     int abilityCost;
     bool silence = false;

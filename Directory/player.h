@@ -5,11 +5,9 @@
 #include <vector>
 #include "minion.h"
 #include "state.h"
-class Minion;
-class Card;
-class Ritual;
+#include "card.h"
+#include "ritual.h"
 class GameController;
-enum class StateInfo;
 class Player {
     GameController* gameController;
     std::vector<std::unique_ptr<Card>> deck;
@@ -33,6 +31,8 @@ public:
     // initialize the deck
     void initializeDeck(std::string deck);
     void play(int i);
+    void play(int i,  unique_ptr<Card>& targetCard);
+    void use(int i, unique_ptr<Card>& targetCard);
     void use(int i);
     void discarCard(int i);
     void notifyAllCard(StateInfo info);
