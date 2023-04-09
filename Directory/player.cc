@@ -14,6 +14,7 @@
 #include "gameController.h"
 #include "state.h"
 #include "hasAbility.h"
+#include "PRNG.h"
 using namespace std;
 
 
@@ -282,8 +283,12 @@ void Player::sendToHand(unique_ptr<Minion>& minion)
     hand.push_back(move(minion));
 }
 
-void Player::shuffDeck()
-{
+void Player::shuffDeck() {
+    PRNG p = PRNG();
+    int size = deck.size();
+    for (int i = 0; i < size; ++i) {
+        std::swap(deck[p(size)], deck[p(size)]);
+    }
     // shuff deck here
 }
 // implement deck initialization here
@@ -296,45 +301,46 @@ void Player::initializeDeck(string deck) {
         } else if (s == "Earth Elemental") {
             this->deck.push_back(make_unique<Minion>(gameController, this,"Earth Elemental", 3, 4, 4));
         } /*else if (f == "Fire Elemental") {
-            deck.push_back(FireElemental(gameController));
+            this->deck.push_back(FireElemental(gameController));
         } else if (f == "Bone Golem") {
-            deck.push_back(BoneGolem(gameController));
+            this->deck.push_back(BoneGolem(gameController));
         } else if (f == "Potion Seller") {
-            deck.push_back(PotionSeller(gameController));
+            this->deck.push_back(PotionSeller(gameController));
         } else if (f == "Novice Pyromancer") {
-            deck.push_back(NovicePyromancer(gameController));
+            this->deck.push_back(NovicePyromancer(gameController));
         } else if (f == "Apprentice Summoner") {
-            deck.push_back(ApprenticeSummoner(gameController));
+            this->deck.push_back(ApprenticeSummoner(gameController));
         } else if (f == "Master Summoner") {
-            deck.push_back(MasterSummoner(gameController));
+            this->deck.push_back(MasterSummoner(gameController));
         } else if (f == "Banish") {
-            deck.push_back(Banish(gameController));
+            this->deck.push_back(Banish(gameController));
         } else if (f == "Unsummon") {
-            deck.push_back(Unsummon(gameController));
+            this->deck.push_back(Unsummon(gameController));
         } else if (f == "Recharge") {
-            deck.push_back(Recharge(gameController));
+            this->deck.push_back(Recharge(gameController));
         } else if (f == "Disenchant") {
-            deck.push_back(Disenchant(gameController));
+            this->deck.push_back(Disenchant(gameController));
         } else if (f == "Raise Dead") {
-            deck.push_back(RaiseDead(gameController));
+            this->deck.push_back(RaiseDead(gameController));
         } else if (f == "Blizzard") {
-            deck.push_back(Blizzard(gameController));
+            this->deck.push_back(Blizzard(gameController));
         } else if (f == "Giant Strength") {
-            deck.push_back(GiantStrength());
+            this->deck.push_back(GiantStrength());
         } else if (f == "Enrage") {
-            deck.push_back(Enrage());
+            this->deck.push_back(Enrage());
         } else if (f == "Haste") {
-            deck.push_back(Haste());
+            this->deck.push_back(Haste());
         } else if (f == "Magic Fatigue") {
-            deck.push_back(MagicFatigue());
+            this->deck.push_back(MagicFatigue());
         } else if (f == "Silence") {
-            deck.push_back(Silence());
+            this->deck.push_back(Silence());
         } else if (f == "Dark Ritual") {
-            deck.push_back(DarkRitual(gameController));
+            this->deck.push_back(DarkRitual(gameController));
         } else if (f == "Aura of Power") {
-            deck.push_back(AuraOfPower(gameController));
+            this->deck.push_back(AuraOfPower(gameController));
         } else if (f == "Standstill") {
-            deck.push_back(Standstill(gameController));
+            this->deck.push_back(Standstill(gameController));
         }*/
     }
+    shuffDeck();
 }
