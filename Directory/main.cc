@@ -105,7 +105,6 @@ int main(int argc, const char** argv) {
                 } else {
                     gc->attack(attacker);
                 }
-                gc->attack(attacker, target);
             } else if (s == "play") {
                 int card;
                 s >> card;
