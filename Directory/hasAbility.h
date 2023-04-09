@@ -12,8 +12,7 @@ class CanUseAbility{
 public:
     int getAbilityCost() { return abilityCost; }
     int setAbilityCost(int cost) {abilityCost = cost;}
-    virtual std::string getAbilityDescription() = 0;
-    virtual bool checkUseCondition() {return true;};
+    virtual std::string getDescription() = 0;
     virtual ~CanUseAbility() = 0;
     void setSilence(bool state) {silence = state;}
     bool getSilence() { return silence; }
@@ -38,9 +37,9 @@ public:
     virtual bool useAbility() = 0;
 };
 
-class HasAbilityTriggered : public CanUseAbility {
-public:
-    virtual bool useAbility() = 0;
+//nothing for this one, for classification only
+class HasAbilityTriggered : public CanUseAbility { 
+    
 };
 
 #endif

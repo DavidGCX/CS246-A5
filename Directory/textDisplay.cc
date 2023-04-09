@@ -46,14 +46,14 @@ vector<string> TextDisplay::generateMinion(unique_ptr<Minion>* minion) {
         if (dynamic_cast<HasAbilityTriggered*>(minion->get())) {
             return display_minion_triggered_ability((*minion)->getName(),(*minion)->getCost(), 
             (*minion)->getAttack(), (*minion)->getDefense(),
-            (*minion)->getDescription());
+            dynamic_cast<CanUseAbility*>(minion->get())->getDescription());
         }
         else {
             // Activated ability
             return display_minion_activated_ability((*minion)->getName(), (*minion)->getCost(),
             (*minion)->getAttack(),(*minion)->getDefense(),
             dynamic_cast<CanUseAbility*>((*minion).get())->getAbilityCost(),
-            (*minion)->getDescription());
+            dynamic_cast<CanUseAbility*>((*minion).get())->getDescription());
         }
     }
     else {
@@ -67,14 +67,14 @@ vector<string> TextDisplay::generateMinion(unique_ptr<Minion>* minion) {
 vector<string> TextDisplay::generateCard(unique_ptr<Card>* card) {
     if (dynamic_cast<Spell*>(card->get())) {
         return display_spell((*card)->getName(),(*card)->getCost(),
-        (*card)->getDescription());
+        (dynamic_cast<CanUseAbility*>(card->get()))->getDescription());
     }
     if (dynamic_cast<Minion*>(card->get())) {
         return generateMinion(dynamic_cast<Minion*>(card->get()));
     }
     if (dynamic_cast<Enchantment*>(card->get())) {
         //if (dynamic_cast<Enchantment*>((*card).get()->get))
-        return display_enchantment((*card)->getName(),(*card)->getCost(),(*card)->getDescription()); // CHANGE LATER
+        return display_enchantment((*card)->getName(),(*card)->getCost(), dynamic_cast<CanUseAbility*>(card->get())->getDescription()); // CHANGE LATER
     }
     if (dynamic_cast<Ritual*>(card->get())) {
         //return display_ritual((*card)->getName(),(*card)->getCost(),))

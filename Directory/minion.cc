@@ -42,7 +42,7 @@ void Minion::notify(StateInfo state) {
        enchantment->notify(state);
    }
 }
-void Minion::notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) {
+void Minion::notify(StateInfo stateInfo, unique_ptr<Minion>& target) {
    return;
 }
 

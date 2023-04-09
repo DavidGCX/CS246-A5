@@ -26,10 +26,10 @@ void Subject::notifyObservers(StateInfo info) {
   for (auto ob : observers) ob->notify(info);
 }
 
-void notifyObservers(StateInfo info, unique_ptr<Player>* player) {
+void Subject::notifyObservers(StateInfo info, unique_ptr<Player>* player) {
     (*player)->notifyAllCard(info);
 }
 
-void notifyObservers(StateInfo info, unique_ptr<Player>* player,  unique_ptr<Minion>& target) {
+void Subject::notifyObservers(StateInfo info, unique_ptr<Player>* player,  unique_ptr<Minion>& target) {
     (*player)->notifyAllCard(info, target);
 }
