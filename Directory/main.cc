@@ -15,10 +15,7 @@ int main(int argc, const char** argv) {
     string deck1 = "default.deck";
     string deck2 = "default.deck";
     unique_ptr<GameController> gc;
-    string player1;
-    string player2;
     string initfile;
-    int count = 1;
     bool init = false;
     for (int i = 1; i < argc; ++i) {
         if (argv[i] == "-deck1") {
@@ -43,22 +40,24 @@ int main(int argc, const char** argv) {
     if (graphicson == false) {
         gc->attachAdapter(make_unique<TextDisplay>());
     }
-    string line;
-    string s;
-    fstream f{initfile};
+    if (init == true) {
+        fstream f{initfile};
+    }
     string cmd;
     bool hasFirstPlayer = false;
     bool hasSecondPlayer = false;
 
-    while(cin >> cmd) {
-        // if(init == true) {
-        //     getline(f, line);
-        //     if (f.eof()) {
-        //         init = false;
-        //     }
-        // } else {
-        //     getline(cin, s);            
-        // }
+    while(true) {
+        if(init == true) {
+            getline(f, cmd);
+            istringstream s{cmd};
+            if (f.eof()) {
+                init = false;
+            }
+        } else {
+            getline(cin, cmd);  
+            istringstream s{cmd};        
+        }
         if (!hasFirstPlayer) {
             gc->attachPlayer(cmd, 1, deck1);
             hasFirstPlayer = true;
@@ -68,17 +67,17 @@ int main(int argc, const char** argv) {
             hasSecondPlayer = true;
         }
         else {
-            if (cmd == "draw") {
+            if (s == "draw") {
                 if (testmode) gc->drawCard();
             }
-            else if (cmd == "discard") {
+            else if (s == "discard") {
                 if (testmode) {
                     int num;
-                    cin >> num;
+                    s >> num;
                     gc->discardCard(num);
                 }
             }
-            else if (cmd == "help") {
+            else if (s == "help") {
                 cout << "Commands: help -- Display this message." << endl;
                 cout << "          end -- End the current player’s turn." << endl;
                 cout << "          quit -- End the game." << endl;
@@ -90,27 +89,57 @@ int main(int argc, const char** argv) {
                 cout << "          hand -- Describe all cards in your hand." << endl;
                 cout << "          board -- Describe all cards on the board." << endl;
             }
-            else if (cmd == "end") {
+            else if (s == "end") {
                 gc->endTurn();
             }
-            else if (cmd == "quit") {
+            else if (s == "quit") {
                 break;
             }
-            else if (cmd == "attack") {
+            else if (s == "attack") {
                 int attacker;
                 int target;
-                cin >> attacker;
-                cin >> target; // CHANGE LATER
+                s >> attacker;
+                if (!s.eof()) {
+                    s >> target;
+                    gc->attack(attacker, target);
+                } else {
+                    gc->attack(attacker);
+                }
                 gc->attack(attacker, target);
             }
-            else if (cmd == "board") {
+            } else if (s == "play") {
+                int card;
+                s >> card;
+                if (s.eof()) {
+                    gc->play(card);
+                } else {
+                    char target;
+                    int player;
+                    s >> player;
+                    s >> target;
+                    gc->play(card, player, target);
+                }
+            }  else if (s == "use") {
+                int card;
+                s >> card;
+                if (s.eof()) {
+                    gc->use(card);
+                } else {
+                    char target;
+                    int player;
+                    s >> target;
+                    s >> player;
+                    gc->use(card,  player, target);
+                }
+            } else if (s == "inspect") {
+                int minion;
+                s >> minion;
+                gc->inspect(minion);
+            } else if (s == "board") {
                 gc->board();
-            }
-            else if (cmd == "hand") {
+            } else if (s == "hand") {
                 gc->hand();
             }
-
-
         }
         // if (count == 1) {
         //     gc->attachPlayer(line, 1, deck1);
