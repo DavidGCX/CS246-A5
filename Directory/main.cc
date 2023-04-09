@@ -1,16 +1,15 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-//#include "player.h"
-//#include "gameController.h"
-//#include "minion.h"
-//#include "graphicalDisplay.h"
-//#include "textDisplay.h"
+#include "player.h"
+#include "gameController.h"
+#include "minion.h"
+#include "graphicalDisplay.h"/#include "textDisplay.h"
 #include <string>
 
 using namespace std;
 
-bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecondPlayer) {
+bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecondPlayer, GameController &gc) {
 	bool value = false;
 	string firstword;
 	s >> firstword;
@@ -159,7 +158,7 @@ int main(int argc, const char* argv[]) {
                 init = false;
             }
 	    cout << "we on file" << endl;
-	    quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer);
+	    quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc);
 	    if (quitting == true) {
 		    break;
             }
@@ -167,7 +166,7 @@ int main(int argc, const char* argv[]) {
             getline(cin, cmd);
             istringstream s{cmd};
 	    cout << "we on std input" << endl;
-	    quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer);
+	    quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc);
 	    if (quitting == true) {
 		    break;
             }
