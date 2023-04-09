@@ -86,9 +86,8 @@ void Player::play(int i) {
             hand.erase(hand.begin() + i - 1);
         } else if (dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get())) {
             if (dynamic_cast<Ritual*>(deck[i-1].get())) {
-                unique_ptr<Ritual> tempRitual {dynamic_cast<Ritual*>(hand[i-1].release())};
+                ritualField.reset(dynamic_cast<Ritual*>(hand[i-1].release()));
                 hand.erase(hand.begin() + i - 1);
-                ritualField.swap(tempRitual);
             } else {
                 dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get())->useAbility();
                 hand.erase(hand.begin() + i - 1);
@@ -100,9 +99,29 @@ void Player::play(int i) {
     }
 }
 
+void Player::play(int i, unique_ptr<Minion>& target)
+{
+    
+}
+
+void Player::play(int i, unique_ptr<Ritual>& target)
+{
+    
+}
+
+void Player::use(int i, unique_ptr<Minion>& target)
+{
+    
+}
+
+void Player::use(int i, unique_ptr<Ritual>& target)
+{
+    
+}
+
 
 void Player::use(int i) {
-    if (!insideHandBounday(i)) {
+    if (!insideBoardBounday(i)) {
         cerr << "No Available Cards at Given Position!" << endl;
         return;
     } else if (dynamic_cast<HasAbilityNoTarget*>(deck[i-1].get()) && 
@@ -122,6 +141,7 @@ void Player::use(int i) {
         return;
     }
 }
+
 
 void Player::discarCard(int i) {
     if (!insideHandBounday(i)) {

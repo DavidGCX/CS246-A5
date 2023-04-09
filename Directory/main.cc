@@ -35,17 +35,16 @@ int main(int argc, const char** argv) {
             gc->setTestMode();
         } else if (argv[i] == "-graphics") {
             bool graphicson = true;
-            gc = make_unique<GameController>(new GraphicalDisplay{}, new TextDisplay{});
+            gc->attachAdapter(make_unique<GraphicalDisplay>());
+            gc->attachAdapter(make_unique<TextDisplay>());
         }
     }
     if (graphicson == false) {
-        gc = make_unique<GameController>(new TextDisplay{});
+        gc->attachAdapter(make_unique<TextDisplay>());
     }
     string line;
     string s;
-    if (init == true) {
-        fstream f{initfile};
-    }
+    fstream f{initfile};
     while(true) {
         if(init == true) {
             getline(f, line);
@@ -62,7 +61,6 @@ int main(int argc, const char** argv) {
         } else if (count == 2) {
             gc->attachPlayer(line, 2, deck2);
             ++count;
-            gc->onTurnStart();
             continue;
         } else {
             istringstream s{line};
@@ -74,7 +72,7 @@ int main(int argc, const char** argv) {
                 } else if (firstword == "discard") {
                     int num;
                     s >> num;
-                    gc->discardCard(int num);
+                    gc->discardCard(num);
                 }
             }
             if (firstword == "help") {
@@ -112,7 +110,7 @@ int main(int argc, const char** argv) {
                     int player;
                     s >> player;
                     s >> target;
-                    gc->play(card, target, player);
+                    gc->play(card, player, target);
                 }
             } else if (firstword == "use") {
                 int card;
@@ -120,11 +118,11 @@ int main(int argc, const char** argv) {
                 if (s.eof()) {
                     gc->use(card);
                 } else {
-                    int target;
+                    char target;
                     int player;
                     s >> target;
                     s >> player;
-                    gc->use(card, target, player);
+                    gc->use(card,  player, target);
                 }
             } else if (firstword == "inspect") {
                 int minion;
