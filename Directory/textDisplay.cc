@@ -62,6 +62,27 @@ vector<string> TextDisplay::generateMinion(unique_ptr<Minion>* minion) {
         (*minion)->getAttack(), (*minion)->getDefense());
     }
 }
+vector<string> TextDisplay::generateMinion(Minion* minion) {
+    if (dynamic_cast<CanUseAbility*>(minion)) {
+        if (dynamic_cast<HasAbilityTriggered*>(minion)) {
+            return display_minion_triggered_ability(minion->getName(),minion->getCost(), 
+            minion->getAttack(), minion->getDefense(),
+            dynamic_cast<CanUseAbility*>(minion)->getDescription());
+        }
+        else {
+            // Activated ability
+            return display_minion_activated_ability(minion->getName(), minion->getCost(),
+            minion->getAttack(),minion->getDefense(),
+            dynamic_cast<CanUseAbility*>(minion)->getAbilityCost(),
+            dynamic_cast<CanUseAbility*>(minion)->getDescription());
+        }
+    }
+    else {
+        // if minion has no ability
+        return display_minion_no_ability(minion->getName(), minion->getCost(),
+        minion->getAttack(), minion->getDefense());
+    }
+}
 
 // Given card, returns appropriate block of strings that displays it
 vector<string> TextDisplay::generateCard(unique_ptr<Card>* card) {
