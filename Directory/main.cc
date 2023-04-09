@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include "player.h"
 #include "gameController.h"
 #include "minion.h"
@@ -11,7 +12,6 @@ using namespace std;
 int main(int argc, const char** argv) {
     bool graphicson = false;
     bool testmode = false;
-    //GameController gc{new GraphicalDisplay{}, new TextDisplay{}};
     string deck1 = "default.deck";
     string deck2 = "default.deck";
     unique_ptr<GameController> gc;
@@ -20,26 +20,17 @@ int main(int argc, const char** argv) {
     fstream initfile;
     int count = 1;
     bool init = false;
-    for (int i = 1; i < argc; ++i) {}
+    for (int i = 1; i < argc; ++i) {
         if (argv[i] == "-deck1") {
-            // set player 1 deck to file from deck1
             deck1 = argv[i+1];
-            cout << "-deck1" << endl;
             ++i;
         } else if (argv[i] == "-deck2") {
-            // set player 2 deck to file from deck2
             deck2 = argv[i+1];
-            cout << "-deck2" << endl;
             ++i;
         } else if (argv[i] == "-init") {
             init = true;
-            // take file, use as input
             fstream f{argv[i+1]};
             initfile = f;
-            // player 1 init
-            // player 2 init
-            // play everything in the file. Don't wait for other args. Not like you'd put testing after init but yeah
-            cout << "-init" << endl;
             ++i;
         } else if (argv[i] == "-testing") {
             testmode = true;
@@ -50,12 +41,11 @@ int main(int argc, const char** argv) {
             // in controller, use the bool to determine if the switch case / if statements should check for discard and draw commands
 
             // bool is to determine if shuffling or not
-            cout << "-testing" << endl;
+            gc->setTestMode();
         } else if (argv[i] == "-graphics") {
             // enable the graphics display
             bool graphicson = true;
             gc = make_unique<GameController>(new GraphicalDisplay{}, new TextDisplay{});
-            cout << "-graphics" << endl;
         }
     }
     if (graphicson == false) {
@@ -85,8 +75,12 @@ int main(int argc, const char** argv) {
             string firstword;
             s >> firstword;
             if (testmode == true) {
-                if (line == "draw") {
-                    // we'll need to be able to access the active player without gc to do this and discard
+                if (firstword) == "draw") {
+                    gc->drawCard();
+                } else if (firstword == "discard") {
+                    int num;
+                    s >> num;
+                    gc->discardCard(int num);
                 }
             }
             if (firstword == "help") {
@@ -101,7 +95,7 @@ int main(int argc, const char** argv) {
                 cout << "          hand -- Describe all cards in your hand." << endl;
                 cout << "          board -- Describe all cards on the board." << endl;
             } else if (firstword == "end") {
-                gc->onTurnEnd();
+                gc->endTurn();
             } else if (firstword == "quit") {
                 break;
             } else if (firstword == "attack") {
