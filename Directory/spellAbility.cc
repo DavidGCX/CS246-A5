@@ -89,6 +89,7 @@ bool RaiseDead::useAbility() {
         }
         
     } else {
+        cerr << "Graveyard is empty" << endl;
         return false;
     }
 }
