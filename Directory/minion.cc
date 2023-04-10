@@ -41,10 +41,12 @@ void Minion::notify(StateInfo state) {
     }
     for(auto& enchantment : enchantments) {
        enchantment->notify(state);
-   }
+    }
 }
-void Minion::notify(StateInfo stateInfo, unique_ptr<Minion>& target) {
-   return;
+void Minion::notify(StateInfo state, unique_ptr<Minion>& target) {
+   for(auto& enchantment : enchantments) {
+       enchantment->notify(state, target);
+    }
 }
 
 void Minion::removeAllEnchantment() {

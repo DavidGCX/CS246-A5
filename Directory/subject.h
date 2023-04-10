@@ -4,9 +4,9 @@
 #include <vector>
 #include "observer.h"
 #include <memory>
-#include "player.h"
+#include "state.h"
 class Player;
-enum class StateInfo;
+class Minion;
 
 class Subject {
   std::vector<Observer*> observers;

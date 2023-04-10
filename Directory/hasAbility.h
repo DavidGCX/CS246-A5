@@ -3,9 +3,8 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include "minion.h"
-#include "ritual.h"
-#include "card.h"
+class minion;
+class ritual;
 class CanUseAbility{
     int abilityCost;
     bool silence = false;

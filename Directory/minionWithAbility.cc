@@ -10,8 +10,8 @@ using namespace std;
 void BoneGolem::notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) {
     if (getState() == State::onBoard) {
         if (stateInfo == StateInfo::onMinionExit) {
-            attack += 1;
-            defense += 1;
+            setAttack(getAttack() + 1);
+            setDefense(getDefense() + 1);
         }
     }
 }

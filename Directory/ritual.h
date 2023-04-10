@@ -4,7 +4,9 @@
 //#include "hasability.h"
 #include <vector>
 #include <string>
-
+class GameController;
+class Player;
+class Minion;
 class Ritual: public Card {
     int charges;
     int cost_per_charge;
@@ -24,6 +26,9 @@ public:
     void restoreCharges(int n) { charges += n; }
     int getCharges() { return charges; }
     int getCostPerCharges() { return cost_per_charge; }
+    void notify(StateInfo stateInfo) override { return; }
+    void notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) override { return; }
+
 };
 
 #endif

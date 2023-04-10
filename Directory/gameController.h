@@ -3,9 +3,9 @@
 #include "subject.h"
 #include <memory>
 #include "adaptor.h"
-#include "minion.h"
 #include "player.h"
 #include "state.h"
+class Minion;
 class GameController : public Subject {
 
     std::vector<unique_ptr<Adaptor>> adaptors;

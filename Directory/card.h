@@ -23,7 +23,6 @@ class Card : public Observer {
         name{name}, cost{cost}, gameController{gameController}, owner{owner} {
             state = State::onDeck; // by default, all cards are in deck;
         }
-        //virtual bool canBePlayed() = 0;
         std::string getName() {return name;}
         int getCost() {return cost;}
         Player* getOwner() { return owner; }

@@ -9,7 +9,7 @@
 class GameController;
 class Player;
 class Minion: public Card {
-protected:
+private:
     int attack;
     int defense;
     int numActions;

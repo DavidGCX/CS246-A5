@@ -7,7 +7,8 @@
 #include <memory>
 class GameController;
 class Player;
-
+class Minion;
+class Ritual;
 class Banish: public Spell, public HasAbilityWithTarget, public HasAbilityWithTargetRitual {
     Banish(GameController* gameController, Player* owner, 
     std::string name = "Banish", int cost = 2) :
