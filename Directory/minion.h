@@ -35,6 +35,7 @@ public:
     void attachEnchantment(std::unique_ptr<Enchantment>&& from);
     void removeAllEnchantment();
     bool removeTopEnchantment();
+    std::vector<std::unique_ptr<Enchantment>>* getEnchantments() {return &enchantments;}
 };
 
 #endif
