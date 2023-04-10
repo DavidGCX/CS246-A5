@@ -246,14 +246,19 @@ void Player::notifyAllCard(StateInfo info) {
     for(auto& card : board) {
         card->notify(info);
     }
-    ritualField->notify(info);
+    if (ritualField.get() != nullptr) {
+        ritualField->notify(info);
+    }
+    
 }
 
 void Player::notifyAllCard(StateInfo info, unique_ptr<Minion>& target) {
     for(auto& card : board) {
         card->notify(info, target);
+    } 
+    if (ritualField.get() != nullptr) {
+        ritualField->notify(info, target);
     }
-    ritualField->notify(info, target);
 }
 
 unique_ptr<Minion>& Player::getMinionOnBoard(int i)

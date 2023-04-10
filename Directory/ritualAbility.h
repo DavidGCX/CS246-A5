@@ -19,8 +19,8 @@ class DarkRitual : public Ritual, public HasAbilityTriggered {
 };
 
 class AuraOfPower : public Ritual, public HasAbilityTriggered {
-    AuraOfPower(GameController* gameController, Player* owner,std::string name, int cost=0,
-    int charges = 5, int cost_per_charge = 1): 
+    AuraOfPower(GameController* gameController, Player* owner,std::string name, int cost=1,
+    int charges = 4, int cost_per_charge = 1): 
     Ritual{name, cost, gameController, owner, charges, cost_per_charge}{}
     
     void notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) override;
@@ -28,8 +28,8 @@ class AuraOfPower : public Ritual, public HasAbilityTriggered {
 };
 
 class StandStill : public Ritual, public HasAbilityTriggered {
-    StandStill(GameController* gameController, Player* owner,std::string name, int cost=0,
-    int charges = 5, int cost_per_charge = 1): 
+    StandStill(GameController* gameController, Player* owner,std::string name, int cost=3,
+    int charges = 4, int cost_per_charge = 2): 
     Ritual{name, cost, gameController, owner, charges, cost_per_charge}{}
     
     void notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) override;

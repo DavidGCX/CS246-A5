@@ -25,8 +25,10 @@ void AuraOfPower::notify(StateInfo stateInfo, unique_ptr<Minion>& target) {
     if (getState() == State::onBoard) {
         if (stateInfo == StateInfo::onMinionEnter &&
         target->getOwner() == this->getOwner()) {
-            target->restoreAttack(1);
-            target->restoreDefense(1);
+            if (useRitual()) {
+                target->restoreAttack(1);
+                target->restoreDefense(1);
+            }
         }
     }
 }
@@ -35,7 +37,22 @@ string AuraOfPower::getDescription() {
 }
 
 void StandStill::notify(StateInfo stateInfo, unique_ptr<Minion>& target) {
-
+    if (getState() == State::onBoard) {
+        if (stateInfo == StateInfo::onMinionEnter) {
+            if (useRitual()) {
+                int i = 0;
+                vector<std::unique_ptr<Minion>>& board = target->getOwner()->getBoard();
+                for (auto& minion : board) {
+                    if (minion.get() == target.get()) {
+                        target->getOwner()->sendToGrave(target);
+                        board.erase(board.begin() + i);
+                        break;
+                    }
+                    i++;
+                }
+            }
+        }
+    }
 }
 string StandStill::getDescription() {
     return "Whenever a minion enters play, destroy it";
