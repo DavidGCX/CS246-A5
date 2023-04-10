@@ -4,7 +4,7 @@
 #include "player.h"
 #include "gameController.h"
 #include "minion.h"
-//#include "graphicalDisplay.h"
+#include "graphicalDisplay.h"
 #include "textDisplay.h"
 #include <string>
 
@@ -124,7 +124,7 @@ int main(int argc, const char* argv[]) {
             gc->setTestMode();
         } else if (arg1 == "-graphics") {
             bool graphicson = true;
-            //gc->attachAdapter(make_unique<GraphicalDisplay>());
+            gc->attachAdapter(make_unique<GraphicalDisplay>());
             gc->attachAdapter(make_unique<TextDisplay>());
         }
     }
