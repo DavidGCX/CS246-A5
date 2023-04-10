@@ -10,7 +10,8 @@ class CanUseAbility{
     bool silence = false;
 public:
     int getAbilityCost() { return abilityCost; }
-    int setAbilityCost(int cost) {abilityCost = cost;}
+    void setAbilityCost(int cost) {abilityCost = cost;}
+    void changeAbilityCost(int cost) { abilityCost += cost; }
     virtual std::string getDescription() = 0;
     virtual ~CanUseAbility() = 0;
     void setSilence(bool state) {silence = state;}
