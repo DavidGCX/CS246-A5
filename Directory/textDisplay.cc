@@ -212,7 +212,12 @@ void TextDisplay::printHand(unique_ptr<Player>& player) {
 }
 
 void TextDisplay::printEnchantments(unique_ptr<Minion>& minion) {
-    cout << minion->getName() << endl;
+    vector<vecotr<string>> row;
+    row.push_back(generateMinion(&minion));
+    printRow(row);
+
+    //minion->ge
+    row.clear();
 }
 
 void TextDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>& playerTwo) {
