@@ -47,6 +47,7 @@ public:
     bool getTestMode() const { return testMode; }
     std::unique_ptr<Player>* getActivePlayer() {return activePlayer;}
     std::vector<std::unique_ptr<Minion>>& getNonActivePlayerBoard();
+    bool gameEnd ();
 };
 
 #endif

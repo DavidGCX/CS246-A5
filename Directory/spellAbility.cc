@@ -14,10 +14,13 @@ string Banish::getDescription() {
 }
 bool Banish::useAbility(unique_ptr<Minion>& target) {
     int i = 0;
-    vector<std::unique_ptr<Minion>>& board = target->getOwner()->getBoard();
+    
+    vector<unique_ptr<Minion>>& board = target->getOwner()->getBoard();
+    
     for (auto& minion : board) {
+        
         if (minion.get() == target.get()) {
-            target->getOwner()->sendToGrave(target);
+            (target->getOwner())->sendToGrave(target);
             board.erase(board.begin() + i);
             break;
         }

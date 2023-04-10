@@ -14,10 +14,12 @@
 #include "gameController.h"
 #include "state.h"
 #include "hasAbility.h"
-#include "PRNG.h"
 #include "minionWithAbility.h"
 #include "ritualAbility.h"
 #include "spellAbility.h"
+#include <algorithm>
+#include <random>
+#include <chrono>
 using namespace std;
 
 
@@ -38,6 +40,7 @@ name{name}, gameController{gc}
 void Player::drawCard() {
     if (hand.size() < 5 && deck.size() > 0) {
         deck.back()->setState(State::onHand);
+        //cout << deck.back()->getName() << endl;
         hand.push_back(move(deck.back()));
         deck.pop_back();
     } else if (hand.size() >=5 && deck.size() > 0){
@@ -68,7 +71,7 @@ void Player::restoreHealth(int amount) {
 
 void Player::play(int i) {
     if (!insideHandBounday(i)) {
-        cerr << "No Available Cards at Given Position!" << endl;
+        cout << "No Available Cards at Given Position!" << endl;
         return;
     } else {
         if (hand[i-1]->getCost() > magic && !gameController->getTestMode()) {
@@ -80,7 +83,8 @@ void Player::play(int i) {
             unique_ptr<Minion> tempMinion {dynamic_cast<Minion*>(hand[i-1].release())};
             sendToBoard(tempMinion);
             hand.erase(hand.begin() + i - 1);
-        } else if (dynamic_cast<HasAbilityNoTarget*>(hand[i-1].get())) {
+        } else if (dynamic_cast<HasAbilityNoTarget*>(hand[i-1].get()) ||
+        dynamic_cast<Ritual*>(hand[i-1].get())) {
             if (dynamic_cast<Ritual*>(hand[i-1].get())) {
                 handleMagic(hand[i-1]->getCost());
                 hand[i-1]->setState(State::onBoard);
@@ -108,10 +112,13 @@ void Player::play(int i, unique_ptr<Minion>& target)
         if (hand[i-1]->getCost() > magic && !gameController->getTestMode()) {
             cerr << "No Enough Magic for this Action" << endl;
             return;
-        } 
+        }
+        
         if (dynamic_cast<HasAbilityWithTarget*>(hand[i-1].get())) {
             if (dynamic_cast<Spell*>(hand[i-1].get())) {
+                
                 if(dynamic_cast<HasAbilityWithTarget*>(hand[i-1].get())->useAbility(target)) {
+                    
                     handleMagic(hand[i-1]->getCost());
                     hand.erase(hand.begin() + i - 1);
                 }
@@ -278,9 +285,11 @@ void Player::sendToBoard(unique_ptr<Minion>& minion)
 
 void Player::sendToGrave(unique_ptr<Minion>& minion)
 {
-    gameController->onMinionExit(graveyard.back());
-    graveyard.back()->setState(State::onGraveYard);
-    graveyard.back()->removeAllEnchantment();
+    
+    gameController->onMinionExit(minion);
+    
+    minion->setState(State::onGraveYard);
+    minion->removeAllEnchantment();
     graveyard.push_back(move(minion));
 }
 
@@ -293,12 +302,15 @@ void Player::sendToHand(unique_ptr<Minion>& minion)
 }
 
 void Player::shuffDeck() {
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    shuffle( deck.begin(), deck.end(), std::default_random_engine(seed) );
+    /*
     PRNG p = PRNG();
     int size = deck.size();
     for (int i = 0; i < size; ++i) {
         std::swap(deck[p(size)], deck[p(size)]);
     }
-
+    */
 }
 // implement deck initialization here
 void Player::initializeDeck(string deck) {

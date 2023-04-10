@@ -4,7 +4,7 @@
 #include "player.h"
 #include "gameController.h"
 #include "minion.h"
-#include "graphicalDisplay.h"
+//#include "graphicalDisplay.h"
 #include "textDisplay.h"
 #include <string>
 
@@ -13,13 +13,16 @@ using namespace std;
 bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecondPlayer, unique_ptr<GameController> &gc, string deck1, string deck2) {
 	bool value = false;
 	string firstword;
+    
 	s >> firstword;
         if (!hasFirstPlayer) {
+            
             gc->attachPlayer(firstword, 1, deck1);
             hasFirstPlayer = true;
         } else if (!hasSecondPlayer) {
             hasSecondPlayer = true;
             gc->attachPlayer(firstword, 2, deck2);
+            gc->refreshDisplay();
         } else {
             if (firstword == "draw") {
                 if (testmode) {
@@ -55,6 +58,9 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
                     gc->attack(attacker, target);
                 } else {
                     gc->attack(attacker);
+                    if (gc->gameEnd()) {
+                        return true;
+                    }
                 }
             } else if (firstword == "play") {
                 int card;
@@ -98,7 +104,7 @@ int main(int argc, const char* argv[]) {
     bool testmode = false;
     string deck1 = "default.deck";
     string deck2 = "default.deck";
-    unique_ptr<GameController> gc;
+    unique_ptr<GameController> gc = make_unique<GameController>();
     string initfile;
     bool init = false;
     for (int i = 1; i < argc; ++i) {
@@ -118,7 +124,7 @@ int main(int argc, const char* argv[]) {
             gc->setTestMode();
         } else if (arg1 == "-graphics") {
             bool graphicson = true;
-            gc->attachAdapter(make_unique<GraphicalDisplay>());
+            //gc->attachAdapter(make_unique<GraphicalDisplay>());
             gc->attachAdapter(make_unique<TextDisplay>());
         }
     }

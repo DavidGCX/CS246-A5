@@ -12,11 +12,13 @@ void GameController::onTurnStart() {
     (*activePlayer)->drawCard();
     notifyObservers(StateInfo::onTurnStart, activePlayer);
     notifyObservers(StateInfo::onTurnStart, nonActivePlayer);
+    cleanUpBoard();
 }
 
 void GameController::onTurnEnd() {
     notifyObservers(StateInfo::onTurnEnd, activePlayer);
     notifyObservers(StateInfo::onTurnEnd, nonActivePlayer);
+    cleanUpBoard();
 }
 
 void GameController::onMinionEnter(unique_ptr<Minion>& target) {
@@ -50,12 +52,15 @@ void GameController::attachAdapter(unique_ptr<Adaptor>&& oneAdaptor) {
 }
 
 void GameController::attachPlayer(string name, int index, string deck) {
+    
     switch(index) {
         case 1 :
             playerOne = make_unique<Player>(name, this, testMode, deck);
+            activePlayer = &this->playerOne;
             break;
         case 2 :
             playerTwo = make_unique<Player>(name, this, testMode, deck);
+            nonActivePlayer = &this->playerTwo;
             break;
     }
 }
@@ -65,7 +70,14 @@ void GameController::refreshDisplay() {
         adaptor->refresh(playerOne, playerTwo);
     }
 }
-
+bool GameController::gameEnd () {
+    if ((*nonActivePlayer)->getHealth() <= 0) {
+        cout << (*activePlayer)->getName() << " win!"<< endl;
+        return true;
+    } else {
+        return false;
+    }
+}
 void GameController::attackNonActivePlayer(int attack)
 {
     (*nonActivePlayer)->takeDamage(attack);
@@ -74,6 +86,7 @@ void GameController::attackNonActivePlayer(int attack)
 void GameController::endTurn() {
     onTurnEnd();
     swap(activePlayer, nonActivePlayer);
+    cout << (*activePlayer)->getName() << " Turn"<< endl;
     onTurnStart();
 }
 
@@ -189,14 +202,16 @@ void GameController::use(int i, int player, char target) {
 }
 
 void GameController::cleanUpBoard() {
-    for (auto minion = (*activePlayer)->getBoard().begin(); minion != (*activePlayer)->getBoard().end() + 1; ++minion){
+    for (auto minion = (*activePlayer)->getBoard().begin(); minion < (*activePlayer)->getBoard().end(); ++minion){
+        //cout << "asd" << endl;
+        //cout << (*minion)->getName() << endl;
         if ((*minion)->getDefense() <= 0) {
             (*activePlayer)->sendToGrave(*minion);
             (*activePlayer)->getBoard().erase(minion);
             minion -= 1;
         }
     }
-    for (auto minion = (*nonActivePlayer)->getBoard().begin(); minion != (*nonActivePlayer)->getBoard().end() + 1; ++minion){
+    for (auto minion = (*nonActivePlayer)->getBoard().begin(); minion < (*nonActivePlayer)->getBoard().end(); ++minion){
         if ((*minion)->getDefense() <= 0) {
             (*nonActivePlayer)->sendToGrave(*minion);
             (*nonActivePlayer)->getBoard().erase(minion);
@@ -218,7 +233,9 @@ void GameController::inspect(int i) {
 
 void GameController::hand() {
     for(auto& adaptor : adaptors) {
+        //cout << "adaptor enter" <<endl;
         adaptor->printHand((*activePlayer));
+        //cout << "adaptor enter" <<endl;
     }
 }
 

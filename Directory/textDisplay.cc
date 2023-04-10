@@ -87,8 +87,15 @@ vector<string> TextDisplay::generateMinion(Minion* minion) {
 // Given card, returns appropriate block of strings that displays it
 vector<string> TextDisplay::generateCard(unique_ptr<Card>* card) {
     if (dynamic_cast<Spell*>(card->get())) {
-        return display_spell((*card)->getName(),(*card)->getCost(),
-        (dynamic_cast<CanUseAbility*>(card->get()))->getDescription());
+        string des;
+        if(dynamic_cast<HasAbilityNoTarget*>(card->get())) {
+            des = dynamic_cast<HasAbilityNoTarget*>(card->get())->getDescription();
+        } else if (dynamic_cast<HasAbilityWithTarget*>(card->get())) {
+            des = dynamic_cast<HasAbilityWithTarget*>(card->get())->getDescription();
+        } else {
+            des = dynamic_cast<HasAbilityWithTargetRitual*>(card->get())->getDescription();
+        }
+        return display_spell((*card)->getName(),(*card)->getCost(), des);
     }
     if (dynamic_cast<Minion*>(card->get())) {
         return generateMinion(dynamic_cast<Minion*>(card->get()));
@@ -204,7 +211,9 @@ void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& 
 void TextDisplay::printHand(unique_ptr<Player>& player) {
     vector<vector<string>> row;
     for (auto& card : player->getHand()) {
+        //cout << card->getName() << endl;
         row.push_back(generateCard(&card));
+        //cout << card->getName() << endl;
     }
     printRow(row);
 }
@@ -213,9 +222,8 @@ void TextDisplay::printEnchantments(unique_ptr<Minion>& minion) {
     vector<vector<string>> row;
     row.push_back(generateMinion(&minion));
     printRow(row);
-
-    //minion->ge
     row.clear();
+    std::vector<std::unique_ptr<Enchantment>>& enchantments = minion->getEnchantments();
 }
 
 void TextDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>& playerTwo) {
