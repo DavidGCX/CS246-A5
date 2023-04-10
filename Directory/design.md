@@ -66,10 +66,23 @@ class FireElemental : public Minion, public HasAbilityTriggered{
 Then, instead of inheriting from `HasAbilityTriggered`, the card should override the corresponding `useAbility` method, which will be called inside `play` and `use` methods from the `Player` class. Together with dynamic_cast, we could have an easy way of checking the ability type of a given card by dynmic_cast its raw pointer like follows
 ```c++
 //assume card has a type unique_prt<Card>;
-if 
+if (dynamic_cast<HasAbilityNoTarget*>(card.get())){
+    dynamic_cast<HasAbilityNoTarget*>(card.get())->useAbility();
+}
 ```
-And call the appropriate version of `useAbility` 
-
+Together with dynamic_cast on card types, we could have the followings:
+```c++
+if (dynamic_cast<HasAbilityWithTarget*>(card.get())){
+    if (dynamic_cast<Enchantment*>(card.get())) {
+      //dealing with Enchantment
+    } else if (dynamic_cast<Spell*>(card.get())) {
+      //dealing with spell
+    } else {
+      //error message
+    }
+}
+```
+Together they form the part for Play/Use cards with activated Ability no target / with target as required.
 
 # Resilience to Change
 
