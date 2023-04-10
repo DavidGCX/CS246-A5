@@ -363,4 +363,6 @@ void Player::initializeDeck(string deck) {
             this->deck.push_back(make_unique<StandStill>(gameController, this));
         }
     }
+    cout << this->deck.size() << endl;
+    cout << hand.size() << endl;
 }
