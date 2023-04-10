@@ -342,5 +342,4 @@ void Player::initializeDeck(string deck) {
             this->deck.push_back(Standstill(gameController));
         }*/
     }
-    shuffDeck();
 }

@@ -54,6 +54,17 @@ void Minion::removeAllEnchantment() {
     }
 }
 
+bool Minion::removeTopEnchantment()
+{
+    if (enchantments.size() > 0) {
+        enchantments.back()->reverseEffect(this);
+        enchantments.pop_back();
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void Minion::setAttack(int a) {
     attack = a;
 }

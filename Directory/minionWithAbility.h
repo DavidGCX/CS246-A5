@@ -2,7 +2,9 @@
 #define __MINIONWITHABILITY_H__
 #include "minion.h"
 #include "hasAbility.h"
+#include "state.h"
 #include <string>
+#include <memory>
 class GameController;
 class Player;
 

@@ -49,6 +49,7 @@ public:
     void notifyAllCard(StateInfo info, std::unique_ptr<Minion>& target);
     std::vector<std::unique_ptr<Minion>>& getBoard() { return board; }
     std::vector<std::unique_ptr<Card>>& getHand() { return hand; }
+    std::vector<std::unique_ptr<Minion>>& getGraveyard() { return graveyard; }
     std::unique_ptr<Ritual>& getRitualField() { return ritualField; }
     // do the boundary check before calling this
     std::unique_ptr<Minion>& getMinionOnBoard(int i);

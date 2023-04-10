@@ -1,4 +1,6 @@
 #include "minionWithAbility.h"
+#include "minion.h"
+#include <memory>
 #include <string>
 #include "state.h"
 #include "player.h"

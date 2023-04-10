@@ -33,6 +33,7 @@ public:
     void costAct(int n) { numActions -= n;}
     void attachEnchantment(unique_ptr<Enchantment>&& from);
     void removeAllEnchantment();
+    bool removeTopEnchantment();
 };
 
 /*
