@@ -66,6 +66,5 @@ void GraphicalDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>
     wp->fillRectangle(hand3.first, hand3.second, CARD_W, CARD_H, Xwindow::Green);
     wp->fillRectangle(hand4.first, hand4.second, CARD_W, CARD_H, Xwindow::Green);
     wp->fillRectangle(hand5.first, hand5.second, CARD_W, CARD_H, Xwindow::Green);
-
     // active player hand
 }

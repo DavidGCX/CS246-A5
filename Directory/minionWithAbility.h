@@ -27,7 +27,7 @@ public:
 };
 
 class PotionSeller: public Minion, public HasAbilityTriggered{
-    public:
+public:
     PotionSeller(GameController *g, Player* owner, std::string name = "Potion Seller", 
     int cost = 2, int attack = 1, int defense = 3) :  
     Minion{g, owner, name, cost, attack, defense}{}
@@ -36,7 +36,7 @@ class PotionSeller: public Minion, public HasAbilityTriggered{
 };
 
 class NovicePyromancer: public Minion, public HasAbilityWithTarget{
-    public:
+public:
     NovicePyromancer(GameController *g, Player* owner, std::string name = "Novice Pyromancer", 
     int cost = 1, int attack = 0, int defense = 1) :  
     Minion{g, owner, name, cost, attack, defense}{
@@ -48,7 +48,7 @@ class NovicePyromancer: public Minion, public HasAbilityWithTarget{
 };
 
 class ApprenticeSummoner: public Minion, public HasAbilityNoTarget{
-    public:
+public:
     ApprenticeSummoner(GameController *g, Player* owner, std::string name = "Apprentice Summoner", 
     int cost = 1, int attack = 1, int defense = 1) :  
     Minion{g, owner, name, cost, attack, defense}{
@@ -60,7 +60,7 @@ class ApprenticeSummoner: public Minion, public HasAbilityNoTarget{
 };
 
 class MasterSummoner: public Minion, public HasAbilityNoTarget{
-    public:
+public:
     MasterSummoner(GameController *g, Player* owner, std::string name = "Master Summoner", 
     int cost = 3, int attack = 2, int defense = 3) :  
     Minion{g, owner, name, cost, attack, defense}{
