@@ -21,6 +21,7 @@ public:
     virtual void reverseEffect(Minion* target) = 0;
     void notify(StateInfo stateInfo) override { return; }
     void notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) override { return; }
+    virtual void notifyEnchant(StateInfo stateInfo, Minion* target) { return; }
 };
 
 class GiantStrength: public Enchantment, public HasAbilityWithTarget {
@@ -39,7 +40,11 @@ class Enrage: public Enchantment, public HasAbilityWithTarget {
 public:
     Enrage(GameController* gameController, Player* owner, std::string name = "Enrage", int cost = 2) :
     Enchantment{name, cost, gameController, owner} {}
-    bool isSimpleADBuff() override {return false;};
+    bool isSimpleADBuff() override {return true;}
+    int buffType() override { return 2;}
+    int buffValueAttack() override { return 2; }
+    int buffValueDefense() override { return 2; }
+    string getDescription() override { return ""; }
     string getDescription() override { return ""; }
     bool useAbility(std::unique_ptr<Minion>& target) override;
     void reverseEffect(Minion* target) override;
@@ -52,6 +57,7 @@ public:
     string getDescription() override { return ""; }
     bool useAbility(std::unique_ptr<Minion>& target) override;
     void reverseEffect(Minion* target) override;
+    void notifyEnchant(StateInfo stateInfo, Minion* target) override { return; }
 };
 
 class MagicFatigue: public Enchantment, public HasAbilityWithTarget {

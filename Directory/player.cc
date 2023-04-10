@@ -295,7 +295,7 @@ void Player::shuffDeck() {
     for (int i = 0; i < size; ++i) {
         std::swap(deck[p(size)], deck[p(size)]);
     }
-    // shuff deck here
+
 }
 // implement deck initialization here
 void Player::initializeDeck(string deck) {

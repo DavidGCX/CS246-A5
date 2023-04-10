@@ -5,6 +5,7 @@
 #include "state.h"
 #include "player.h"
 #include <iostream>
+#include "gameController.h"
 using namespace std;
 
 void BoneGolem::notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) {
@@ -35,7 +36,8 @@ string FireElemental::getDescription() {
 void  PotionSeller::notify(StateInfo stateInfo) {
     Minion::notify(stateInfo);
     if (getState() == State::onBoard) {
-        if (stateInfo == StateInfo::onTurnEnd) {
+        if (gameController->getActivePlayer()->get() == this->getOwner() && 
+        stateInfo == StateInfo::onTurnEnd) {
             for(auto& minion : getOwner()->getBoard()) {
                 minion->restoreDefense(1);
             }

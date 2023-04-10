@@ -27,6 +27,7 @@ public:
     void setActNum(int n);
     void restoreDefense(int n) {defense += n;}
     void restoreAttack(int n) {attack += n;}
+    void restoreActNum(int n) {numActions += n;}
     int getAttack();
     int getDefense();
     int getActNum();

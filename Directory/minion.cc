@@ -17,7 +17,7 @@ void Minion::takeDamage(int amount) {
 
 void Minion::attackMinion(unique_ptr<Minion>& target) {
     if (numActions > 0) {
-        numActions -= 1;
+        costAct(1);
         this->takeDamage(target->getAttack());
         target->takeDamage(attack);
     } else {
@@ -27,7 +27,7 @@ void Minion::attackMinion(unique_ptr<Minion>& target) {
 
 void Minion::attackPlayer() {
     if (numActions > 0) {
-        numActions -= 1;
+        costAct(1);
         gameController->attackNonActivePlayer(getAttack());
     } else {
         cerr << "This Minion Does Not Have Enough ActionPoint" << endl;
@@ -40,7 +40,7 @@ void Minion::notify(StateInfo state) {
         numActions = 1;
     }
     for(auto& enchantment : enchantments) {
-       enchantment->notify(state);
+       enchantment->notifyEnchant(state, this);
     }
 }
 void Minion::notify(StateInfo state, unique_ptr<Minion>& target) {
