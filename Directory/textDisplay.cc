@@ -94,8 +94,22 @@ vector<string> TextDisplay::generateCard(unique_ptr<Card>* card) {
         return generateMinion(dynamic_cast<Minion*>(card->get()));
     }
     if (dynamic_cast<Enchantment*>(card->get())) {
-        //if (dynamic_cast<Enchantment*>((*card).get()->get))
-        return display_enchantment((*card)->getName(),(*card)->getCost(), dynamic_cast<CanUseAbility*>(card->get())->getDescription()); // CHANGE LATER
+        if (dynamic_cast<Enchantment*>(card->get())->isSimpleADBuff()) {
+            if (dynamic_cast<Enchantment*>(card->get())->buffType == 1) {
+                string attack = "+" + to_string(dynamic_cast<Enchantment*>(card->get())->buffValueAttack());
+                string defense = "+" + to_string(dynamic_cast<Enchantment*>(card->get())->buffValueDefense());
+                return display_enchantment_attack_defence((*card)->getName(), (*card)->getCost(),"",attack,defense);
+            }
+            if (dynamic_cast<Enchantment*>(card->get())->buffType == 2) {
+                string attack = "*" + to_string(dynamic_cast<Enchantment*>(card->get())->buffValueAttack());
+                string defense = "*" + to_string(dynamic_cast<Enchantment*>(card->get())->buffValueDefense());
+                return display_enchantment_attack_defence((*card)->getName(), (*card)->getCost(),"",attack,defense);
+            }
+        }
+        else {
+            return display_enchantment((*card)->getName(),(*card)->getCost(),
+             (dynamic_cast<CanUseAbility*>(card->get()))->getDescription())
+        }
     }
     if (dynamic_cast<Ritual*>(card->get())) {
         return display_ritual((*card)->getName(),(*card)->getCost(),
