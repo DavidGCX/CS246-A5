@@ -42,6 +42,7 @@ class GraphicalDisplay : public Adaptor {
     std::pair<int,int> drawName(const std::pair<int,int> coord);
     std::pair<int,int> drawBottomLeft(const std::pair<int,int> coord);
     std::pair<int,int> drawBottomRight(const std::pair<int,int> coord);
+    std::pair<int,int> drawDescription(const std::pair<int,int> coord);
 
     public:
         GraphicalDisplay();

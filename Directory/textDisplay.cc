@@ -125,6 +125,26 @@ vector<string> TextDisplay::generateCard(unique_ptr<Card>* card) {
     }
 }
 
+// Given enchantment, returns appropriate block of strings that displays it
+vector<string> TextDisplay::generateEnchantment(unique_ptr<Enchantment>* enchantment) {
+    if (enchantment->get()->isSimpleADBuff()) {
+        if (enchantment->get()->buffType() == 1) {
+            string attack = "+" + to_string(enchantment->get()->buffValueAttack());
+            string defense = "+" + to_string(enchantment->get()->buffValueDefense());
+            return display_enchantment_attack_defence((*enchantment)->getName(), (*enchantment)->getCost(),"",attack,defense);
+        }
+        if (enchantment->get()->buffType() == 2) {
+            string attack = "*" + to_string(enchantment->get()->buffValueAttack());
+            string defense = "*" + to_string(enchantment->get()->buffValueDefense());
+            return display_enchantment_attack_defence((*enchantment)->getName(), (*enchantment)->getCost(),"",attack,defense);
+        }
+    }
+    else {
+        return display_enchantment((*enchantment)->getName(),(*enchantment)->getCost(),
+             ((dynamic_cast<CanUseAbility*>(enchantment->get())))->getDescription());
+    }
+}
+
 void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& playerTwo) {
     vector<vector<string>> row1;
     vector<vector<string>> row2;
@@ -222,8 +242,22 @@ void TextDisplay::printEnchantments(unique_ptr<Minion>& minion) {
     vector<vector<string>> row;
     row.push_back(generateMinion(&minion));
     printRow(row);
-    row.clear();
-    std::vector<std::unique_ptr<Enchantment>>& enchantments = minion->getEnchantments();
+    
+    int numEnchantments = minion->getEnchantments()->size();
+
+    // 5 enchantments per row
+    for (int j=0; j<numEnchantments/5; j++) {
+        row.clear();
+        for (int i=0; i<5; i++) {
+            if (j*5+i < numEnchantments) {
+                row.push_back(generateEnchantment(minion->getEnchantments()->at(j*5+i)));
+            }
+            else {
+                break;
+            }
+        }
+        printRow(row);
+    }
 }
 
 void TextDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>& playerTwo) {
