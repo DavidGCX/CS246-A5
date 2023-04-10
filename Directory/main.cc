@@ -22,15 +22,14 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
         } else {
             if (firstword == "draw") {
                 if (testmode) {
-			//gc->drawCard();
+			gc->drawCard();
 			cout << "draw" << endl;
 		}
             } else if (firstword == "discard") {
                 if (testmode) {
                     int num;
                     s >> num;
-                    //gc->discardCard(num);
-		    cout << "discard" << endl; 
+                    gc->discardCard(num);
                 }
             } else if (firstword == "help") {
                 cout << "Commands: help -- Display this message." << endl;
@@ -44,7 +43,7 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
                 cout << "          hand -- Describe all cards in your hand." << endl;
                 cout << "          board -- Describe all cards on the board." << endl;
             } else if (firstword == "end") {
-                //gc->endTurn();
+                gc->endTurn();
 		cout << "end" << endl;
             } else if (firstword == "quit") {
                 value = true;
@@ -54,40 +53,33 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
                 s >> attacker;
                 if (!s.eof()) {
                     s >> target;
-                    //gc->attack(attacker, target);
-		    cout << "attack 2 params" << endl;
+                    gc->attack(attacker, target);
                 } else {
-                    //gc->attack(attacker);
-		    cout << "attack 1 param" << endl;
+                    gc->attack(attacker);
                 }
-                //gc->attack(attacker, target);
             } else if (firstword == "play") {
                 int card;
                 s >> card;
                 if (s.eof()) {
-                    //gc->play(card);
-		    cout << "play 1 param" << endl;
+                    gc->play(card);
                 } else {
                     char target;
                     int player;
                     s >> player;
                     s >> target;
-                    //gc->play(card, player, target);
-		    cout << "play 3 params" << endl;
+                    gc->play(card, player, target);
                 }
             } else if (firstword == "use") {
                 int card;
                 s >> card;
                 if (s.eof()) {
-                    //gc->use(card);
-		    cout << "use 1 param" << endl;
+                    gc->use(card);
                 } else {
                     char target;
                     int player;
                     s >> target;
                     s >> player;
-                    //gc->use(card,  player, target);
-		    cout << "use 3 params" << endl;
+                    gc->use(card,  player, target);
                 }
             } else if (firstword == "inspect") {
                 int minion;
@@ -107,7 +99,7 @@ int main(int argc, const char* argv[]) {
     bool testmode = false;
     string deck1 = "default.deck";
     string deck2 = "default.deck";
-    //unique_ptr<GameController> gc;
+    unique_ptr<GameController> gc;
     string initfile;
     bool init = false;
     for (int i = 1; i < argc; ++i) {
@@ -124,17 +116,15 @@ int main(int argc, const char* argv[]) {
             ++i;
         } else if (arg1 == "-testing") {
             testmode = true;
-            //gc->setTestMode();
-	    cout << "-testing" << endl;
+            gc->setTestMode();
         } else if (arg1 == "-graphics") {
             bool graphicson = true;
-            //gc->attachAdapter(make_unique<GraphicalDisplay>());
-            //gc->attachAdapter(make_unique<TextDisplay>());
-	    cout << "-graphics" << endl;
+            gc->attachAdapter(make_unique<GraphicalDisplay>());
+            gc->attachAdapter(make_unique<TextDisplay>());
         }
     }
     if (graphicson == false) {
-        //gc->attachAdapter(make_unique<TextDisplay>());
+        gc->attachAdapter(make_unique<TextDisplay>());
     }
     fstream f{initfile};
     string cmd;
