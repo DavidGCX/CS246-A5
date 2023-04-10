@@ -85,15 +85,21 @@ if (dynamic_cast<HasAbilityWithTarget*>(card.get())){
 Together they form the part for Play/Use cards with activated Ability no target / with target as required.
 
 # Resilience to Change
-
+From the beginning of the planning stage, we have thought about making our code resilient to change. We designed our class structure such that when there will be changes to the project specification (even though we know there won't be), we will be able to implement such modification with minimal change to our existing code.
 ## GameController
 ## Player
 ## New Cards
+
 ### New Ritual
+Suppose we want to add more rituals into the game. Naturally, all rituals have an ability that triggers automatically, so they will inherit from `Ritual` and `HasAbilityTriggered`. Then we can can override its `useAbility` method to add the desired effect of the ability. We can also customize its name, cost, charges, and cost per charge very easily. Note that each ritual will have a `notify` method, so the `GameController` will notify it to maintain APNAP order.
 ### New Spell
+Suppose we want to add more spells into the game. Naturally, all spells have some kinda of (non-triggered) ability, so they will be the subclass of either `HasAbilityWithTarget`, `HasAbilityNoTarget`, or `HasAbilityWithTargetRitual`, in addition to being the subclass of `Spell`. Then we can override its `useAbility` method to add the desired effect of the ability.
 ### New Minion
+Suppose we want to add more minions into the game. If it has no ability, we simply make it a subclass of `Minion` and customize its name, attack, and defence. It if has an ability, then it can be a triggered or activated ability. Then we can override its `useAbility` method to add the desired effect of the ability. Recall that derived classes from `CanUseAbility` are `HasAbilityWithTarget`, `HasAbilityWithTargetRitual`, `HasAbilityNoTarget`, `HasAbilityTriggered`. This means we can easily classify any ability into one of the subclasses and take advantage of polymorphism and dynamic_cast.
 ### New Enchantment
+
 ## New types of Cards
+Suppose there is a new type or Card being introduced...
 # Answers to Questions
 Question: How could you design activated abilities in your code to maximize code
 reuse?
