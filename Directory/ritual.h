@@ -11,7 +11,8 @@ class Ritual: public Card {
 public:
     Ritual(std::string name, int cost, GameController* gameController, Player* owner,
     int charges, int cost_per_charge) :
-    Card{name, cost, g, owner}, charges{charges}, cost_per_charge{cost_per_charge} {} 
+    Card{name, cost, gameController, owner}, charges{charges}, cost_per_charge{cost_per_charge} {}
+    void restoreCharges(int n) { charges += n; }
 };
 
 #endif
