@@ -65,6 +65,7 @@ string ApprenticeSummoner::getDescription() {
 bool ApprenticeSummoner::useAbility() {
     if (getOwner()->getBoardMinionCount() < 5) {
         getOwner()->getBoard().push_back(make_unique<Minion>(gameController, getOwner()));
+        gameController->onMinionEnter(getOwner()->getBoard().back());
         return true;
     } else {
         cerr << "There are already 5 minions on the board, can not summon more" << endl;
@@ -78,8 +79,11 @@ string MasterSummoner::getDescription() {
 
 bool MasterSummoner::useAbility() {
     if (getOwner()->getBoardMinionCount() < 5) {
-        while (getOwner()->getBoardMinionCount() < 5) {
+        int count = 0;
+        while (getOwner()->getBoardMinionCount() < 5 && count <= 3) {
             getOwner()->getBoard().push_back(make_unique<Minion>(gameController, getOwner()));
+            gameController->onMinionEnter(getOwner()->getBoard().back());
+            count++;
         }
         return true;
     } else {

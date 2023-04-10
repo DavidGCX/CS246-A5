@@ -63,6 +63,7 @@ class FireElemental : public Minion, public HasAbilityTriggered{
   ...
 };
 ```
+Then, instead of inheriting from `HasAbilityTriggered`, the card should override the corresponding `useAbility` method 
 
 
 # Resilience to Change
