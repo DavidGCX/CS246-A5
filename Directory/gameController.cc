@@ -225,6 +225,7 @@ void GameController::inspect(int i) {
     if (!(*activePlayer)->insideBoardBounday(i)) {
          cerr << "No Available Cards at Given Position!" << endl;
     } else {
+        cout << (*activePlayer)->getMinionOnBoard(i)->getEnchantments().size()<<endl;
         for(auto& adaptor : adaptors) {
             adaptor->printEnchantments((*activePlayer)->getMinionOnBoard(i));
         }

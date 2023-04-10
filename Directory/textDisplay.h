@@ -14,7 +14,7 @@ class TextDisplay : public Adaptor {
         std::vector<std::string> generateMinion(std::unique_ptr<Minion>* minion);
         std::vector<std::string> generateMinion(Minion* minion);
         std::vector<std::string> generateCard(std::unique_ptr<Card>* card);
-        std::vector<std::string> generateEnchantment(std::unique_ptr<Enchantment>* enchantment);
+        std::vector<std::string> generateEnchantment(std::unique_ptr<Enchantment>& enchantment);
         void printRow(const std::vector<std::vector<std::string>>& v);
         void printTopBorder();
         void printBottomBorder();
