@@ -30,14 +30,14 @@ public:
     bool useAbility(std::unique_ptr<Minion>& target) override;
 };
 
-class Recharge: public Spell, public HasAbilityWithTargetRitual {
+class Recharge: public Spell, public HasAbilityNoTarget {
 public:
     Recharge(GameController* gameController, Player* owner, 
     std::string name = "Recharge", int cost = 1) :
     Spell{name, cost, gameController, owner}{}
 
     std::string getDescription() override;
-    bool useAbility(std::unique_ptr<Ritual>& target) override;
+    bool useAbility() override;
 };
 
 class Disenchant: public Spell, public HasAbilityWithTarget {

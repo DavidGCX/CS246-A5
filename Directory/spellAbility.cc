@@ -54,12 +54,12 @@ bool Unsummon::useAbility(unique_ptr<Minion>& target) {
 string Recharge::getDescription() {
     return "Your ritual gains 3 charges";
 }
-bool Recharge::useAbility(unique_ptr<Ritual>& target) {
-    if (target.get() == nullptr) {
+bool Recharge::useAbility() {
+    if (getOwner()->getRitualField().get() == nullptr) {
         cerr << "No ritual on the board"<< endl;
         return false;
     } else {
-        target.get()->restoreCharges(3);
+        getOwner()->getRitualField().get()->restoreCharges(3);
         return true;
     }
 }

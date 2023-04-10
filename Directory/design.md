@@ -35,7 +35,7 @@ The system of our game is encapsulated inside the class called `GameController`.
 The cards are implemented using multiple inheritances to maximize the use of existing code. Above all, class `Card` stores the basic information about a card including its `name, cost, state(location) and owner`. class `Minion`, class `Spell`, class `Enchantments`, and class `Ritua`l only inherit from `Card` and they only contain their unique properties. For example, class `Ritual` has `charges and costs per use`, class `Minion` has `attack and defense`. For any card that does not have an ability at all (most are minions as other cards have some effects at least), those four classes are enough for it by setting the appropriate name and cost in one of the ctors of them. Then, for any card that does have an ability (treat `Enchantments` as cards with ability), it will first inherit from one of the four types of cards above and also inherit from one or more derived classes of abstract class `CanUseAbility` depending on the type of target of the ability to achieve better code reuse to get the power of using Ability.
 
 # Updated  UML
-
+![](UML/A5D2UML.png)
 # Design
 ## APNAP pattern, triggered ability, ritual
 The `GameController` and `Observer Pattern` together achieve this `APNAP pattern`. As described in the overview, the `GameController` can notify cards on the board. It is done through four similar public methods inside GameControlelr: `onTurnStart, onTurnEnd, onMinionEnter, onMinionExit`. All of them will notify the Active Player's cards that are on board first, then Non-Active Player goes second. The card's `state(location)` is set when it transfers from one place to another(details below). Each method will pass the corresponding `stateInfo` to those cards being notified. For example, `stateInfo::onTurnStart` for `onTurnStart` method and etc... `onMinionEnter` and `onMinionExit` methods will also pass a reference to the minion enter/exit the board. In this way, minions with triggered abilities (including restore 1 action point on turn start) and Rituals could be triggered successfully and any triggered ability that needs to apply effects to a minion could use the reference to get their target. Then, as the `active player's cards are notified first`, the `APNAP pattern `is achieved here.
@@ -52,7 +52,17 @@ The above Event Triggering system raises a problem for enchantments, enchantment
 ### What we changed to handle these problems:
 Instead of notifying enchantments the same way as minions and rituals. We decided to let minions own a vector of enchantments applied to it. The Decorator Pattern is our original plan for enchantment but it is not as convenient as we expected. Instead, when the minion is notified, it will relay the `stateInfo` by traversing the attached Enchantments in the vector and calling `notifyEnchant` of each, passing itself and the `stateInfo` to that enchantment. In this way, enchantments similar to `Haste` could be triggered successfully.
 ## Play/Use cards with activated Ability no target / with target
-As mentioned in the overview, there is an abstract class called `CanUseAbility`. Four derived classes are: `HasAbilityWithTarget`, `HasAbilityWithTargetRitual`, `HasAbilityNoTarget`, `HasAbilityTriggered`
+As mentioned in the overview, there is an abstract class called `CanUseAbility`. Four derived classes are `HasAbilityWithTarget`, `HasAbilityWithTargetRitual`, `HasAbilityNoTarget`, `HasAbilityTriggered`. The first three contains `useAbility(unique_ptr<Minion>& target)`, `useAbility(unique_ptr<Ritual>& target)`, `useAbility()` respectively. The last class contains nothing. Any card with ability is also inherited from one of four derived classes here depending on the type of the ability besides its base card type. Below are some examples:
+```c++
+class Blizzard: public Spell, public HasAbilityNoTargett{
+  ...
+  bool useAbility() override;
+  ...
+};
+class FireElemental : public Minion, public HasAbilityTriggered{
+  ...
+};
+```
 
 
 # Resilience to Change
