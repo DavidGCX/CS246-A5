@@ -38,17 +38,23 @@ string Unsummon::getDescription() {
     return "Return target minion to its owner's hand";
 }
 bool Unsummon::useAbility(unique_ptr<Minion>& target) {
-    int i = 0;
-    vector<unique_ptr<Minion>>& board = target->getOwner()->getBoard();
-    for (auto& minion : board) {
-        if (minion.get() == target.get()) {
-            (target->getOwner())->sendToHand(target);
-            board.erase(board.begin() + i);
-            break;
+    if ( target->getOwner()->getHand().size() >= 5) {
+        cerr << "Target wwner's hand is full can not Unsummon target minion" << endl;
+        return false;
+    } else {
+        int i = 0;
+        vector<unique_ptr<Minion>>& board = target->getOwner()->getBoard();
+        for (auto& minion : board) {
+            if (minion.get() == target.get()) {
+                (target->getOwner())->sendToHand(target);
+                board.erase(board.begin() + i);
+                break;
+            }
+            i++;
         }
-        i++;
-    }
     return true;
+    }
+    
 }
 
 string Recharge::getDescription() {
