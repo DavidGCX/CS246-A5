@@ -22,9 +22,8 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
         } else {
             if (firstword == "draw") {
                 if (testmode) {
-			gc->drawCard();
-			cout << "draw" << endl;
-		}
+			        gc->drawCard();
+                }
             } else if (firstword == "discard") {
                 if (testmode) {
                     int num;
@@ -44,7 +43,6 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
                 cout << "          board -- Describe all cards on the board." << endl;
             } else if (firstword == "end") {
                 gc->endTurn();
-		cout << "end" << endl;
             } else if (firstword == "quit") {
                 value = true;
             } else if (firstword == "attack") {
