@@ -80,7 +80,7 @@ string MasterSummoner::getDescription() {
 bool MasterSummoner::useAbility() {
     if (getOwner()->getBoardMinionCount() < 5) {
         int count = 0;
-        while (getOwner()->getBoardMinionCount() < 5 && count <= 3) {
+        while (getOwner()->getBoardMinionCount() < 5 && count < 3) {
             getOwner()->getBoard().push_back(make_unique<Minion>(gameController, getOwner()));
             gameController->onMinionEnter(getOwner()->getBoard().back());
             count++;
