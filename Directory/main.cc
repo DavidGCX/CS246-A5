@@ -4,12 +4,13 @@
 #include "player.h"
 #include "gameController.h"
 #include "minion.h"
-#include "graphicalDisplay.h"/#include "textDisplay.h"
+#include "graphicalDisplay.h"
+#include "textDisplay.h"
 #include <string>
 
 using namespace std;
 
-bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecondPlayer, unique_ptr<GameController> &gc) {
+bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecondPlayer, unique_ptr<GameController> &gc, string deck1, string deck2) {
 	bool value = false;
 	string firstword;
 	s >> firstword;
@@ -18,7 +19,7 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
             hasFirstPlayer = true;
         } else if (!hasSecondPlayer) {
             hasSecondPlayer = true;
-            gc->attachPlayer(firstword, 2, deck1);
+            gc->attachPlayer(firstword, 2, deck2);
         } else {
             if (firstword == "draw") {
                 if (testmode) {
@@ -136,14 +137,14 @@ int main(int argc, const char* argv[]) {
             if (f.eof()) {
                 init = false;
             }
-            quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc);
+            quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc, deck1, deck2);
             if (quitting == true) {
                 break;
             }
     	} else {
             getline(cin, cmd);
             istringstream s{cmd};
-	        quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc);
+	        quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc, deck1, deck2);
 	        if (quitting == true) {
 		        break;
             }
