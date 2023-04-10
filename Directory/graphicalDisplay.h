@@ -44,7 +44,7 @@ class GraphicalDisplay : public Adaptor {
     std::pair<int,int> drawBottomRight(const std::pair<int,int> coord);
 
     public:
-        GraphicalDisplay(){}
+        GraphicalDisplay();
         void refresh(std::unique_ptr<Player>& playerOne, std::unique_ptr<Player>& playerTwo) override;
         void printHand(std::unique_ptr<Player>& player) override;
         void printEnchantments(std::unique_ptr<Minion>& minion) override;

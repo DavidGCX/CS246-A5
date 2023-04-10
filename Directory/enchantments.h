@@ -19,7 +19,6 @@ public:
     virtual int buffValueAttack() { return 2; }
     virtual int buffValueDefense()  { return 2; }
     virtual void reverseEffect(Minion* target) = 0;
-    void notify(StateInfo stateInfo) override { return; }
     void notify(StateInfo stateInfo, std::unique_ptr<Minion>& target) override { return; }
     virtual void notifyEnchant(StateInfo stateInfo, Minion* target) { return; }
 };
@@ -32,7 +31,7 @@ public:
     int buffType() override { return 1;}
     int buffValueAttack() override { return 2; }
     int buffValueDefense() override { return 2; }
-    string getDescription() override { return ""; }
+    std::string getDescription() override { return ""; }
     bool useAbility(std::unique_ptr<Minion>& target) override;
     void reverseEffect(Minion* target) override;
 };
@@ -44,8 +43,7 @@ public:
     int buffType() override { return 2;}
     int buffValueAttack() override { return 2; }
     int buffValueDefense() override { return 2; }
-    string getDescription() override { return ""; }
-    string getDescription() override { return ""; }
+    std::string getDescription() override { return ""; }
     bool useAbility(std::unique_ptr<Minion>& target) override;
     void reverseEffect(Minion* target) override;
 };
@@ -54,10 +52,10 @@ public:
     Haste(GameController* gameController, Player* owner, std::string name = "Haste", int cost = 1) :
     Enchantment{name, cost, gameController, owner} {}
     bool isSimpleADBuff() override {return true;};
-    string getDescription() override { return ""; }
+    std::string getDescription() override { return ""; }
     bool useAbility(std::unique_ptr<Minion>& target) override;
     void reverseEffect(Minion* target) override;
-    void notifyEnchant(StateInfo stateInfo, Minion* target) override { return; }
+    void notifyEnchant(StateInfo stateInfo, Minion* target) override;
 };
 
 class MagicFatigue: public Enchantment, public HasAbilityWithTarget {
@@ -65,7 +63,7 @@ public:
     MagicFatigue(GameController* gameController, Player* owner, std::string name = "Magic Fatigue", int cost = 0) :
     Enchantment{name, cost, gameController, owner} {}
     bool isSimpleADBuff() override {return false;};
-    string getDescription() override { return ""; }
+    std::string getDescription() override { return ""; }
     bool useAbility(std::unique_ptr<Minion>& target) override;
     void reverseEffect(Minion* target) override;
 };
@@ -75,7 +73,7 @@ public:
     Silence(GameController* gameController, Player* owner, std::string name = "Silence", int cost = 1) :
     Enchantment{name, cost, gameController, owner} {}
     bool isSimpleADBuff() override {return false;};
-    string getDescription() override { return ""; }
+    std::string getDescription() override { return ""; }
     bool useAbility(std::unique_ptr<Minion>& target) override;
     void reverseEffect(Minion* target) override;
 };

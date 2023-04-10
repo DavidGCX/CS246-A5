@@ -3,8 +3,8 @@
 #include <memory>
 #include <vector>
 #include <string>
-class minion;
-class ritual;
+class Minion;
+class Ritual;
 class CanUseAbility{
     int abilityCost;
     bool silence = false;

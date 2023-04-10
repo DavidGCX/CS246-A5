@@ -4,34 +4,35 @@
 #include "player.h"
 #include "gameController.h"
 #include "minion.h"
-#include "graphicalDisplay.h"/#include "textDisplay.h"
+#include "graphicalDisplay.h"
+#include "textDisplay.h"
 #include <string>
 
 using namespace std;
 
-bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecondPlayer, GameController &gc) {
+bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecondPlayer, unique_ptr<GameController> &gc) {
 	bool value = false;
 	string firstword;
 	s >> firstword;
         if (!hasFirstPlayer) {
-            //gc->attachPlayer(cmd, 1, deck1);
+            gc->attachPlayer(cmd, 1, deck1);
             hasFirstPlayer = true;
 	    cout << "first player done" << endl;
         } else if (!hasSecondPlayer) {
-            //gc->attachPlayer(cmd, 2, deck2);
+            gc->attachPlayer(cmd, 2, deck2);
             hasSecondPlayer = true;
 	    cout << "second player done" << endl;
         } else {
             if (firstword == "draw") {
                 if (testmode) {
-			//gc->drawCard();
+			gc->drawCard();
 			cout << "draw" << endl;
 		}
             } else if (firstword == "discard") {
                 if (testmode) {
                     int num;
                     s >> num;
-                    //gc->discardCard(num);
+                    gc->discardCard(num);
 		    cout << "discard" << endl; 
                 }
             } else if (firstword == "help") {
@@ -46,7 +47,7 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
                 cout << "          hand -- Describe all cards in your hand." << endl;
                 cout << "          board -- Describe all cards on the board." << endl;
             } else if (firstword == "end") {
-                //gc->endTurn();
+                gc->endTurn();
 		cout << "end" << endl;
             } else if (firstword == "quit") {
 		cout << "quit" << endl;
@@ -57,39 +58,39 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
                 s >> attacker;
                 if (!s.eof()) {
                     s >> target;
-                    //gc->attack(attacker, target);
+                    gc->attack(attacker, target);
 		    cout << "attack 2 params" << endl;
                 } else {
-                    //gc->attack(attacker);
+                    gc->attack(attacker);
 		    cout << "attack 1 param" << endl;
                 }
-                //gc->attack(attacker, target);
+                gc->attack(attacker, target);
             } else if (firstword == "play") {
                 int card;
                 s >> card;
                 if (s.eof()) {
-                    //gc->play(card);
+                    gc->play(card);
 		    cout << "play 1 param" << endl;
                 } else {
                     char target;
                     int player;
                     s >> player;
                     s >> target;
-                    //gc->play(card, player, target);
+                    gc->play(card, player, target);
 		    cout << "play 3 params" << endl;
                 }
             } else if (firstword == "use") {
                 int card;
                 s >> card;
                 if (s.eof()) {
-                    //gc->use(card);
+                    gc->use(card);
 		    cout << "use 1 param" << endl;
                 } else {
                     char target;
                     int player;
                     s >> target;
                     s >> player;
-                    //gc->use(card,  player, target);
+                    gc->use(card,  player, target);
 		    cout << "use 3 params" << endl;
                 }
             } else if (firstword == "inspect") {
@@ -113,7 +114,7 @@ int main(int argc, const char* argv[]) {
     bool testmode = false;
     string deck1 = "default.deck";
     string deck2 = "default.deck";
-    //unique_ptr<GameController> gc;
+    unique_ptr<GameController> gc;
     string initfile;
     bool init = false;
     for (int i = 1; i < argc; ++i) {
@@ -133,17 +134,17 @@ int main(int argc, const char* argv[]) {
 	    cout << "-init" << endl;
         } else if (arg1 == "-testing") {
             testmode = true;
-            //gc->setTestMode();
+            gc->setTestMode();
 	    cout << "-testing" << endl;
         } else if (arg1 == "-graphics") {
             bool graphicson = true;
-            //gc->attachAdapter(make_unique<GraphicalDisplay>());
-            //gc->attachAdapter(make_unique<TextDisplay>());
+            gc->attachAdapter(make_unique<GraphicalDisplay>());
+            gc->attachAdapter(make_unique<TextDisplay>());
 	    cout << "-graphics" << endl;
         }
     }
     if (graphicson == false) {
-        //gc->attachAdapter(make_unique<TextDisplay>());
+        gc->attachAdapter(make_unique<TextDisplay>());
     }
     fstream f{initfile};
     string cmd;

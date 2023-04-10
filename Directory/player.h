@@ -37,10 +37,10 @@ public:
     // initialize the deck
     void initializeDeck(std::string deck);
     void play(int i);
-    void play(int i, unique_ptr<Minion>& target);
-    void play(int i, unique_ptr<Ritual>& target);
-    void use(int i, unique_ptr<Minion>& target);
-    void use(int i, unique_ptr<Ritual>& target);
+    void play(int i, std::unique_ptr<Minion>& target);
+    void play(int i, std::unique_ptr<Ritual>& target);
+    void use(int i, std::unique_ptr<Minion>& target);
+    void use(int i, std::unique_ptr<Ritual>& target);
     void use(int i);
     void discarCard(int i);
     void notifyAllCard(StateInfo info);
@@ -63,9 +63,9 @@ public:
             return &graveyard.back();
         }
     }
-    void sendToBoard(unique_ptr<Minion>& minion);
-    void sendToGrave(unique_ptr<Minion>& minion);
-    void sendToHand(unique_ptr<Minion>& minion);
+    void sendToBoard(std::unique_ptr<Minion>& minion);
+    void sendToGrave(std::unique_ptr<Minion>& minion);
+    void sendToHand(std::unique_ptr<Minion>& minion);
 };
 
 #endif
