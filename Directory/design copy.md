@@ -110,8 +110,7 @@ Why?
 
 Answer:
 The decorator design pattern would be ideal since we want to change the
-behavior or states of minions at runtime. We will have Minion as the Component
-and different enchantments as ConcreteDecorators.
+behavior or states of minions at runtime. 
 
 Question: Suppose we found a solution to the space limitations of the current user
 interface and wanted to allow minions to have any number and combination of

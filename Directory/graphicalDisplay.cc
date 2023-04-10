@@ -192,7 +192,7 @@ void GraphicalDisplay::printHand(unique_ptr<Player>& player) {
         wp->drawString(drawName(hand4).first, drawName(hand4).second,
         player->getHand().at(3)->getName());
     }
-    if (handSize>=1) {
+    if (handSize>=5) {
         wp->drawString(drawName(hand5).first, drawName(hand5).second,
         player->getHand().at(4)->getName());
     }
