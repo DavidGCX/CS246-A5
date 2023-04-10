@@ -101,7 +101,7 @@ reuse?
 Answer:
 We notice that spell effects, ritual effects, and minions’ activated abilities are
 similar. To maximize code reuse and minimize code duplication we have
-superclasses HasAbilityNoTarget/TargetMinion/TargetRitual such that could be
+superclasses HasAbilityNoTarget/Target/TargetRitual that could be
 inherited to provide the abstract useAbility() method for all three types of cards to
 override and use.
 
