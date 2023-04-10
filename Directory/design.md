@@ -63,7 +63,8 @@ class FireElemental : public Minion, public HasAbilityTriggered{
   ...
 };
 ```
-Then, instead of inheriting from `HasAbilityTriggered`, the card should override the corresponding `useAbility` method 
+Then, instead of inheriting from `HasAbilityTriggered`, the card should override the corresponding `useAbility` method, which will be called inside `play` and `use` method from the `Player` class. Together with dynamic_cast, we could have an easy way of checking the ability type of a given card as follows
+And call the appropriate version of `useAbility` 
 
 
 # Resilience to Change
