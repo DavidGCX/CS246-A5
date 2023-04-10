@@ -6,9 +6,10 @@
 #include "player.h"
 #include "state.h"
 class Minion;
+
 class GameController : public Subject {
 
-    std::vector<unique_ptr<Adaptor>> adaptors;
+    std::vector<std::unique_ptr<Adaptor>> adaptors;
     std::unique_ptr<Player> playerOne;
     std::unique_ptr<Player> playerTwo;
     std::unique_ptr<Player>* activePlayer;
@@ -22,7 +23,7 @@ public:
     //GameController(TextDisplay* text);
     //GameController(GraphicalDisplay* graphics, TextDisplay* text);
     void attachPlayer(std::string name, int index, std::string deck = "default.deck");
-    void attachAdapter(unique_ptr<Adaptor>&& oneAdaptor);
+    void attachAdapter(std::unique_ptr<Adaptor>&& oneAdaptor);
     void onTurnStart();
     void onTurnEnd();
     void onMinionEnter(std::unique_ptr<Minion>& target);

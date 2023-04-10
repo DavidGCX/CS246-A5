@@ -110,14 +110,12 @@ vector<string> TextDisplay::generateCard(unique_ptr<Card>* card) {
             return display_enchantment((*card)->getName(),(*card)->getCost(),
              (dynamic_cast<CanUseAbility*>(card->get()))->getDescription());
         }
-    }
-    if (dynamic_cast<Ritual*>(card->get())) {
+    } else {
         return display_ritual((*card)->getName(),(*card)->getCost(),
         (dynamic_cast<Ritual*>(card->get()))->getCostPerCharges(),
         (dynamic_cast<HasAbilityTriggered*>(card->get()))->getDescription(),
         (dynamic_cast<Ritual*>(card->get()))->getCharges());
     }
-    return;
 }
 
 void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& playerTwo) {
