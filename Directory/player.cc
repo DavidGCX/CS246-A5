@@ -80,6 +80,7 @@ void Player::play(int i) {
         } else if (dynamic_cast<HasAbilityNoTarget*>(hand[i-1].get())) {
             if (dynamic_cast<Ritual*>(hand[i-1].get())) {
                 handleMagic(hand[i-1]->getCost());
+                hand[i-1]->setState(State::onBoard);
                 ritualField.reset(dynamic_cast<Ritual*>(hand[i-1].release()));
                 hand.erase(hand.begin() + i - 1);
             } else {
