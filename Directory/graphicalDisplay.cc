@@ -69,3 +69,15 @@ void GraphicalDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>
 
     // active player hand
 }
+
+void GraphicalDisplay::printHand(unique_ptr<Player>& player) {
+    wp->fillRectangle(hand1.first, hand1.second, CARD_W, CARD_H, Xwindow::Green);
+    wp->fillRectangle(hand2.first, hand2.second, CARD_W, CARD_H, Xwindow::Green);
+    wp->fillRectangle(hand3.first, hand3.second, CARD_W, CARD_H, Xwindow::Green);
+    wp->fillRectangle(hand4.first, hand4.second, CARD_W, CARD_H, Xwindow::Green);
+    wp->fillRectangle(hand5.first, hand5.second, CARD_W, CARD_H, Xwindow::Green);
+}
+
+void GraphicalDisplay::printEnchantments(unique_ptr<Minion>& minion) {
+    wp->drawString(0,0,"enchantments");
+}
