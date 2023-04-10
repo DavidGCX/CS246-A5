@@ -95,12 +95,12 @@ vector<string> TextDisplay::generateCard(unique_ptr<Card>* card) {
     }
     if (dynamic_cast<Enchantment*>(card->get())) {
         if (dynamic_cast<Enchantment*>(card->get())->isSimpleADBuff()) {
-            if (dynamic_cast<Enchantment*>(card->get())->buffType == 1) {
+            if (dynamic_cast<Enchantment*>(card->get())->buffType() == 1) {
                 string attack = "+" + to_string(dynamic_cast<Enchantment*>(card->get())->buffValueAttack());
                 string defense = "+" + to_string(dynamic_cast<Enchantment*>(card->get())->buffValueDefense());
                 return display_enchantment_attack_defence((*card)->getName(), (*card)->getCost(),"",attack,defense);
             }
-            if (dynamic_cast<Enchantment*>(card->get())->buffType == 2) {
+            if (dynamic_cast<Enchantment*>(card->get())->buffType() == 2) {
                 string attack = "*" + to_string(dynamic_cast<Enchantment*>(card->get())->buffValueAttack());
                 string defense = "*" + to_string(dynamic_cast<Enchantment*>(card->get())->buffValueDefense());
                 return display_enchantment_attack_defence((*card)->getName(), (*card)->getCost(),"",attack,defense);
@@ -108,7 +108,7 @@ vector<string> TextDisplay::generateCard(unique_ptr<Card>* card) {
         }
         else {
             return display_enchantment((*card)->getName(),(*card)->getCost(),
-             (dynamic_cast<CanUseAbility*>(card->get()))->getDescription())
+             (dynamic_cast<CanUseAbility*>(card->get()))->getDescription());
         }
     }
     if (dynamic_cast<Ritual*>(card->get())) {
@@ -117,7 +117,7 @@ vector<string> TextDisplay::generateCard(unique_ptr<Card>* card) {
         (dynamic_cast<HasAbilityTriggered*>(card->get()))->getDescription(),
         (dynamic_cast<Ritual*>(card->get()))->getCharges());
     }
-    return "";
+    return;
 }
 
 void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& playerTwo) {
@@ -212,7 +212,7 @@ void TextDisplay::printHand(unique_ptr<Player>& player) {
 }
 
 void TextDisplay::printEnchantments(unique_ptr<Minion>& minion) {
-    vector<vecotr<string>> row;
+    vector<vector<string>> row;
     row.push_back(generateMinion(&minion));
     printRow(row);
 
