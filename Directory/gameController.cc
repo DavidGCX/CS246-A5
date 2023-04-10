@@ -203,7 +203,7 @@ void GameController::cleanUpBoard() {
             minion -= 1;
         }
     }
-        
+    refreshDisplay();
 }
 
 void GameController::inspect(int i) {
