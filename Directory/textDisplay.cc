@@ -98,8 +98,10 @@ vector<string> TextDisplay::generateCard(unique_ptr<Card>* card) {
         return display_enchantment((*card)->getName(),(*card)->getCost(), dynamic_cast<CanUseAbility*>(card->get())->getDescription()); // CHANGE LATER
     }
     if (dynamic_cast<Ritual*>(card->get())) {
-        //return display_ritual((*card)->getName(),(*card)->getCost(),))
-        return "";
+        return display_ritual((*card)->getName(),(*card)->getCost(),
+        (dynamic_cast<Ritual*>(card->get()))->getCostPerCharges(),
+        (dynamic_cast<HasAbilityTriggered*>(card->get()))->getDescription(),
+        (dynamic_cast<Ritual*>(card->get()))->getCharges());
     }
     return "";
 }
@@ -111,8 +113,11 @@ void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& 
     vector<vector<string>> row4;
 
     if (playerOne->getRitualField()) {
-        //row1.push_back(display_ritual(playerOne->getRitualField()->name))
-        row1.push_back(CARD_TEMPLATE_BORDER); // CHANGE LATER
+        row1.push_back(display_ritual(playerOne->getRitualField()->getName(),
+        playerOne->getRitualField()->getCost(),
+        playerOne->getRitualField()->getCostPerCharges(),
+        dynamic_cast<HasAbilityTriggered*>(playerOne->getRitualField().get())->getDescription(),
+        playerOne->getRitualField()->getCharges())); 
     }
     else {
         row1.push_back(CARD_TEMPLATE_BORDER);
@@ -148,8 +153,11 @@ void TextDisplay::printBoard(unique_ptr<Player>& playerOne, unique_ptr<Player>& 
     }
 
     if (playerTwo->getRitualField()) {
-        //row4.push_back(display_ritual(playerOne->getRitualField()->name))
-        row4.push_back(CARD_TEMPLATE_BORDER); // CHANGE LATER
+        row4.push_back(display_ritual(playerTwo->getRitualField()->getName(),
+        playerTwo->getRitualField()->getCost(),
+        playerTwo->getRitualField()->getCostPerCharges(),
+        dynamic_cast<HasAbilityTriggered*>(playerTwo->getRitualField().get())->getDescription(),
+        playerTwo->getRitualField()->getCharges()));
     }
     else {
         row4.push_back(CARD_TEMPLATE_BORDER);
