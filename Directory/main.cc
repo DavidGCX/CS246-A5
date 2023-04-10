@@ -4,7 +4,8 @@
 #include "player.h"
 #include "gameController.h"
 #include "minion.h"
-#include "graphicalDisplay.h"/#include "textDisplay.h"
+#include "graphicalDisplay.h"
+#include "textDisplay.h"
 #include <string>
 
 using namespace std;
@@ -14,25 +15,21 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
 	string firstword;
 	s >> firstword;
         if (!hasFirstPlayer) {
-            //gc->attachPlayer(cmd, 1, deck1);
+            gc->attachPlayer(firstword, 1, deck1);
             hasFirstPlayer = true;
-	    cout << "first player done" << endl;
         } else if (!hasSecondPlayer) {
-            //gc->attachPlayer(cmd, 2, deck2);
             hasSecondPlayer = true;
-	    cout << "second player done" << endl;
+            gc->attachPlayer(firstword, 2, deck1);
         } else {
             if (firstword == "draw") {
                 if (testmode) {
-			//gc->drawCard();
-			cout << "draw" << endl;
-		}
+			        gc->drawCard();
+                }
             } else if (firstword == "discard") {
                 if (testmode) {
                     int num;
                     s >> num;
-                    //gc->discardCard(num);
-		    cout << "discard" << endl; 
+                    gc->discardCard(num);
                 }
             } else if (firstword == "help") {
                 cout << "Commands: help -- Display this message." << endl;
@@ -46,10 +43,8 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
                 cout << "          hand -- Describe all cards in your hand." << endl;
                 cout << "          board -- Describe all cards on the board." << endl;
             } else if (firstword == "end") {
-                //gc->endTurn();
-		cout << "end" << endl;
+                gc->endTurn();
             } else if (firstword == "quit") {
-		cout << "quit" << endl;
                 value = true;
             } else if (firstword == "attack") {
                 int attacker;
@@ -57,52 +52,42 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
                 s >> attacker;
                 if (!s.eof()) {
                     s >> target;
-                    //gc->attack(attacker, target);
-		    cout << "attack 2 params" << endl;
+                    gc->attack(attacker, target);
                 } else {
-                    //gc->attack(attacker);
-		    cout << "attack 1 param" << endl;
+                    gc->attack(attacker);
                 }
-                //gc->attack(attacker, target);
             } else if (firstword == "play") {
                 int card;
                 s >> card;
                 if (s.eof()) {
-                    //gc->play(card);
-		    cout << "play 1 param" << endl;
+                    gc->play(card);
                 } else {
                     char target;
                     int player;
                     s >> player;
                     s >> target;
-                    //gc->play(card, player, target);
-		    cout << "play 3 params" << endl;
+                    gc->play(card, player, target);
                 }
             } else if (firstword == "use") {
                 int card;
                 s >> card;
                 if (s.eof()) {
-                    //gc->use(card);
-		    cout << "use 1 param" << endl;
+                    gc->use(card);
                 } else {
                     char target;
                     int player;
                     s >> target;
                     s >> player;
-                    //gc->use(card,  player, target);
-		    cout << "use 3 params" << endl;
+                    gc->use(card,  player, target);
                 }
             } else if (firstword == "inspect") {
                 int minion;
                 s >> minion;
-                //gc->inspect(minion);
-		cout << "inspect" << endl;
+                gc->inspect(minion);
             } else if (firstword == "board") {
-                //gc->board();
-		cout << "board" << endl;
+                gc->board();
             } else if (firstword == "hand") {
-                //gc->hand();
-		cout << "hand" << endl;
+                gc->hand();
             }
 	}
 	return value;
@@ -113,7 +98,7 @@ int main(int argc, const char* argv[]) {
     bool testmode = false;
     string deck1 = "default.deck";
     string deck2 = "default.deck";
-    //unique_ptr<GameController> gc;
+    unique_ptr<GameController> gc;
     string initfile;
     bool init = false;
     for (int i = 1; i < argc; ++i) {
@@ -121,29 +106,24 @@ int main(int argc, const char* argv[]) {
         if (arg1 == "-deck1") {
             deck1 = argv[i+1];
             ++i;
-	    cout << "-deck1" << endl;
         } else if (arg1 == "-deck2") {
             deck2 = argv[i+1];
             ++i;
-	    cout << "-deck2" << endl;
         } else if (arg1 == "-init") {
             init = true;
             initfile = argv[i+1];
             ++i;
-	    cout << "-init" << endl;
         } else if (arg1 == "-testing") {
             testmode = true;
-            //gc->setTestMode();
-	    cout << "-testing" << endl;
+            gc->setTestMode();
         } else if (arg1 == "-graphics") {
             bool graphicson = true;
-            //gc->attachAdapter(make_unique<GraphicalDisplay>());
-            //gc->attachAdapter(make_unique<TextDisplay>());
-	    cout << "-graphics" << endl;
+            gc->attachAdapter(make_unique<GraphicalDisplay>());
+            gc->attachAdapter(make_unique<TextDisplay>());
         }
     }
     if (graphicson == false) {
-        //gc->attachAdapter(make_unique<TextDisplay>());
+        gc->attachAdapter(make_unique<TextDisplay>());
     }
     fstream f{initfile};
     string cmd;
@@ -157,18 +137,16 @@ int main(int argc, const char* argv[]) {
             if (f.eof()) {
                 init = false;
             }
-	    cout << "we on file" << endl;
-	    quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc);
-	    if (quitting == true) {
-		    break;
+            quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc);
+            if (quitting == true) {
+                break;
             }
     	} else {
             getline(cin, cmd);
             istringstream s{cmd};
-	    cout << "we on std input" << endl;
-	    quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc);
-	    if (quitting == true) {
-		    break;
+	        quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc);
+	        if (quitting == true) {
+		        break;
             }
     	}
     }
