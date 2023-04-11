@@ -71,3 +71,4 @@ public:
     bool useAbility() override;
 };
 #endif // __MINIONWITHABILITY_H__
+

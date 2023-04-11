@@ -91,3 +91,4 @@ bool MasterSummoner::useAbility() {
         return false;
     }
 }
+

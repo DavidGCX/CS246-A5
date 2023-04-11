@@ -52,3 +52,4 @@ class GraphicalDisplay : public Adaptor {
 };
 
 #endif
+

@@ -50,3 +50,4 @@ class HasAbilityTriggered : public CanUseAbility {
 };
 
 #endif
+

@@ -57,3 +57,4 @@ void StandStill::notify(StateInfo stateInfo, unique_ptr<Minion>& target) {
 string StandStill::getDescription() {
     return "Whenever a minion enters play, destroy it";
 }
+

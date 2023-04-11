@@ -113,3 +113,4 @@ bool Blizzard::useAbility() {
     }
     return true;
 }
+
