@@ -79,22 +79,42 @@ void GraphicalDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>
     if (playerOne->getBoardMinionCount() >= 1) {
         wp->drawString(drawName(p1m1).first, drawName(p1m1).second,
             playerOne->getBoard().at(0)->getName());
+        wp->drawString(drawBottomLeft(p1m1).first, drawBottomLeft(p1m1).second,
+            to_string(playerOne->getBoard().at(0)->getAttack()));
+        wp->drawString(drawBottomRight(p1m1).first, drawBottomRight(p1m1).second,
+            to_string(playerOne->getBoard().at(0)->getDefense()));
     }
     if (playerOne->getBoardMinionCount() >= 2) {
         wp->drawString(drawName(p1m2).first, drawName(p1m2).second,
             playerOne->getBoard().at(1)->getName());
+        wp->drawString(drawBottomLeft(p1m2).first, drawBottomLeft(p1m2).second,
+            to_string(playerOne->getBoard().at(1)->getAttack()));
+        wp->drawString(drawBottomRight(p1m2).first, drawBottomRight(p1m2).second,
+            to_string(playerOne->getBoard().at(1)->getDefense()));
     }
     if (playerOne->getBoardMinionCount() >= 3) {
         wp->drawString(drawName(p1m3).first, drawName(p1m3).second,
             playerOne->getBoard().at(2)->getName());
+        wp->drawString(drawBottomLeft(p1m3).first, drawBottomLeft(p1m3).second,
+            to_string(playerOne->getBoard().at(2)->getAttack()));
+        wp->drawString(drawBottomRight(p1m3).first, drawBottomRight(p1m3).second,
+            to_string(playerOne->getBoard().at(2)->getDefense()));
     }
     if (playerOne->getBoardMinionCount() >= 4) {
         wp->drawString(drawName(p1m4).first, drawName(p1m4).second,
             playerOne->getBoard().at(3)->getName());
+        wp->drawString(drawBottomLeft(p1m4).first, drawBottomLeft(p1m4).second,
+            to_string(playerOne->getBoard().at(3)->getAttack()));
+        wp->drawString(drawBottomRight(p1m4).first, drawBottomRight(p1m4).second,
+            to_string(playerOne->getBoard().at(3)->getDefense()));
     }
     if (playerOne->getBoardMinionCount() >= 5) {
         wp->drawString(drawName(p1m5).first, drawName(p1m5).second,
             playerOne->getBoard().at(4)->getName());
+        wp->drawString(drawBottomLeft(p1m5).first, drawBottomLeft(p1m5).second,
+            to_string(playerOne->getBoard().at(4)->getAttack()));
+        wp->drawString(drawBottomRight(p1m5).first, drawBottomRight(p1m5).second,
+            to_string(playerOne->getBoard().at(4)->getDefense()));
     }
 
     wp->fillRectangle(p2m1.first, p2m1.second, CARD_W, CARD_H, Xwindow::Blue);
@@ -106,22 +126,42 @@ void GraphicalDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>
     if (playerTwo->getBoardMinionCount() >= 1) {
         wp->drawString(drawName(p2m1).first, drawName(p2m1).second,
             playerTwo->getBoard().at(0)->getName());
+        wp->drawString(drawBottomLeft(p2m1).first, drawBottomLeft(p2m1).second,
+            to_string(playerTwo->getBoard().at(0)->getAttack()));
+        wp->drawString(drawBottomRight(p2m1).first, drawBottomRight(p2m1).second,
+            to_string(playerTwo->getBoard().at(0)->getDefense()));
     }
     if (playerTwo->getBoardMinionCount() >= 2) {
         wp->drawString(drawName(p2m2).first, drawName(p2m2).second,
             playerTwo->getBoard().at(1)->getName());
+        wp->drawString(drawBottomLeft(p2m2).first, drawBottomLeft(p2m2).second,
+            to_string(playerTwo->getBoard().at(1)->getAttack()));
+        wp->drawString(drawBottomRight(p2m2).first, drawBottomRight(p2m2).second,
+            to_string(playerTwo->getBoard().at(1)->getDefense()));
     }
     if (playerTwo->getBoardMinionCount() >= 3) {
         wp->drawString(drawName(p2m3).first, drawName(p2m3).second,
             playerTwo->getBoard().at(2)->getName());
+        wp->drawString(drawBottomLeft(p2m3).first, drawBottomLeft(p2m3).second,
+            to_string(playerTwo->getBoard().at(2)->getAttack()));
+        wp->drawString(drawBottomRight(p2m3).first, drawBottomRight(p2m3).second,
+            to_string(playerTwo->getBoard().at(2)->getDefense()));
     }
     if (playerTwo->getBoardMinionCount() >= 4) {
         wp->drawString(drawName(p2m4).first, drawName(p2m4).second,
             playerTwo->getBoard().at(3)->getName());
+        wp->drawString(drawBottomLeft(p2m4).first, drawBottomLeft(p2m4).second,
+            to_string(playerTwo->getBoard().at(3)->getAttack()));
+        wp->drawString(drawBottomRight(p2m4).first, drawBottomRight(p2m4).second,
+            to_string(playerTwo->getBoard().at(3)->getDefense()));
     }
     if (playerTwo->getBoardMinionCount() >= 5) {
         wp->drawString(drawName(p2m5).first, drawName(p2m5).second,
             playerTwo->getBoard().at(4)->getName());
+        wp->drawString(drawBottomLeft(p2m5).first, drawBottomLeft(p2m5).second,
+            to_string(playerTwo->getBoard().at(4)->getAttack()));
+        wp->drawString(drawBottomRight(p2m5).first, drawBottomRight(p2m5).second,
+            to_string(playerTwo->getBoard().at(4)->getDefense()));
     }
 
     if (playerTwo->getRitualField()) {
