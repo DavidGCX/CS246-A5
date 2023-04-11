@@ -56,7 +56,7 @@ public:
     int getBoardMinionCount() {return board.size();}
     std::string getName() { return name;}
     int getMagic() { return magic; }
-    bool getActive() {(*gameController->getActivePlayer()).get() == this;}
+    bool getActive();
     std::unique_ptr<Minion>* getGraveFieldTop() { 
         if (graveyard.empty()) {
             return nullptr;

@@ -68,7 +68,9 @@ void Player::restoreHealth(int amount) {
     life += amount;
 }
 
-
+bool Player::getActive() {
+    return (gameController->getActivePlayer())->get() == this;
+}
 void Player::play(int i) {
     if (!insideHandBounday(i)) {
         cout << "No Available Cards at Given Position!" << endl;
