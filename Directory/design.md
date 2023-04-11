@@ -18,14 +18,13 @@ We choose to make the game "Sorcery" to present our learning outcomes about obje
     - [What we changed to handle these problems:](#what-we-changed-to-handle-these-problems-1)
   - [Play/Use cards with activated Ability no target / with target](#playuse-cards-with-activated-ability-no-target--with-target)
 - [Resilience to Change](#resilience-to-change)
+  - [Different Order:](#different-order)
   - [GameController](#gamecontroller)
-  - [Player](#player)
   - [New Cards](#new-cards)
     - [New Ritual](#new-ritual)
     - [New Spell](#new-spell)
     - [New Minion](#new-minion)
     - [New Enchantment](#new-enchantment)
-  - [New types of Cards](#new-types-of-cards)
 - [Answers to Questions](#answers-to-questions)
 - [Final Questions](#final-questions)
 
@@ -86,20 +85,21 @@ Together they form the part for Play/Use cards with activated Ability no target 
 
 # Resilience to Change
 From the beginning of the planning stage, we have thought about making our code resilient to change. We designed our class structure such that when there will be changes to the project specification (even though we know there won't be), we will be able to implement such modification with minimal change to our existing code.
+## Different Order:
+If the program specification changes and APNAP order is no longer used. Instead, if NAPAP order is used(reverse of APNAP), simply notifying non-active player first inside GameControlelr:`onTurnStart, onTurnEnd, onMinionEnter, onMinionExit` would be able to do it. The notification system constructed by `Player`, `GameController` and `Card` should do their work without any change. Also, if for any reason, the minion activates its trigger after enchantments are removed from it, switching two lines inside the Player class should be enough for this kind of order change.
 ## GameController
-## Player
+If we want to add new interfaces, we have it inherited from the abstract class `adaptor`. By fully implementing three method: `refresh, printHand, printEnchantment` and calling `attachAdapter` method to attach it to the gameController, those interfaces should work in a similar way of the textDisplay without changing any other existing codes.
 ## New Cards
 
 ### New Ritual
-Suppose we want to add more rituals into the game. Naturally, all rituals have an ability that triggers automatically, so they will inherit from `Ritual` and `HasAbilityTriggered`. Then we can can override its `useAbility` method to add the desired effect of the ability. We can also customize its name, cost, charges, and cost per charge very easily. Note that each ritual will have a `notify` method, so the `GameController` will notify it to maintain APNAP order.
+Suppose we want to add more rituals to the game. Naturally, all rituals have an ability that triggers automatically, so they will inherit from `Ritual` and `HasAbilityTriggered`. Then we can can override its `useAbility` method to add the desired effect of the ability. We can also customize its name, cost, charges, and cost per charge very easily. Note that each ritual will have a `notify` method, so the `GameController` will notify it to maintain APNAP order.
 ### New Spell
 Suppose we want to add more spells into the game. Naturally, all spells have some kinda of (non-triggered) ability, so they will be the subclass of either `HasAbilityWithTarget`, `HasAbilityNoTarget`, or `HasAbilityWithTargetRitual`, in addition to being the subclass of `Spell`. Then we can override its `useAbility` method to add the desired effect of the ability.
 ### New Minion
 Suppose we want to add more minions into the game. If it has no ability, we simply make it a subclass of `Minion` and customize its name, attack, and defence. It if has an ability, then it can be a triggered or activated ability. Then we can override its `useAbility` method to add the desired effect of the ability. Recall that derived classes from `CanUseAbility` are `HasAbilityWithTarget`, `HasAbilityWithTargetRitual`, `HasAbilityNoTarget`, `HasAbilityTriggered`. This means we can easily classify any ability into one of the subclasses and take advantage of polymorphism and dynamic_cast.
 ### New Enchantment
+Suppose we want to add new enchantment into the game. It should inherit from the Enchantment class and use a very similar constructor as the superclass Enchantment but differs in name and cost.  They could be set as default values so that the deck initialization should only need to add one line of code if this new card is in the deck. It should also inherit from `HasAbilityWithTarget` to get `useAbility` method that could be overriden to apply the actual effect. Depending on the effect of the enchantment, `isSimpleADBuff` could be overridden to return true if the enchantment only modifies the attack and defense of the minon. Then `buffType` should be overridden to decide if it is a "+" or "*",  `buffValueAttack` and `buffValueDefense` should also be overridden to return specific values. `reverseEffect` should also be overridden to decide the effects of the enchantments on the minion when it is removed. If new enchantment gives a new triggered ability to a minion, it should override `notifyEnchant` which is used for the enchanment to receive the event information and trigger the effect.
 
-## New types of Cards
-Suppose there is a new type or Card being introduced...
 # Answers to Questions
 Question: How could you design activated abilities in your code to maximize code
 reuse?
@@ -144,6 +144,11 @@ the rest of the code unchanged. And adding new interfaces only requires new
 “adapters” which do the translations similarly to others
 # Final Questions
 Question: What lessons did this project teach you about developing software in teams?
+  
+Answer: It is important to keep tasks distributed reasonably. The word "reasonably" has multiple meanings here.  First, a realistic plan should be made to make sure the team is moving every day. Second, tasks should be assigned to a proper person as different people might have different skill levels and they might be good at
+different things.
 
 
 Question: What would you have done differently if you had the chance to start over?
+
+Answer: We might have a different plan for the project and start as early as we could. We really spent too much time planning stuff not testing ideas nor implementing ideas. This was not efficient and should be avoided in the future.

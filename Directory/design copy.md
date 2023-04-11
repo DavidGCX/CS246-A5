@@ -18,7 +18,6 @@ We choose to make the game "Sorcery" to present our learning outcomes about obje
     - [What we changed to handle these problems:](#what-we-changed-to-handle-these-problems-1)
   - [Play/Use cards with activated Ability no target / with target](#playuse-cards-with-activated-ability-no-target--with-target)
 - [Resilience to Change](#resilience-to-change)
-  - [GameController](#gamecontroller)
   - [Player](#player)
   - [New Cards](#new-cards)
     - [New Ritual](#new-ritual)
@@ -86,8 +85,9 @@ Together they form the part for Play/Use cards with activated Ability no target 
 
 # Resilience to Change
 
-## GameController
+
 ## Player
+
 ## New Cards
 ### New Ritual
 ### New Spell
@@ -139,4 +139,6 @@ the rest of the code unchanged. And adding new interfaces only requires new
 Question: What lessons did this project teach you about developing software in teams?
 
 
+
 Question: What would you have done differently if you had the chance to start over?
+
