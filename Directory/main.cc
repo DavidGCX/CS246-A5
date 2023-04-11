@@ -123,7 +123,7 @@ int main(int argc, const char* argv[]) {
             testmode = true;
             gc->setTestMode();
         } else if (arg1 == "-graphics") {
-            bool graphicson = true;
+            graphicson = true;
             gc->attachAdapter(make_unique<GraphicalDisplay>());
             gc->attachAdapter(make_unique<TextDisplay>());
         }
