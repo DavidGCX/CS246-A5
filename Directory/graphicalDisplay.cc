@@ -70,7 +70,7 @@ void GraphicalDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>
         wp->fillRectangle(p1grave.first, p1grave.second, CARD_W, CARD_H, Xwindow::White);
     }
     
-    wp->fillRectangle(p1m2.first, p1m2.second, CARD_W, CARD_H, Xwindow::Red);
+    wp->fillRectangle(p1m1.first, p1m2.second, CARD_W, CARD_H, Xwindow::Red);
     wp->fillRectangle(p1m2.first, p1m2.second, CARD_W, CARD_H, Xwindow::Red);
     wp->fillRectangle(p1m3.first, p1m3.second, CARD_W, CARD_H, Xwindow::Red);
     wp->fillRectangle(p1m4.first, p1m4.second, CARD_W, CARD_H, Xwindow::Red);
