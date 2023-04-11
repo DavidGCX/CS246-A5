@@ -1,4 +1,5 @@
 adaptor
 asdasd
 play 1
-inspect 1
+end
+play 2 1 1

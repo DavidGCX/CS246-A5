@@ -57,20 +57,26 @@ void Haste::notifyEnchant(StateInfo stateInfo, Minion* target) {
 
 
 bool MagicFatigue::useAbility(std::unique_ptr<Minion>& target) {
+    if (dynamic_cast<HasAbilityNoTarget*>(target.get())) {
+        dynamic_cast<HasAbilityNoTarget*>(target.get())->changeAbilityCost(2);
+    }
     if (dynamic_cast<HasAbilityWithTarget*>(target.get())) {
-        dynamic_cast<HasAbilityWithTarget*>(target.get())->changeAbilityCost(3);
+        dynamic_cast<HasAbilityWithTarget*>(target.get())->changeAbilityCost(2);
     }
     if (dynamic_cast<HasAbilityWithTargetRitual*>(target.get())) {
-        dynamic_cast<HasAbilityWithTargetRitual*>(target.get())->changeAbilityCost(3);
+        dynamic_cast<HasAbilityWithTargetRitual*>(target.get())->changeAbilityCost(2);
     }
     return true;
 }
 void MagicFatigue::reverseEffect(Minion* target) {
+    if (dynamic_cast<HasAbilityNoTarget*>(target)) {
+        dynamic_cast<HasAbilityNoTarget*>(target)->changeAbilityCost(-2);
+    }
     if (dynamic_cast<HasAbilityWithTarget*>(target)) {
-        dynamic_cast<HasAbilityWithTarget*>(target)->changeAbilityCost(-3);
+        dynamic_cast<HasAbilityWithTarget*>(target)->changeAbilityCost(-2);
     }
     if (dynamic_cast<HasAbilityWithTargetRitual*>(target)) {
-        dynamic_cast<HasAbilityWithTargetRitual*>(target)->changeAbilityCost(-3);
+        dynamic_cast<HasAbilityWithTargetRitual*>(target)->changeAbilityCost(-2);
     }
 }
 

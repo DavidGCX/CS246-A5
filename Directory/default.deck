@@ -5,7 +5,6 @@ Bone Golem
 Potion Seller
 Novice Pyromancer
 Apprentice Summoner
-Master Summoner
 Banish
 Unsummon
 Recharge
@@ -15,7 +14,6 @@ Blizzard
 Giant Strength
 Enrage
 Haste
-Magic Fatigue
 Silence
 Dark Ritual
 Aura of Power
@@ -25,3 +23,5 @@ Aura of Power
 Standstill
 Novice Pyromancer
 Earth Elemental
+Magic Fatigue
+Master Summoner
