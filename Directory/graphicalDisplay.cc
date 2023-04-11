@@ -197,7 +197,8 @@ void GraphicalDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>
     else {
         wp->fillRectangle(p2grave.first, p2grave.second, CARD_W, CARD_H, Xwindow::White);
     }
-
+    
+    wp->fillRectangle(20, 615, 500, 35, Xwindow::White);
     wp->drawString(25, 640, "Active Player Hand:");
 
     wp->fillRectangle(hand1.first, hand1.second, CARD_W, CARD_H, Xwindow::Green);
@@ -206,9 +207,59 @@ void GraphicalDisplay::refresh(unique_ptr<Player>& playerOne, unique_ptr<Player>
     wp->fillRectangle(hand4.first, hand4.second, CARD_W, CARD_H, Xwindow::Green);
     wp->fillRectangle(hand5.first, hand5.second, CARD_W, CARD_H, Xwindow::Green);
     // active player hand
+
+    if (playerOne->getActive()) {
+        int handSize = playerOne->getHand().size();
+        if (handSize>=1) {
+            wp->drawString(drawName(hand1).first, drawName(hand1).second,
+            playerOne->getHand().at(0)->getName());
+        }
+        if (handSize>=2) {
+            wp->drawString(drawName(hand2).first, drawName(hand2).second,
+            playerOne->getHand().at(1)->getName());
+        }
+        if (handSize>=3) {
+            wp->drawString(drawName(hand3).first, drawName(hand3).second,
+            playerOne->getHand().at(2)->getName());
+        }
+        if (handSize>=4) {
+            wp->drawString(drawName(hand4).first, drawName(hand4).second,
+            playerOne->getHand().at(3)->getName());
+        }
+        if (handSize>=5) {
+            wp->drawString(drawName(hand5).first, drawName(hand5).second,
+            playerOne->getHand().at(4)->getName());
+        }
+    }
+    else {
+        int handSize = playerTwo->getHand().size();
+        if (handSize>=1) {
+            wp->drawString(drawName(hand1).first, drawName(hand1).second,
+            playerTwo->getHand().at(0)->getName());
+        }
+        if (handSize>=2) {
+            wp->drawString(drawName(hand2).first, drawName(hand2).second,
+            playerTwo->getHand().at(1)->getName());
+        }
+        if (handSize>=3) {
+            wp->drawString(drawName(hand3).first, drawName(hand3).second,
+            playerTwo->getHand().at(2)->getName());
+        }
+        if (handSize>=4) {
+            wp->drawString(drawName(hand4).first, drawName(hand4).second,
+            playerTwo->getHand().at(3)->getName());
+        }
+        if (handSize>=5) {
+            wp->drawString(drawName(hand5).first, drawName(hand5).second,
+            playerTwo->getHand().at(4)->getName());
+        }
+    }
 }
 
 void GraphicalDisplay::printHand(unique_ptr<Player>& player) {
+    wp->fillRectangle(20, 615, 500, 35, Xwindow::White);
+    wp->drawString(25, 640, "Active Player Hand:");
+
     wp->fillRectangle(hand1.first, hand1.second, CARD_W, CARD_H, Xwindow::Green);
     wp->fillRectangle(hand2.first, hand2.second, CARD_W, CARD_H, Xwindow::Green);
     wp->fillRectangle(hand3.first, hand3.second, CARD_W, CARD_H, Xwindow::Green);
@@ -239,5 +290,36 @@ void GraphicalDisplay::printHand(unique_ptr<Player>& player) {
 }
 
 void GraphicalDisplay::printEnchantments(unique_ptr<Minion>& minion) {
-    wp->drawString(WIDTH,HEIGHT,"enchantments");
+    wp->fillRectangle(hand1.first, hand1.second, CARD_W, CARD_H, Xwindow::Red);
+    wp->fillRectangle(hand2.first, hand2.second, CARD_W, CARD_H, Xwindow::Red);
+    wp->fillRectangle(hand3.first, hand3.second, CARD_W, CARD_H, Xwindow::Red);
+    wp->fillRectangle(hand4.first, hand4.second, CARD_W, CARD_H, Xwindow::Red);
+    wp->fillRectangle(hand5.first, hand5.second, CARD_W, CARD_H, Xwindow::Red);
+
+    int numEnchantments = minion->getEnchantments().size();
+    string ans = minion->getName();
+
+    wp->fillRectangle(20, 615, 500, 35, Xwindow::White);
+    wp->drawString(25, 640, "Enchantments for " + ans + ":");
+
+    if (numEnchantments>=1) {
+        wp->drawString(drawName(hand1).first, drawName(hand1).second,
+        minion->getEnchantments().at(0)->getName());
+    }
+    if (numEnchantments>=2) {
+        wp->drawString(drawName(hand2).first, drawName(hand2).second,
+        minion->getEnchantments().at(1)->getName());
+    }
+    if (numEnchantments>=3) {
+        wp->drawString(drawName(hand3).first, drawName(hand3).second,
+        minion->getEnchantments().at(2)->getName());
+    }
+    if (numEnchantments>=4) {
+        wp->drawString(drawName(hand4).first, drawName(hand4).second,
+        minion->getEnchantments().at(3)->getName());
+    }
+    if (numEnchantments>=5) {
+        wp->drawString(drawName(hand5).first, drawName(hand5).second,
+        minion->getEnchantments().at(4)->getName());
+    }
 }
