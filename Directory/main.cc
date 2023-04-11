@@ -100,6 +100,7 @@ bool whileloop (istream& s, bool testmode, bool &hasFirstPlayer, bool &hasSecond
 }
 
 int main(int argc, const char* argv[]) {
+    cin.exceptions(ios::eofbit|ios::failbit);
     bool graphicson = false;
     bool testmode = false;
     string deck1 = "default.deck";
@@ -136,25 +137,28 @@ int main(int argc, const char* argv[]) {
     bool hasFirstPlayer = false;
     bool hasSecondPlayer = false;
     bool quitting = false;
-    while(true) {
-    	if(init == true) {
-            getline(f, cmd);
-            istringstream s{cmd};
-            if (f.eof()) {
-                init = false;
+    try {
+        while(true) {
+            if(init == true) {
+                getline(f, cmd);
+                istringstream s{cmd};
+                if (f.eof()) {
+                    init = false;
+                }
+                quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc, deck1, deck2);
+                if (quitting == true) {
+                    break;
+                }
+            } else {
+                getline(cin, cmd);
+                istringstream s{cmd};
+                quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc, deck1, deck2);
+                if (quitting == true) {
+                    break;
+                }
             }
-            quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc, deck1, deck2);
-            if (quitting == true) {
-                break;
-            }
-    	} else {
-            getline(cin, cmd);
-            istringstream s{cmd};
-	        quitting = whileloop(s, testmode, hasFirstPlayer, hasSecondPlayer, gc, deck1, deck2);
-	        if (quitting == true) {
-		        break;
-            }
-    	}
+        }
     }
+    catch (ios::failure &) {}  // Any I/O failure quits
     return 0;
 }
